@@ -17,6 +17,9 @@ var api = {
 	searchPerson:'/manage/user/findAllBylikeQuery',
 	findUserRole:'/manage/user/findUserRole',
 
+	resourceByRoleId:'/manage/assignResourceByRoleId',
+	setrassignRole:'/manage/user/assignRole',
+
 	getResouce:'/manage/resource/findResourceByRoleId',
 	logout:""
 }

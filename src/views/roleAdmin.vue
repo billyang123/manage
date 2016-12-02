@@ -50,9 +50,9 @@
           :fetch-suggestions="querySearchAsync"
           placeholder="请输入工号或用户名"
           @select="roleHandleSelect"
-        ><el-button slot="append" icon="search"></el-button></el-autocomplete>
+        ><el-button slot="append" icon="search" @click="searchPerson"></el-button></el-autocomplete>
       </div>
-      <div class="person-role-box">
+      <div class="person-role-box" v-show="curPerson.userNickName!=''">
         <el-row :gutter="20">
           <el-col :span="12">
             <el-card class="box-card">
@@ -60,10 +60,10 @@
                 <span style="line-height: 36px;">用户名信息</span>
               </div>
               <div class="person-info">
-                <div><span :style="spanstyle">登录名：</span>{{curPerson.userLoginName}}</div>
-                <div><span :style="spanstyle">真实姓名：</span>{{curPerson.userRealName}}</div>
-                <div><span :style="spanstyle">工号：</span>{{curPerson.userWorkNo}}</div>
-                <div><span :style="spanstyle">昵称：</span>{{curPerson.userNickName}}</div>
+                <div v-if="curPerson.userLoginName"><span :style="spanstyle">登录名：</span>{{curPerson.userLoginName}}</div>
+                <div v-if="curPerson.userRealName"><span :style="spanstyle">真实姓名：</span>{{curPerson.userRealName}}</div>
+                <div v-if="curPerson.userWorkNo"><span :style="spanstyle">工号：</span>{{curPerson.userWorkNo}}</div>
+                <div v-if="curPerson.userNickName"><span :style="spanstyle">昵称：</span>{{curPerson.userNickName}}</div>
               </div>
             </el-card>
           </el-col>
@@ -73,13 +73,17 @@
                 <span style="line-height: 36px;">用户名角色</span>
               </div>
               <div class="userrole-box">
+
               <el-checkbox-group v-model="checkList" @change="handleSelectionChange">
-                <el-checkbox v-for="(item,index) in roleTableData" :label="item.roleName"></el-checkbox>
+                <el-checkbox :label="item.roleName" v-for="(item,index) in roleTableData"></el-checkbox>
               </el-checkbox-group>
             </div>
+
           </el-col>
+
         </el-row>
       </div>
+      <el-button type="warning" @click="saveEdit" v-show="curPerson.userNickName!=''">保存用户角色配置</el-button>
     </el-card>
     <el-dialog ref="userdialog3" :title="dtitle" v-model="dFVisible" >
       <el-form ref="roleForm" :model="roleForm" :rules="roleFormRules">
@@ -104,24 +108,27 @@ import api_test from '../api/api_test'
   	name:"roleAdmin",
     data(){
       return {
+
         spanstyle:'display:inline-block;width:80px;text-align:right;',
         roleTableData:[],
         restaurants: [],
+        multipleSelection:'',
         state: '',
         roleid:'',
         timeout:null,
         multipleSelection:[],
         checkboxValue:[],
-        checkList: ['选中且禁用','复选框 A'],
+        checkList: [],
         dtitle:"添加角色",
         dFVisible:false,
         formLabelWidth:'120px',
         filterRoleData:{},
         curPerson:{
-          userLoginName: "huyongdong@chinamuxie.com",
-          userRealName: "hhh",
-          userWorkNo: 66,
-          userNickName: "胡永东"
+          id:'',
+          userLoginName: "XXXXXXX@xxxx.com",
+          userRealName: "XXX",
+          userWorkNo: 0,
+          userNickName: ""
         },
         roleForm:{
           roleName:'',
@@ -138,9 +145,34 @@ import api_test from '../api/api_test'
       }
     },
     methods: {
+      saveEdit(){
+        var _this = this;
+        this.$http.post(api.setrassignRole, {
+          accountId:this.curPerson.id,
+          roleId:this.multipleSelection
+         },{emulateJSON: true,headers:{"Content-Type":"application/x-www-form-urlencoded"}}).then((response) => {
+            if(response.body.status == 0){
+                $Message({
+                    type: 'success',
+                    message: '保存用户角色配置成功!'
+                });
+            }else{
+                $MsgBox.alert(response.body.msg)
+            }
+          }, (response) => {
+            // error callback
+        });
+      },
+      searchPerson(){
+        if(this.curPerson.userNickName==""){
+          return;
+        }
+        this.roleHandleSelect(this.curPerson)
+      },
       roleHandleSelect(val){
         var _this = this;
         this.curPerson = {
+          id:val.id,
           userLoginName: val.userLoginName,
           userRealName: val.userRealName,
           userWorkNo: val.userWorkNo,
@@ -162,7 +194,9 @@ import api_test from '../api/api_test'
       filterCheckList(data){
         let arr = [];
         for (var i = 0; i < data.length; i++) {
-          arr.push(data[i].roleName);
+          if(data[i].checked){
+            arr.push(data[i].roleName);
+          }
         }
         return arr;
       },
@@ -171,7 +205,12 @@ import api_test from '../api/api_test'
         console.log(val)
       },
       handleSelectionChange(val) {
-        this.multipleSelection = val;
+        let arr = [];
+        for (var i = 0; i < val.length; i++) {
+          arr.push(this.filterRoleData[val[i]].id);
+        }
+        this.multipleSelection = arr.join(',')
+        console.log(val)
       },
       upRole(id){
         var _this = this;
@@ -302,7 +341,7 @@ import api_test from '../api/api_test'
         });
       }
     },
-    mounted() {
+    created() {
       this.loadRoleData();
     },
     component:{

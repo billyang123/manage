@@ -1,7 +1,7 @@
 <template>
-  	<el-menu default-active="menu0" theme="dark" class="el-menu-vertical-subnav" @select="menuSelect">
+  	<el-menu default-active="menu-0" theme="dark" class="el-menu-vertical-subnav" @select="menuSelect">
 
-	  <el-submenu :index="'menu'+index" v-for="(submenu, index) in menuList">
+	  <el-submenu :index="'menu-'+index" v-for="(submenu, index) in menuList">
 	    <template slot="title"><i class="el-icon-menu"></i>{{submenu.nodeName}}</template>
 	    <el-menu-item-group>
 	    <!-- <template slot="title" class="mtt">配置一</template> -->

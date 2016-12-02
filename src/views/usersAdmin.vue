@@ -59,7 +59,7 @@
 	      :page-sizes="[20, 40, 60, 80]"
 	      :page-size="pgSize"
 	      layout="total, sizes, prev, pager, next, jumper"
-	      :total="total">
+	      :total="total" v-if="totalPages > 1">
 	   </el-pagination>
 	  </div>
 
@@ -135,7 +135,7 @@ export default {
 					if(response.body.status == 0){
 						$Message({
 				            type: 'success',
-				            message: '添加成功!'
+				            message: '添加或修改成功!'
 				        });
 					}else{
 						$MsgBox.alert(response.body.msg)
@@ -162,6 +162,7 @@ export default {
     				var data = response.body.data;
 					_this.tableData = data.content;
 					_this.total = data.totalElements;
+					_this.totalPages = data.totalPages;
 				}else{
 					$MsgBox.alert(response.body.msg)
 				}
@@ -272,6 +273,7 @@ export default {
       	currentPage: 1,
         tableData: [],
         formLabelWidth: '120px',
+        totalPages:1,
         rules: {
           
           userRealName: [
