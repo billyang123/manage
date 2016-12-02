@@ -22,6 +22,17 @@ import SubNav from '../components/SubNav'
 
 export default {
   name: 'index',
+  methods:{
+    checkLogin(){
+      let userName = sessionStorage.getItem('userName');
+      return userName?true:false;
+    }
+  },
+  mounted(){
+    if(!this.checkLogin()){
+      this.$router.push("/login");
+    }
+  },
   components: {
     TopHeader,SubNav
   }

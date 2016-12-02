@@ -61,11 +61,9 @@
               </div>
               <div class="person-info">
                 <div><span :style="spanstyle">登录名：</span>{{curPerson.userLoginName}}</div>
-                <div><span :style="spanstyle">密码：</span>{{curPerson.userPassword}}</div>
                 <div><span :style="spanstyle">真实姓名：</span>{{curPerson.userRealName}}</div>
                 <div><span :style="spanstyle">工号：</span>{{curPerson.userWorkNo}}</div>
                 <div><span :style="spanstyle">昵称：</span>{{curPerson.userNickName}}</div>
-                <div><span :style="spanstyle">电话号码：</span>{{curPerson.userPhone}}</div>
               </div>
             </el-card>
           </el-col>
@@ -118,13 +116,12 @@ import api_test from '../api/api_test'
         dtitle:"添加角色",
         dFVisible:false,
         formLabelWidth:'120px',
+        filterRoleData:{},
         curPerson:{
           userLoginName: "huyongdong@chinamuxie.com",
-          userPassword: "123456",
           userRealName: "hhh",
           userWorkNo: 66,
-          userNickName: "胡永东",
-          userPhone: "15764380993",
+          userNickName: "胡永东"
         },
         roleForm:{
           roleName:'',
@@ -142,14 +139,32 @@ import api_test from '../api/api_test'
     },
     methods: {
       roleHandleSelect(val){
+        var _this = this;
         this.curPerson = {
           userLoginName: val.userLoginName,
-          userPassword: val.userPassword,
           userRealName: val.userRealName,
           userWorkNo: val.userWorkNo,
-          userNickName: val.userNickName,
-          userPhone: val.userPhone,
+          userNickName: val.userNickName
         }
+        //
+         this.$http.post(api.findUserRole, {
+          userNickName:val.userNickName
+         },{emulateJSON: true,headers:{"Content-Type":"application/x-www-form-urlencoded"}}).then((response) => {
+            if(response.body.status == 0){
+                _this.checkList = _this.filterCheckList(response.body.data[0].roles);
+            }else{
+                $MsgBox.alert(response.body.msg)
+            }
+          }, (response) => {
+            // error callback
+          });
+      },
+      filterCheckList(data){
+        let arr = [];
+        for (var i = 0; i < data.length; i++) {
+          arr.push(data[i].roleName);
+        }
+        return arr;
       },
       handleCheckBoxChange(val){
         this.checkboxValue = val;
@@ -168,7 +183,6 @@ import api_test from '../api/api_test'
           data["id"] = id;
         }
         this.$refs.roleForm.validate((valid) => {
-          return console.log(valid,data);
           if(valid){
             _this.$http.post(api.addRole, data,{emulateJSON: true,headers:{"Content-Type":"application/x-www-form-urlencoded"}}).then((response) => {
               if(response.body.status == 0){
@@ -263,6 +277,13 @@ import api_test from '../api/api_test'
           return (state.value.indexOf(queryString.toLowerCase()) === 0);
         };
       },
+      filterRoleData(data){
+          var restut = {};
+          for (var i = 0; i < data.length; i++) {
+            restut[data[i].roleName] = data[i];
+          }
+          return restut;
+      },
       loadRoleData(){
         var _this = this;
         this.$http.post(api.getRoles, {
@@ -272,6 +293,7 @@ import api_test from '../api/api_test'
           if(response.body.status == 0){
               var data = response.body.data;
               _this.roleTableData = data.content;
+              _this.filterRoleData = _this.filterRoleData(data.content)
           }else{
             $MsgBox.alert(response.body.msg)
           }

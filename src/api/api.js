@@ -15,6 +15,9 @@ var api = {
 	addRole:'/manage/addRole',
 	delRole:'/manage/deleteRole',
 	searchPerson:'/manage/user/findAllBylikeQuery',
+	findUserRole:'/manage/user/findUserRole',
+
+	getResouce:'/manage/resource/findResourceByRoleId',
 	logout:""
 }
 for(var index in api){

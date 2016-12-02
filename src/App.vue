@@ -11,17 +11,6 @@ import api from './api/api'
 export default {
   name: 'app',
   //store,
-  mounted(){
-    if(!this.checkLogin()){
-      this.$router.push("/login");
-    }
-  },
-  methods:{
-    checkLogin(){
-      let userName = sessionStorage.getItem('userName');
-      return userName?true:false;
-    }
-  },
   components: {
     
   }
