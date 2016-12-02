@@ -1,0 +1,48 @@
+<template>
+  <div id="app">
+    <router-view></router-view>
+  </div>
+</template>
+
+<script>
+import api from './api/api'
+//import store from './store/index'
+//console.log(TopHeader)
+export default {
+  name: 'app',
+  //store,
+  mounted(){
+    if(!this.checkLogin()){
+      this.$router.push("/login");
+    }
+  },
+  methods:{
+    checkLogin(){
+      let userName = sessionStorage.getItem('userName');
+      return userName?true:false;
+    }
+  },
+  components: {
+    
+  }
+}
+</script>
+
+<style>
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #eff2f7;
+}
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+.page-content {
+  width: 1140px;
+  margin: 0 auto;
+}
+</style>
