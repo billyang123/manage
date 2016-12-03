@@ -14,8 +14,7 @@ import {
   Pagination,
   MessageBox,Message,
   Autocomplete,
-  Card,
-  Loading
+  Card
 } from 'element-ui'
 
 Vue.use(VueResource)
@@ -53,10 +52,8 @@ Vue.component(Autocomplete.name, Autocomplete)
 Vue.component(Card.name, Card)
 var _MsgBox = MessageBox;
 var _Message = Message;
-var _loading = Loading;
 window.$MsgBox = _MsgBox;
 window.$Message = _Message;
-window.$Loading = _loading;
 import index from './views/index.vue'
 import login from './views/login.vue'
 import usersAdmin from './views/usersAdmin.vue'
@@ -64,6 +61,7 @@ import roleAdmin from './views/roleAdmin.vue'
 import authAdmin from './views/authAdmin.vue'
 import founder from './views/founder.vue'
 import founderMessage from './views/founderMessage.vue'
+import founderComments from './views/founderComments.vue'
 
 
 
@@ -99,6 +97,10 @@ let router = new VueRouter({
         {
           path:'founderMessage',
           component:founderMessage
+        },
+        {
+          path:'founderComments',
+          component:founderComments
         }
       ]
 		},
