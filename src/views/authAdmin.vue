@@ -59,6 +59,7 @@ import api_test from '../api/api_test'
 	    },
     	getRoles(){
     		var _this = this;
+    		var Loading = $Loading.service({text:"正在拼命加载中..."})
     		this.$http.post(api.getRoles, {
 	          row:100,
 	          page: 1
@@ -72,8 +73,10 @@ import api_test from '../api/api_test'
 	          }else{
 	            MessageBox.alert(response.body.msg)
 	          }
+	          Loading.close();
 	        }, (response) => {
 	        // error callback
+	        	Loading.close();
 	        });
     	},
     	fiterResouce(data){
@@ -92,6 +95,7 @@ import api_test from '../api/api_test'
     	getAllResouce(roleId){
     		var _this = this;
     		this.curRoleId = roleId;
+    		var Loading = $Loading.service({text:"正在拼命加载中..."})
     		this.$http.get(api.getResouce+"?roleId="+roleId).then((response) => {
 	          if(response.body.status == 0){
 
@@ -103,8 +107,10 @@ import api_test from '../api/api_test'
 	          }else{
 	            $MsgBox.alert(response.body.msg)
 	          }
+	          Loading.close();
 	        }, (response) => {
 	        // error callback
+	        	Loading.close();
 	        });
     	}
     },
