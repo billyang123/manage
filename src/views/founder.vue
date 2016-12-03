@@ -81,59 +81,59 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage4"
+        :current-page="currentPage"
         :page-sizes="[20, 40, 60, 80]"
-        :page-size="100"
+        :page-size="currentPageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="400">
       </el-pagination>
     </div>
 
-      <div class="fonunder-dialog">
-        <el-dialog :title="dialogtitle" v-model="dialogVisible" size="tiny">
-          <el-form ref="form" :model="form" label-width="200px" :rules="rules">
-            <el-form-item label="上传时间" prop="time">
-              <el-col :span="11">
-                <el-date-picker type="date" placeholder="选择日期" v-model="form.time" style="width: 100%;"></el-date-picker>
-              </el-col>
-            </el-form-item>
-            <el-form-item label="类型" prop="type">
-              <el-select v-model="form.type" placeholder="视频或音频">
-                <el-option label="视频" value="vedio"></el-option>
-                <el-option label="音频" value="audio"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="音频时间" prop="duration">
-              <el-input v-model="form.duration"></el-input>
-            </el-form-item>
-            <el-form-item label="创始人姓名" prop="founderName">
-              <el-input v-model="form.founderName"></el-input>
-            </el-form-item>
-            <el-form-item label="创始人头像" prop="founderHeadImg">
-              <el-input v-model="form.founderHeadImg"></el-input>
-            </el-form-item>
-            <el-form-item label="创始人title" prop="founderTitle">
-              <el-input v-model="form.founderTitle"></el-input>
-            </el-form-item>
-            <el-form-item label="视频或音频URL地址" prop="contentUrl">
-              <el-input v-model="form.contentUrl"></el-input>
-            </el-form-item>
-            <el-form-item label="视频封面" prop="coverImageUrl">
-              <el-input v-model="form.coverImageUrl"></el-input>
-            </el-form-item>
-            <el-form-item label="首页展示是否展示" prop="indexDisplay">
-              <el-radio-group v-model="form.indexDisplay">
-                <el-radio label="展示"></el-radio>
-                <el-radio label="不展示"></el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-form>
-          <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-          </span>
-        </el-dialog>
-      </div>
+    <div class="fonunder-dialog">
+      <el-dialog :title="dialogtitle" v-model="dialogVisible" size="tiny">
+        <el-form ref="form" :model="form" label-width="200px" :rules="rules">
+          <el-form-item label="上传时间" prop="time">
+            <el-col :span="11">
+              <el-date-picker type="date" placeholder="选择日期" v-model="form.time" style="width: 100%;"></el-date-picker>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="类型" prop="type">
+            <el-select v-model="form.type" placeholder="视频或音频">
+              <el-option label="视频" value="vedio"></el-option>
+              <el-option label="音频" value="audio"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="音频时间" prop="duration">
+            <el-input v-model="form.duration"></el-input>
+          </el-form-item>
+          <el-form-item label="创始人姓名" prop="founderName">
+            <el-input v-model="form.founderName"></el-input>
+          </el-form-item>
+          <el-form-item label="创始人头像" prop="founderHeadImg">
+            <el-input v-model="form.founderHeadImg"></el-input>
+          </el-form-item>
+          <el-form-item label="创始人title" prop="founderTitle">
+            <el-input v-model="form.founderTitle"></el-input>
+          </el-form-item>
+          <el-form-item label="视频或音频URL地址" prop="contentUrl">
+            <el-input v-model="form.contentUrl"></el-input>
+          </el-form-item>
+          <el-form-item label="视频封面" prop="coverImageUrl">
+            <el-input v-model="form.coverImageUrl"></el-input>
+          </el-form-item>
+          <el-form-item label="首页展示是否展示" prop="indexDisplay">
+            <el-radio-group v-model="form.indexDisplay">
+              <el-radio label="展示"></el-radio>
+              <el-radio label="不展示"></el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+      </el-dialog>
+    </div>
   </div>
 </template>
 <script>
@@ -189,11 +189,12 @@
 
       },
        handleSizeChange(val) {
+       console.log(val)
         console.log('每页 ${val} 条');
       },
       handleCurrentChange(val) {
         this.currentPage = val;
-        console.log('当前页: ${val}');
+        console.log(this.currentPage);
       }
     },
 
@@ -252,20 +253,21 @@
           	//{ validator: checkPhone,trigger: 'blur,change' }
           ]
         },
-        currentPage4: 3,
-          tableData: [
-          {
-          date: '2016-05-02',
-          type: '音频',
-          duration: '03:30',
-          founderName:'高竞',
-          founderHeadImg:'头像图片',
-          founderTitle:'创始人标题',
-          title:'标题',
-          contentWord:'文字内容',
-          contentUrl:'url地址',
-          coverImageUrl:'封面图片',
-          indexDisplay:'不展示'
+        currentPage: 1,
+        currentPageSize:20,
+        tableData: [
+        {
+        date: '2016-05-02',
+        type: '音频',
+        duration: '03:30',
+        founderName:'高竞',
+        founderHeadImg:'头像图片',
+        founderTitle:'创始人标题',
+        title:'标题',
+        contentWord:'文字内容',
+        contentUrl:'url地址',
+        coverImageUrl:'封面图片',
+        indexDisplay:'不展示'
         },
         {
           date: '2016-05-02',

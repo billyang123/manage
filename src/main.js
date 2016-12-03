@@ -14,7 +14,13 @@ import {
   Pagination,
   MessageBox,Message,
   Autocomplete,
+<<<<<<< HEAD
   Card
+=======
+  Card,
+  Loading,
+  Tabs
+>>>>>>> 72f5d1ddbacd5470999e1cbf3c51107dd9fece78
 } from 'element-ui'
 
 Vue.use(VueResource)
@@ -50,6 +56,7 @@ Vue.component(MessageBox.name, MessageBox)
 Vue.component(Message.name, Message)
 Vue.component(Autocomplete.name, Autocomplete)
 Vue.component(Card.name, Card)
+Vue.component(Tabs.name, Tabs)
 var _MsgBox = MessageBox;
 var _Message = Message;
 window.$MsgBox = _MsgBox;
@@ -78,6 +85,12 @@ let router = new VueRouter({
 			path: '/',
 			component: index,
       children: [
+        {
+          path: '',
+          component: {
+            template: '<div style="padding:20px;"><img src="http://s1.yiqihuzhu.com/www/assets/pc/images/logo.png" alt="17互助"><h1>欢迎进入后台管理</h1></div>'
+          }
+        },
         {
           path: 'usersAdmin',
           component: usersAdmin
