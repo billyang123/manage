@@ -2,44 +2,7 @@
 
 	<div class="myrole-main">
     <h2>基础配置 - 角色管理</h2>
-    <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <el-button type="warning" style="float: left;" @click="addRole">添加角色</el-button>
-        <span style="line-height: 36px;">角色管理</span>
-        <!-- <el-button type="danger" style="float: right;">批量删除角色</el-button> -->
-      </div>
-      <el-table
-        :data="roleTableData"
-        border
-        style="width: 100%">
-        <!-- <el-table-column
-          prop="id"
-          type="selection"
-          width="50">
-        </el-table-column> -->
-        <el-table-column
-          label="角色"
-          prop="roleName"
-          width="120">
-        </el-table-column>
-      
-        <el-table-column
-          prop="roleDesc"
-          label="描述">
-        </el-table-column>
-        <el-table-column
-          inline-template
-          :context="_self"
-          fixed="right"
-          label="操作"
-          width="100">
-          <span>
-            <el-button type="text" size="small" @click="updateRole(row)">修改</el-button>
-            <el-button type="text" size="small" @click="delRole(row.id)">删除</el-button>
-          </span>
-        </el-table-column>
-      </el-table>
-    </el-card>
+    
     <el-card class="box-card consearchbox">
       <div slot="header" class="clearfix">
         <span style="line-height: 36px;">角色分配</span>
@@ -84,6 +47,44 @@
         </el-row>
       </div>
       <el-button type="warning" @click="saveEdit" v-show="curPerson.userNickName!=''">保存用户角色配置</el-button>
+    </el-card>
+    <el-card class="box-card">
+      <div slot="header" class="clearfix">
+        <el-button type="warning" style="float: left;" @click="addRole">添加角色</el-button>
+        <span style="line-height: 36px;">角色管理</span>
+        <!-- <el-button type="danger" style="float: right;">批量删除角色</el-button> -->
+      </div>
+      <el-table
+        :data="roleTableData"
+        border
+        style="width: 100%">
+        <!-- <el-table-column
+          prop="id"
+          type="selection"
+          width="50">
+        </el-table-column> -->
+        <el-table-column
+          label="角色"
+          prop="roleName"
+          width="120">
+        </el-table-column>
+      
+        <el-table-column
+          prop="roleDesc"
+          label="描述">
+        </el-table-column>
+        <el-table-column
+          inline-template
+          :context="_self"
+          fixed="right"
+          label="操作"
+          width="100">
+          <span>
+            <el-button type="text" size="small" @click="updateRole(row)">修改</el-button>
+            <el-button type="text" size="small" @click="delRole(row.id)">删除</el-button>
+          </span>
+        </el-table-column>
+      </el-table>
     </el-card>
     <el-dialog ref="userdialog3" :title="dtitle" v-model="dFVisible" >
       <el-form ref="roleForm" :model="roleForm" :rules="roleFormRules">
@@ -340,7 +341,7 @@ import api_test from '../api/api_test'
           Loading.close();
         }, (response) => {
         // error callback
-          console.log(response)
+          //console.log(response)
           Loading.close();
         });
       }
@@ -377,7 +378,7 @@ import api_test from '../api/api_test'
     width: 100%;
   }
   .myrole-main .consearchbox {
-    margin-top: 20px;
+    margin-bottom: 20px;
     overflow: inherit;
   }
   .person-role-box {
