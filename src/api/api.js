@@ -21,7 +21,10 @@ var api = {
 	setrassignRole:'/manage/user/assignRole',
 
 	getResouce:'/manage/resource/findResourceByRoleId',
-	logout:""
+	logout:"",
+
+  //创始人说
+  getFounderData:'',
 }
 for(var index in api){
 	api[index] = Prefix+api[index]
