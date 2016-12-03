@@ -5,7 +5,7 @@ import VueCookie from 'vue-cookie';
 //import Vuex from 'vuex'
 import App from './App'
 
-import { 
+import {
 	Button,
 	Menu,Submenu,MenuItem,MenuItemGroup,
 	Form,Input,Select,Checkbox,Radio,Switch,DatePicker,TimePicker,FormItem,Option,Col,Row,CheckboxGroup,RadioGroup,
@@ -59,6 +59,8 @@ import login from './views/login.vue'
 import usersAdmin from './views/usersAdmin.vue'
 import roleAdmin from './views/roleAdmin.vue'
 import authAdmin from './views/authAdmin.vue'
+import founder from './views/founder.vue'
+import founderMessage from './views/founderMessage.vue'
 
 
 
@@ -71,7 +73,7 @@ let router = new VueRouter({
 	mode: 'history',
   	base: __dirname,
     routes:[
-		{ 
+		{
 			path: '/',
 			component: index,
       children: [
@@ -86,6 +88,14 @@ let router = new VueRouter({
         {
           path:'authAdmin',
           component:authAdmin
+        },
+        {
+          path:'founder',
+          component:founder
+        },
+        {
+          path:'founderMessage',
+          component:founderMessage
         }
       ]
 		},
@@ -94,7 +104,7 @@ let router = new VueRouter({
 			component: login
 		}
 	]
-})
+});
 // const store = new Vuex.Store({
 //   state: {
 //     login: false
