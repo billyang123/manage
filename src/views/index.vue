@@ -30,7 +30,7 @@ export default {
   },
   mounted(){
     if(!this.checkLogin()){
-      this.$router.push("/login");
+      return this.$router.push("/login");
     }
   },
   components: {

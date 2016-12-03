@@ -3,7 +3,7 @@
     <div class="header-menu">
       <el-row :gutter="20">
         <el-col :span="19">
-          <h3 class="hd-title">管理后台</h3>
+          <h3 class="hd-title">17互助管理后台</h3>
         </el-col>
         <el-col :span="5">
           <el-menu theme="dark" class="el-menu-right" mode="horizontal">
