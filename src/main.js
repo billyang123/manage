@@ -15,7 +15,8 @@ import {
   MessageBox,Message,
   Autocomplete,
   Card,
-  Loading
+  Loading,
+  Tabs
 } from 'element-ui'
 
 Vue.use(VueResource)
@@ -51,6 +52,7 @@ Vue.component(MessageBox.name, MessageBox)
 Vue.component(Message.name, Message)
 Vue.component(Autocomplete.name, Autocomplete)
 Vue.component(Card.name, Card)
+Vue.component(Tabs.name, Tabs)
 var _MsgBox = MessageBox;
 var _Message = Message;
 var _loading = Loading;
