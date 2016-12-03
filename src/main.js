@@ -14,7 +14,8 @@ import {
   Pagination,
   MessageBox,Message,
   Autocomplete,
-  Card
+  Card,
+  Loading
 } from 'element-ui'
 
 Vue.use(VueResource)
@@ -52,8 +53,10 @@ Vue.component(Autocomplete.name, Autocomplete)
 Vue.component(Card.name, Card)
 var _MsgBox = MessageBox;
 var _Message = Message;
+var _loading = Loading;
 window.$MsgBox = _MsgBox;
 window.$Message = _Message;
+window.$Loading = _loading;
 import index from './views/index.vue'
 import login from './views/login.vue'
 import usersAdmin from './views/usersAdmin.vue'

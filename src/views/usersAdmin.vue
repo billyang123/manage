@@ -151,6 +151,7 @@ export default {
     	},
     	getUsers(){
     		var _this = this;
+    		var Loading = $Loading.service({text:"正在拼命加载中..."})
     		console.log({size:this.pgSize,currentPage: this.currentPage})
     		this.$http.post(api.getUsers, {row:this.pgSize,page: this.currentPage},{
     			emulateJSON: true,
@@ -163,9 +164,11 @@ export default {
 					_this.tableData = data.content;
 					_this.total = data.totalElements;
 					_this.totalPages = data.totalPages;
+					
 				}else{
 					$MsgBox.alert(response.body.msg)
 				}
+				Loading.close();
 			}, (response) => {
 				// error callback
 			});
@@ -257,6 +260,7 @@ export default {
 		    } 
     	}
       return {
+      
       	dialogtitle:"添加用户",
       	dialogFormVisible: false,
       	userForm:{

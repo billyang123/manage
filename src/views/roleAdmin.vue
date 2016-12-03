@@ -325,6 +325,7 @@ import api_test from '../api/api_test'
       },
       loadRoleData(){
         var _this = this;
+        var Loading = $Loading.service({text:"正在拼命加载中..."})
         this.$http.post(api.getRoles, {
           row:100,
           page: 1
@@ -336,8 +337,11 @@ import api_test from '../api/api_test'
           }else{
             $MsgBox.alert(response.body.msg)
           }
+          Loading.close();
         }, (response) => {
         // error callback
+          console.log(response)
+          Loading.close();
         });
       }
     },
