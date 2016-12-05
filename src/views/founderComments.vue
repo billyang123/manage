@@ -1,5 +1,6 @@
 <template>
     <div class="founderComments">
+      <h2 style="padding-top:20px">评论列表</h2>
       <div class="founderSearch" style="padding-top:30px">
         <el-row>
           <el-form :inline="true" :model="formInline" class="demo-form-inline" label-width="100px">
@@ -76,11 +77,10 @@
           </el-table-column>
           <el-table-column
             fixed="right"
-            prop="messageStatus"
             label="状态"
             width="120"
             inline-template>
-            <el-tag type="gray">{{row.messageStatus}}</el-tag>
+            <el-tag type="primary">{{row.messageStatus==0?'未审核':'审核通过'}}</el-tag>
           </el-table-column>
 
         </el-table>
@@ -105,16 +105,19 @@ import api from '../api/api'
     export default{
      created(){
       this.getUserData();
+      this.getUseReplayData();
       },
      methods: {
+     //获取列表
      getUserData(){
       var self=this;
-      this.$http.get(api.getFounderComments+'?page='+this.currentPage+'&size='+this.currentPageSize).then((data) => {
+      this.$http.get(api.getFounderComments+'?page='+(this.currentPage-1)+'&size='+this.currentPageSize).then((data) => {
         console.log(data)
         if(data.body.status == 0){
         var _data=data.body.data;
         self.tableData =_data.content
         self.totalElement=data.body.data.totalElements
+        console.log(self.tableData)
         }
       })
       },
@@ -125,23 +128,26 @@ import api from '../api/api'
         this.multipleSelection = val;
         console.log(val)
       },
+      //评论选多少条一页
       handleSizeChange(val) {
        this.currentPageSize=val;
-       this.currentPage=1;
+       this.currentPage=0;
        this.getUserData();
       },
+      //评论当前多少页
       handleCurrentChange(val) {
         this.currentPage = val;
         this.getUserData();
         console.log(`当前页: ${val}`);
+        console.log('页'+this.currentPage);
       },
       handleCheck(){
-      var id;
+      var id='';
       var messageStatus;
       for(var i=0;i<this.multipleSelection.length;i++){
-      console.log(this.multipleSelection[i].id)
       //id.push(this.multipleSelection[i].id)
       id=this.multipleSelection[i].id;
+      console.log(id)
       messageStatus=this.multipleSelection[i].messageStatus;
       }
       var self=this;
@@ -217,16 +223,16 @@ import api from '../api/api'
     },
     data(){
         return{
-             currentPage:1,
-             currentPageSize:10,
-             totalElement:40,
-             formInline: {
-             user: '',
-             region: '',
-             cont:''
-            },
-            tableData:[],
-            multipleSelection: []
+           currentPage:0,
+           currentPageSize:10,
+           totalElement:40,
+           formInline: {
+           user: '',
+           region: '',
+           cont:''
+           },
+          tableData:[],
+          multipleSelection: []
         }
     }
  }
