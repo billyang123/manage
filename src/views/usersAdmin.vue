@@ -153,7 +153,7 @@ export default {
     		var _this = this;
     		var Loading = $Loading.service({text:"正在拼命加载中..."})
     		console.log({size:this.pgSize,currentPage: this.currentPage})
-    		this.$http.post(api.getUsers, {row:this.pgSize,page: this.currentPage},{
+    		this.$http.post(api.getUsers, {row:this.pgSize,page: this.currentPage-1},{
     			emulateJSON: true,
 				headers:{
 					"Content-Type":"application/x-www-form-urlencoded"
