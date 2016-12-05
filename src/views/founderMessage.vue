@@ -18,10 +18,25 @@
                                     <p style="color:#666666">{{item.createTime}}</p>
                                 </div>
                             </el-col>
-                            <el-col :span="4" :offset="8">
+                            <el-col :span="4" :offset="4" v-if="item.messageStatus==0">
                                 <div class="grid-content bg-purple-light">
-                                    <el-button type="primary" :disabled="item.messageStatus==0?false:true" @click="handleCheck(item.id,item.messageStatus)">{{item.messageStatus==0?'采纳':'已采纳'}}</el-button>
+                                    <el-button type="primary" @click="handleCheck(item.id,2)">采纳</el-button>
                                 </div>
+                            </el-col>
+                            <el-col :span="4" v-if="item.messageStatus==0">
+                              <div class="grid-content bg-purple-light">
+                                <el-button type="primary" @click="handleCheck(item.id,1)">不采纳</el-button>
+                              </div>
+                            </el-col>
+                            <el-col :span="4" :offset="4" v-if="item.messageStatus==1">
+                              <div class="grid-content bg-purple-light">
+                                <el-button type="primary" :disabled="true" @click="handleCheck(item.id,2)">不采纳</el-button>
+                              </div>
+                            </el-col>
+                            <el-col :span="4" :offset="8" v-if="item.messageStatus==2">
+                            <div class="grid-content bg-purple-light">
+                              <el-button type="primary" :disabled="true" @click="handleCheck(item.id)">已采纳</el-button>
+                            </div>
                             </el-col>
                             <el-col :span="4">
                                 <div class="grid-content bg-purple-light">
@@ -153,6 +168,11 @@ default {
         return {
             msg: 'hello vue',
             currentPage: 0,
+            messageStatus:[
+              {n:0,t:'未处理',b:false},
+              {n:1,t:'未采纳',b:false},
+              {n:2,t:'已采纳',b:true}
+            ],
             currentPageSize: 10,
             totalElement: 40,
             activeName: 'first',

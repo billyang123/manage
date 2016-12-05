@@ -24,7 +24,7 @@
             </el-table-column>
             <el-table-column prop="coverImageUrl" label="视频封面" width="220">
             </el-table-column>
-            <el-table-column label="是否审核" width="120" inline-template>
+            <el-table-column label="是否发布" width="120" inline-template>
                 <span>{{founderStatus[row.status].n}}</span>
             </el-table-column>
             <el-table-column label="首页展示" width="120" inline-template>
@@ -305,15 +305,15 @@ default {
     data() {
         return {
             founderStatus: [{
-                n: "未审核",
+                n: "未发布",
                 s: false,
                 c: "#FF4949"
             }, {
-                n: "审核通过",
+                n: "已发布",
                 s: true,
                 c: "#8492A6"
             }, {
-                n: "审核通过不允许显示",
+                n: "已下线",
                 s: true,
                 c: "#8492A6"
             }],
