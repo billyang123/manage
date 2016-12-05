@@ -27,12 +27,18 @@ var api = {
   getFounderData:'/manage/founder/findTopicList',
   getFounderDel:'/manage/founder/deleteTopic',
   getFounderChange:'/manage/founder/updateTopic',
+  getFounderAdd:'/manage/founder/addTopic',
+  getFounderRelease:'/manage/founder/publishTopic',
   getFounderMessage:'/manage/founder/findMessageList',
   getFounderComments:'/manage/founder/findCommentList',
   getFounderMessageDel:'/manage/founder/deleteMessage',
   getFounderMessageCheck:'/manage/founder/approveMessage',
   getFounderCommentsDel:'/manage/founder/deleteComment',
-  getFounderCommentsCheck:'/manage/founder/approveComment'
+  getFounderCommentsCheck:'/manage/founder/approveComment',
+  getFounderReplay:'/manage/founder/findCommentReplyList',
+  getFounderReplayDel:'/manage/founder/deleteCommentReply',
+  getFounderReplayCheck:'/manage/founder/approveCommentReply'
+
 
 };
 for(var index in api){

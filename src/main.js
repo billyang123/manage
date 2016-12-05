@@ -70,6 +70,7 @@ import authAdmin from './views/authAdmin.vue'
 import founder from './views/founder.vue'
 import founderMessage from './views/founderMessage.vue'
 import founderComments from './views/founderComments.vue'
+import founderReplay from './views/founderReplay.vue'
 
 
 
@@ -115,6 +116,10 @@ let router = new VueRouter({
         {
           path:'founderComments',
           component:founderComments
+        },
+        {
+          path:'founderReplay',
+          component:founderReplay
         }
       ]
 		},
