@@ -35,9 +35,6 @@
             <el-row>
                 <span class="wrapper">
                     <el-col :span="3">
-                        <el-button type="info" @click="handleCheck()">审核通过</el-button>
-                    </el-col>
-                    <el-col :span="3">
                         <el-button type="danger" @click="handleDel()">删除</el-button>
                     </el-col>
                 </span>
@@ -57,7 +54,7 @@
                 <el-table-column prop="createTime" label="时间" width="220">
                 </el-table-column>
                 <el-table-column fixed="right" label="状态" width="120" inline-template>
-                    <el-tag type="primary">{{row.status==0?'未审核':'审核通过'}}</el-tag>
+                    <el-tag :type="row.status==0?'danger':'primary'">{{row.status==0?'未审核':'审核通过'}}</el-tag>
                 </el-table-column>
 
             </el-table>
@@ -112,50 +109,6 @@ default {
                 val
             }`);
             console.log('页' + this.currentPage);
-        },
-        handleCheck() {
-            var id;
-            var messageStatus;
-            for (var i = 0; i < this.multipleSelection.length; i++) {
-                //id.push(this.multipleSelection[i].id)
-                id= this.multipleSelection[i].id;
-                console.log(id)
-                messageStatus = this.multipleSelection[i].status;
-            }
-            var self = this;
-            $MsgBox.confirm('此操作将审核该回复, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                self.$http.post(api.getFounderReplayCheck, {
-                    commentReplyId: id,
-                    status: messageStatus
-                }, {
-                    emulateJSON: true,
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    }
-                }).then((data) => {
-                    if (data.body.status == 0) {
-                        self.getUserData();
-                        $Message({
-                            type: 'success',
-                            message: '审核成功!'
-                        });
-                    } else {
-                        $MsgBox.alert(data.body.msg)
-                    }
-                }, (data) => {
-                    // error callback
-                });
-            }).
-            catch (() => {
-                $Message({
-                    type: 'info',
-                    message: '已取消审核'
-                });
-            });
         },
         handleDel() {
             var id;

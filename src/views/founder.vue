@@ -45,44 +45,44 @@
 
         <div class="fonunder-dialog">
             <el-dialog :title="dialogtitle" v-model="dialogVisible" size="tiny">
-                <el-form ref="form" :model="form" label-width="200px" :rules="rules">
+                <el-form ref="formDialog" :model="formDialog" label-width="200px" :rules="rules">
                     <el-form-item label="上传时间" prop="time">
                         <el-col :span="11">
-                            <el-date-picker type="datetime" placeholder="选择日期时间" v-model="form.time" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="datetime" placeholder="选择日期时间" v-model="formDialog.time" style="width: 100%;"></el-date-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item label="类型" prop="type">
-                        <el-radio-group v-model="form.type">
+                        <el-radio-group v-model="formDialog.type">
                             <el-radio :label="1">视频</el-radio>
                             <el-radio :label="2">音频</el-radio>
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item label="音频时间" prop="duration">
-                        <el-input v-model="form.duration"></el-input>
+                        <el-input v-model="formDialog.duration"></el-input>
                     </el-form-item>
                     <el-form-item label="创始人姓名" prop="founderName">
-                        <el-input v-model="form.founderName"></el-input>
+                        <el-input v-model="formDialog.founderName"></el-input>
                     </el-form-item>
                     <el-form-item label="创始人头像" prop="founderHeadImg">
-                        <el-input v-model="form.founderHeadImg"></el-input>
+                        <el-input v-model="formDialog.founderHeadImg"></el-input>
                     </el-form-item>
                     <el-form-item label="互动标题" prop="title">
-                        <el-input v-model="form.title"></el-input>
+                        <el-input v-model="formDialog.title"></el-input>
                     </el-form-item>
                     <el-form-item label="文字内容" prop="contentWord">
-                        <el-input v-model="form.contentWord"></el-input>
+                        <el-input v-model="formDialog.contentWord"></el-input>
                     </el-form-item>
                     <el-form-item label="创始人title" prop="founderTitle">
-                        <el-input v-model="form.founderTitle"></el-input>
+                        <el-input v-model="formDialog.founderTitle"></el-input>
                     </el-form-item>
                     <el-form-item label="视频或音频URL地址" prop="contentUrl">
-                        <el-input v-model="form.contentUrl"></el-input>
+                        <el-input v-model="formDialog.contentUrl"></el-input>
                     </el-form-item>
                     <el-form-item label="视频封面" prop="coverImageUrl">
-                        <el-input v-model="form.coverImageUrl"></el-input>
+                        <el-input v-model="formDialog.coverImageUrl"></el-input>
                     </el-form-item>
                     <el-form-item label="首页展示是否展示" prop="indexDisplay">
-                        <el-radio-group v-model="form.indexDisplay">
+                        <el-radio-group v-model="formDialog.indexDisplay">
                             <el-radio :label="1">展示</el-radio>
                             <el-radio :label="0">不展示</el-radio>
                         </el-radio-group>
@@ -107,65 +107,67 @@ default {
 
     methods: {
 
+        //重置
+        handleReset(){
+            this.$refs.formDialog && this.$refs.formDialog.resetFields();
+        },
+        //确认
         handleSure(url) {
             var self = this;
             this.dialogVisible = false;
-
+            console.log(this.formDialog.type)
             var formData = {
-                type: this.form.type,
-                duration: this.form.duration,
-                title: this.form.title,
-                contentWord: this.form.contentWord,
-                founderName: this.form.founderName,
-                founderHeadImg: this.form.founderHeadImg,
-                founderTitle: this.form.founderTitle,
-                contentUrl: this.form.contentUrl,
-                coverImageUrl: this.form.coverImageUrl,
-                indexDisplay: this.form.indexDisplay
+                type: this.formDialog.type,
+                duration: this.formDialog.duration,
+                title: this.formDialog.title,
+                contentWord: this.formDialog.contentWord,
+                founderName: this.formDialog.founderName,
+                founderHeadImg: this.formDialog.founderHeadImg,
+                founderTitle: this.formDialog.founderTitle,
+                contentUrl: this.formDialog.contentUrl,
+                coverImageUrl: this.formDialog.coverImageUrl,
+                indexDisplay: this.formDialog.indexDisplay
             }
-            if (this.form.id) {
-                formData['id'] = this.form.id;
+            if (this.formDialog.id) {
+                formData['id'] = this.formDialog.id;
             }
 
-            this.$refs.form.validate((valid) => {
+            this.$refs.formDialog.validate((valid) => {
                 if(valid){
-                    alert(11)
+                   self.$http.post(url, formData, {
+                      emulateJSON: true,
+                      headers: {
+                          "Content-Type": "application/x-www-form-urlencoded"
+                      }
+                  }).then((data) => {
+                      if (data.body.status == 0) {
+                          this.getUserData();
+                          console.log('修改成功' + data)
+                          $Message({
+                              type: 'success',
+                              message: '添加或修改成功!'
+                          });
+                      } else {
+                          $MsgBox.alert(data.body.msg)
+                      }
+                  }, (response) => {
+                      // error callback
+                  });
                 }else{
+                    this.dialogVisible = true;
                     return false
 
                 }
 
             })
-
-            console.log(formData)
-            self.$http.post(url, formData, {
-                emulateJSON: true,
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                }
-            }).then((data) => {
-                if (data.body.status == 0) {
-                    this.getUserData();
-                    console.log('修改成功' + data)
-                    $Message({
-                        type: 'success',
-                        message: '添加或修改成功!'
-                    });
-                } else {
-                    $MsgBox.alert(data.body.msg)
-                }
-            }, (response) => {
-                // error callback
-            });
-
-
         },
         //修改
         handleChange(row) {
             this.dialogVisible = true
             this.dialogtitle = '修改话题'
             this.UPUrl = api.getFounderChange;
-            this.form = {
+            this.handleReset();
+            this.formDialog = {
                 id: row.id,
                 time: row.time,
                 type: row.type,
@@ -186,10 +188,11 @@ default {
             this.dialogVisible = true
             this.dialogtitle = '添加话题'
             this.UPUrl = api.getFounderAdd;
-            this.form = {
+            this.handleReset();
+            this.formDialog = {
                 id: '',
                 time: '',
-                type: '',
+                type: 2,
                 title: '',
                 contentWord: '',
                 duration: '',
@@ -198,7 +201,7 @@ default {
                 founderTitle: '',
                 contentUrl: '',
                 coverImageUrl: '',
-                indexDisplay: ''
+                indexDisplay: 0
             }
         },
         //话题删除
@@ -319,7 +322,7 @@ default {
             UPUrl: '',
             founderBl: false,
             _color: '#F7BA2A',
-            form: {
+            formDialog: {
                 id: '',
                 time: '',
                 type: '',
@@ -334,11 +337,6 @@ default {
                 indexDisplay: ''
             },
             rules: {
-                type: [{
-                    required: true,
-                    message: '请选择类型',
-                    trigger: 'blur,change'
-                }],
                 duration: [{
                     required: true,
                     message: '请输入音频时间',
@@ -390,13 +388,6 @@ default {
                 coverImageUrl: [{
                         required: true,
                         message: '请输入视频封面',
-                        trigger: 'blur,change'
-                    }
-                    //{ validator: checkPhone,trigger: 'blur,change' }
-                ],
-                indexDisplay: [{
-                        required: true,
-                        message: '请选择是否首页展示',
                         trigger: 'blur,change'
                     }
                     //{ validator: checkPhone,trigger: 'blur,change' }

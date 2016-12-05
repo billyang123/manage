@@ -105,7 +105,6 @@ import api from '../api/api'
     export default{
      created(){
       this.getUserData();
-      this.getUseReplayData();
       },
      methods: {
      //获取列表
