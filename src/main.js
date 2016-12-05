@@ -14,14 +14,13 @@ import {
   Pagination,
   MessageBox,Message,
   Autocomplete,
-<<<<<<< HEAD
-  Card
-=======
   Card,
   Loading,
-  Tabs
->>>>>>> 72f5d1ddbacd5470999e1cbf3c51107dd9fece78
-} from 'element-ui'
+  Tabs,
+  TabPane,
+  Tag
+}
+from 'element-ui'
 
 Vue.use(VueResource)
 Vue.use(VueRouter)
@@ -57,6 +56,8 @@ Vue.component(Message.name, Message)
 Vue.component(Autocomplete.name, Autocomplete)
 Vue.component(Card.name, Card)
 Vue.component(Tabs.name, Tabs)
+Vue.component(TabPane.name, TabPane)
+Vue.component(Tag.name, Tag)
 var _MsgBox = MessageBox;
 var _Message = Message;
 window.$MsgBox = _MsgBox;

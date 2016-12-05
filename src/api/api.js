@@ -24,8 +24,17 @@ var api = {
 	logout:"",
 
   //创始人说
-  getFounderData:'',
-}
+  getFounderData:'/manage/founder/findTopicList',
+  getFounderDel:'/manage/founder/deleteTopic',
+  getFounderChange:'/manage/founder/updateTopic',
+  getFounderMessage:'/manage/founder/findMessageList',
+  getFounderComments:'/manage/founder/findCommentList',
+  getFounderMessageDel:'/manage/founder/deleteMessage',
+  getFounderMessageCheck:'/manage/founder/approveMessage',
+  getFounderCommentsDel:'/manage/founder/deleteComment',
+  getFounderCommentsCheck:'/manage/founder/approveComment'
+
+};
 for(var index in api){
 	api[index] = Prefix+api[index]
 }
