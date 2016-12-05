@@ -21,7 +21,6 @@ import {
   Tag
 }
 from 'element-ui'
-
 Vue.use(VueResource)
 Vue.use(VueRouter)
 Vue.use(VueCookie)
@@ -60,8 +59,11 @@ Vue.component(TabPane.name, TabPane)
 Vue.component(Tag.name, Tag)
 var _MsgBox = MessageBox;
 var _Message = Message;
+var _Loading = Loading;
 window.$MsgBox = _MsgBox;
 window.$Message = _Message;
+window.$Loading = _Loading;
+
 import index from './views/index.vue'
 import login from './views/login.vue'
 import usersAdmin from './views/usersAdmin.vue'
