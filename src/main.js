@@ -16,9 +16,11 @@ import {
   Autocomplete,
   Card,
   Loading,
-  Tabs
-} from 'element-ui'
-
+  Tabs,
+  TabPane,
+  Tag
+}
+from 'element-ui'
 Vue.use(VueResource)
 Vue.use(VueRouter)
 Vue.use(VueCookie)
@@ -53,6 +55,8 @@ Vue.component(Message.name, Message)
 Vue.component(Autocomplete.name, Autocomplete)
 Vue.component(Card.name, Card)
 Vue.component(Tabs.name, Tabs)
+Vue.component(TabPane.name, TabPane)
+Vue.component(Tag.name, Tag)
 var _MsgBox = MessageBox;
 var _Message = Message;
 var _Loading = Loading;
