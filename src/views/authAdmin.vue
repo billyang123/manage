@@ -4,7 +4,7 @@
 		<el-row :gutter="20">
 		  <el-col :span="4">
 			<h3>角色</h3>
-		  	<div class="grid-content bg-purple">
+		  	<div class="roles-content">
 		  		<el-menu mode="vertical" ref="roleMenu" :default-active="defaultActive"  class="roleVerMenu" @select="menuSelect">
 			        <el-menu-item :index="'roles-'+item.id" v-for="(item,index) in roles">{{item.roleName}}</el-menu-item>
 			    </el-menu>
@@ -12,7 +12,7 @@
 		  </el-col>
 		  <el-col :span="20">
 		  	<h3>权限</h3>
-		  	<div class="grid-content bg-purple">
+		  	<div class="auth-content">
 		  		<el-checkbox-group v-model="checkList" @change="handleSelectionChange">
 		          <el-checkbox :label="item.resourceName" v-for="(item,index) in allCheckList"></el-checkbox>
 		        </el-checkbox-group>
@@ -138,8 +138,14 @@ import api_test from '../api/api_test'
 	.myAuthMian .el-table tbody .el-table_1_column_1 .cell{
 		padding: 0;
 	}
-	.roleVerMenu {
-
+	.myAuthMian .auth-content {
+		text-align: right;
+	}
+	.myAuthMian .el-checkbox {
+		margin-bottom: 5px;
+	}
+	.roles-content {
+		text-align: left;
 
 	}
 </style>

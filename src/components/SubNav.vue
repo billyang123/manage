@@ -1,7 +1,7 @@
 <template>
-  	<el-menu default-active="menu-0" theme="dark" class="el-menu-vertical-subnav" @select="menuSelect">
+  	<el-menu :default-active="defaultActive" ref="subnav" theme="dark" class="el-menu-vertical-subnav" @select="menuSelect">
 
-	  <el-submenu :index="'menu-'+index" v-for="(submenu, index) in menuList">
+	  <el-submenu :index="'m_'+index" v-for="(submenu, index) in menuList">
 	    <template slot="title"><i class="el-icon-menu"></i>{{submenu.nodeName}}</template>
 	    <el-menu-item-group>
 	    <!-- <template slot="title" class="mtt">配置一</template> -->
@@ -14,6 +14,7 @@
 export default {
 	data(){
 		return {
+			defaultActive:"",
 			menuList:[]
 		}
 	},
@@ -24,10 +25,16 @@ export default {
 		loadMenu(){
 			let menuStr = localStorage.getItem("menu");
 			this.menuList = JSON.parse(menuStr);
+			//console.log(this.menuList[0].children[0].url)
+			//this.defaultActive = this.menuList[0].children[0].url
 		}
 	},
 	mounted() {
       this.loadMenu();
+      var curPath = this.$router;
+      this.defaultActive = curPath.history.current.path;
+      this.$refs.subnav.openActiveItemMenus();
+      //console.log(curPath.history.current.path)
     }
 }
 </script>

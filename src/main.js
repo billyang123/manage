@@ -14,13 +14,9 @@ import {
   Pagination,
   MessageBox,Message,
   Autocomplete,
-<<<<<<< HEAD
-  Card
-=======
   Card,
   Loading,
   Tabs
->>>>>>> 72f5d1ddbacd5470999e1cbf3c51107dd9fece78
 } from 'element-ui'
 
 Vue.use(VueResource)
@@ -59,8 +55,11 @@ Vue.component(Card.name, Card)
 Vue.component(Tabs.name, Tabs)
 var _MsgBox = MessageBox;
 var _Message = Message;
+var _Loading = Loading;
 window.$MsgBox = _MsgBox;
 window.$Message = _Message;
+window.$Loading = _Loading;
+
 import index from './views/index.vue'
 import login from './views/login.vue'
 import usersAdmin from './views/usersAdmin.vue'

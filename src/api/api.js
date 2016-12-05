@@ -11,7 +11,7 @@ var api = {
 	getUsers:"/manage/user/findAll",
 
 	//用户分配角色
-	getRoles:'/manage/findAllByConfirmDelete',
+	getRoles:'/manage/role/findAllByConfirmDelete',
 	addRole:'/manage/addRole',
 	delRole:'/manage/deleteRole',
 	searchPerson:'/manage/user/findAllBylikeQuery',
