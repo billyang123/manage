@@ -73,6 +73,7 @@ import founder from './views/founder.vue'
 import founderMessage from './views/founderMessage.vue'
 import founderComments from './views/founderComments.vue'
 import founderReplay from './views/founderReplay.vue'
+import founderData from './views/founderData.vue'
 
 
 
@@ -122,6 +123,10 @@ let router = new VueRouter({
         {
           path:'founderReplay',
           component:founderReplay
+        },
+        {
+          path:'founderData',
+          component:founderData
         }
       ]
 		},
