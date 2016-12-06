@@ -1,17 +1,14 @@
 <template>
 	<div class="main">
 		<TopHeader></TopHeader>
+		
 		<div class="page-content">
-			<el-row class="tac" :gutter="20">
-				<el-col :span="5">
-					<SubNav></SubNav>
-				</el-col>
-				<el-col :span="19">
-					<div class="content">
-						<router-view></router-view>
-					</div>
-				</el-col>
-			</el-col>
+			<div class="SubNav-box">
+				<SubNav></SubNav>
+			</div>
+			<div class="content">
+				<router-view></router-view>
+			</div>
 		</div>
 	</div>
 </template>
@@ -39,8 +36,27 @@ export default {
 }
 </script>
 <style>
+	
+	.SubNav-box {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: 200px;
+		height: 100%;
+		background-color: #324057;
+
+	}
+	.page-content {
+		padding-left: 200px;
+		position: relative;
+		height: 100%;
+		bottom: 0;
+	}
 	.content {
 		background-color: #fff;
 		min-height: 500px;
+
+
 	}
 </style>

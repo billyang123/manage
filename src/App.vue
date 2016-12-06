@@ -31,7 +31,6 @@ body {
   color: #2c3e50;
 }
 .page-content {
-  width: 1140px;
   margin: 0 auto;
 }
 </style>

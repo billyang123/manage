@@ -6,19 +6,22 @@ var api = {
 	doLogin:"/manage/login",
 	getCode:"/manage/verifyUser",
 	//用户管理
-	upUser:"/manage/user/addUser",
+	addUser:"/manage/user/addUser",
+	updateUser:"/manage/user/updateUser",
 	deleteUser:"/manage/user/deleteUser",
 	getUsers:"/manage/user/findAll",
 
 	//用户分配角色
-	getRoles:'/manage/role/findAllByConfirmDelete',
-	addRole:'/manage/addRole',
-	delRole:'/manage/deleteRole',
+	getRoles:'/manage/role/findAllByConfirmDeleteNoPage',
+	addRole:'/manage/role/addRole',
+	updateRole:'/manage/role/updateByRoleId',
+	delRole:'/manage/role/deleteRole',
 	searchPerson:'/manage/user/findAllBylikeQuery',
 	findUserRole:'/manage/user/findUserRole',
 
 	resourceByRoleId:'/manage/assignResourceByRoleId',
-	setrassignRole:'/manage/user/assignRole',
+	//保存角色权限配置
+	setrassignRole:'/manage/role/assignResourceByRoleId',
 
 	getResouce:'/manage/resource/findResourceByRoleId',
 	logout:"",

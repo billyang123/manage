@@ -75,8 +75,8 @@
 		    <el-form-item label="用户工号" :label-width="formLabelWidth" prop="userWorkNo">
 		      <el-input v-model="userForm.userWorkNo" auto-complete="off" placeholder="请输入用户工号"></el-input>
 		    </el-form-item>
-		    <el-form-item label="用户邮箱" :label-width="formLabelWidth" prop="userLoginName">
-		    	<el-input v-model="userForm.userLoginName" placeholder="请输入用户邮箱" auto-complete="off"></el-input>
+		    <el-form-item label="登录邮箱" :label-width="formLabelWidth" prop="userLoginName">
+		    	<el-input v-model="userForm.userLoginName" placeholder="请输入登录邮箱" auto-complete="off"></el-input>
 		    </el-form-item>
 		    <el-form-item label="用户密码" :label-width="formLabelWidth" prop="userPassword">
 		    	<el-input v-model="userForm.userPassword" placeholder="请输入用户密码" auto-complete="off"></el-input>
@@ -98,9 +98,6 @@ import api_test from '../api/api_test'
 export default {
   	name:"adminUsers",
   	created(){
-  		var _this = this;
-  		console.log(this.$refs)
-  		console.log(api_test.getUsers().list)
   		this.getUsers();
   		//console.log(MessageBox.alert("sadassad"))
   	},
@@ -126,23 +123,17 @@ export default {
     		}
     		this.$refs.userForm.validate((valid) => {
 	          if (valid) {
-	            _this.$http.post(api.upUser, formdata,{
-	            	emulateJSON: true,
-					headers:{
-						"Content-Type":"application/x-www-form-urlencoded"
-					}
-	            }).then((response) => {
-					if(response.body.status == 0){
-						$Message({
-				            type: 'success',
-				            message: '添加或修改成功!'
-				        });
-					}else{
-						$MsgBox.alert(response.body.msg)
-					}
-				}, (response) => {
-				// error callback
-				});
+	          	_this.ajax(_this,{
+		          url:_this.upUrl,
+		          type:"post",
+		          data:formdata,
+		          success:function(response){
+		            $Message({
+			            type: 'success',
+			            message: '添加或修改成功!'
+			        });
+		          }
+		        })
 	          } else {
 	            //console.log('error submit!!');
 	            return false;
@@ -151,31 +142,26 @@ export default {
     	},
     	getUsers(){
     		var _this = this;
-    		var Loading = $Loading.service({text:"正在拼命加载中..."})
-    		console.log({size:this.pgSize,currentPage: this.currentPage})
-    		this.$http.post(api.getUsers, {row:this.pgSize,page: this.currentPage-1},{
-    			emulateJSON: true,
-				headers:{
-					"Content-Type":"application/x-www-form-urlencoded"
-				}
-    		}).then((response) => {
-    			if(response.body.status == 0){
-    				var data = response.body.data;
-					_this.tableData = data.content;
-					_this.total = data.totalElements;
-					_this.totalPages = data.totalPages;
-					
-				}else{
-					$MsgBox.alert(response.body.msg)
-				}
-				Loading.close();
-			}, (response) => {
-				// error callback
-			});
+    		//return console.log(this.ajax)
+    		this.ajax(this,{
+	          url:api.getUsers,
+	          type:"post",
+	          data:{
+	          	row:this.pgSize,
+	          	page:this.currentPage-1
+	          },
+	          success:function(response){
+	            var data = response.body.data;
+				_this.tableData = data.content;
+				_this.total = data.totalElements;
+				_this.totalPages = data.totalPages;
+	          }
+	        })
     	},
 		handleUpdate(row) {
 			this.curUserId = row.id;
 			this.dialogtitle = "修改用户"
+			this.upUrl = api.updateUser;
 			this.dialogFormVisible = true
 			this.handleReset();
 			this.userForm = {
@@ -191,6 +177,7 @@ export default {
 		handleAdd(row){
 			this.curUserId = "";
 			this.dialogtitle = "添加新用户"
+			this.upUrl = api.addUser;
 			this.dialogFormVisible = true
 			this.handleReset();
 			this.userForm = {
@@ -210,27 +197,19 @@ export default {
 	          cancelButtonText: '取消',
 	          type: 'warning'
 	        }).then(() => {
-	        	_this.$http.post(api.deleteUser, {
-					id:id
-				},{
-	            	emulateJSON: true,
-					headers:{
-						"Content-Type":"application/x-www-form-urlencoded"
-					}
-	            }).then((response) => {
-					if(response.body.status == 0){
-						_this.getUsers();
-						$Message({
-				            type: 'success',
-				            message: '删除成功!'
-				        });
-					}else{
-						$MsgBox.alert(response.body.msg)
-					}
-				}, (response) => {
-				// error callback
-				});
-	        
+	        	_this.ajax(_this,{
+		          url:this.deleteUser,
+		          type:"post",
+		          data:{row:this.pgSize,page: this.currentPage-1},
+		          success:function(response){
+		            _this.getUsers();
+					$Message({
+			            type: 'success',
+			            message: '删除成功!'
+			        });
+		          }
+		        })
+	        	
 	        }).catch(() => {
 	          $Message({
 	            type: 'info',
@@ -242,12 +221,12 @@ export default {
 			this.pgSize = val;
 			this.currentPage = 1;
 			this.getUsers();
-			console.log(`每页 ${val} 条`);
+			
 		},
 		handleCurrentChange(val) {
 			this.currentPage = val;
 			this.getUsers();
-			console.log(`当前页: ${val}`);
+			
 		}
     },
     data() {
@@ -260,7 +239,7 @@ export default {
 		    } 
     	}
       return {
-      
+      	upUrl:'',
       	dialogtitle:"添加用户",
       	dialogFormVisible: false,
       	userForm:{

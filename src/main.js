@@ -149,6 +149,48 @@ let router = new VueRouter({
 //     window.scrollTo(0,0)
 // })
 window.router = router;
+Vue.prototype.ajax = function(_this,options){
+
+  var _callback = (response) => {
+    let status = response.body.status;
+    if(status == 0){
+
+        options.success && options.success(response)
+    }else{
+        if(status == -2){
+          $MsgBox.alert(response.body.msg,"提示",{
+            confirmButtonText: '确定',
+            callback: action => {
+
+              _this.$router.push("/login");
+            }
+          })
+        }else{
+          $MsgBox.alert(response.body.msg)
+        }
+        options.error && options.options.error(response)
+    }
+  }
+  var _err = (response) => {
+    // error callback
+  }
+  if(options.type=="post"){
+    console.log(options)
+   _this.$http.post(options.url, options.data,{emulateJSON: true,headers:{"Content-Type":"application/x-www-form-urlencoded"}}).then(_callback,_err);
+  }
+  if(options.type=="get"){
+    //console.log(options.type,options.url)
+    let arr = [];
+    let _url = options.url;
+    for (var index in options.data) {
+      arr.push(index+"="+options.data[index]);
+    }
+    if(arr.length > 0){
+      _url+= "?"+arr.join("&");
+    }
+    _this.$http.get(_url).then(_callback,_err);
+  }
+}
 const app = new Vue({
   router: router,
   render: h => h(App)

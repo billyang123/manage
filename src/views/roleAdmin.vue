@@ -13,6 +13,7 @@
           :fetch-suggestions="querySearchAsync"
           placeholder="请输入工号或用户名"
           @select="roleHandleSelect"
+          
         ><el-button slot="append" icon="search" @click="searchPerson"></el-button></el-autocomplete>
       </div>
       <div class="person-role-box" v-show="curPerson.userNickName!=''">
@@ -36,9 +37,8 @@
                 <span style="line-height: 36px;">用户名角色</span>
               </div>
               <div class="userrole-box">
-
               <el-checkbox-group v-model="checkList" @change="handleSelectionChange">
-                <el-checkbox :label="item.roleName" v-for="(item,index) in roleTableData"></el-checkbox>
+                <el-checkbox :label="item.id" v-for="(item,index) in searchRoleCheckData">{{item.roleName}}</el-checkbox>
               </el-checkbox-group>
             </div>
 
@@ -112,6 +112,7 @@ import api_test from '../api/api_test'
 
         spanstyle:'display:inline-block;width:80px;text-align:right;',
         roleTableData:[],
+        searchRoleCheckData:[{}],
         restaurants: [],
         multipleSelection:'',
         state: '',
@@ -120,12 +121,13 @@ import api_test from '../api/api_test'
         multipleSelection:[],
         checkboxValue:[],
         checkList: [],
+        upUrl:'',
         dtitle:"添加角色",
         dFVisible:false,
         formLabelWidth:'120px',
         filterRoleData:{},
         curPerson:{
-          id:'',
+          id:0,
           userLoginName: "XXXXXXX@xxxx.com",
           userRealName: "XXX",
           userWorkNo: 0,
@@ -148,27 +150,29 @@ import api_test from '../api/api_test'
     methods: {
       saveEdit(){
         var _this = this;
-        this.$http.post(api.setrassignRole, {
-          accountId:this.curPerson.id,
-          roleId:this.multipleSelection
-         },{emulateJSON: true,headers:{"Content-Type":"application/x-www-form-urlencoded"}}).then((response) => {
-            if(response.body.status == 0){
-                $Message({
-                    type: 'success',
-                    message: '保存用户角色配置成功!'
-                });
-            }else{
-                $MsgBox.alert(response.body.msg)
-            }
-          }, (response) => {
-            // error callback
-        });
+        this.ajax(this,{
+          url:api.setrassignRole,
+          type:"post",
+          data:{
+            accountId:this.curPerson.id,
+            roleId:this.multipleSelection
+          },
+          success:function(response){
+            $Message({
+                type: 'success',
+                message: '保存用户角色配置成功!'
+            });
+          }
+        })
       },
       searchPerson(){
         if(this.curPerson.userNickName==""){
           return;
         }
         this.roleHandleSelect(this.curPerson)
+      },
+      roleHandleFocus(val){
+        console.log(1111)
       },
       roleHandleSelect(val){
         var _this = this;
@@ -180,23 +184,24 @@ import api_test from '../api/api_test'
           userNickName: val.userNickName
         }
         //
-         this.$http.post(api.findUserRole, {
-          userNickName:val.userNickName
-         },{emulateJSON: true,headers:{"Content-Type":"application/x-www-form-urlencoded"}}).then((response) => {
-            if(response.body.status == 0){
-                _this.checkList = _this.filterCheckList(response.body.data[0].roles);
-            }else{
-                $MsgBox.alert(response.body.msg)
-            }
-          }, (response) => {
-            // error callback
-          });
+        this.ajax(this,{
+          url:api.findUserRole,
+          type:"post",
+          data:{
+            userNickName:val.userNickName
+          },
+          success:function(response){
+            let roles = response.body.data[0].roles;
+                _this.searchRoleCheckData = roles;
+                _this.checkList = _this.filterCheckList(roles);
+          }
+        })
       },
       filterCheckList(data){
         let arr = [];
         for (var i = 0; i < data.length; i++) {
           if(data[i].checked){
-            arr.push(data[i].roleName);
+            arr.push(data[i].id);
           }
         }
         return arr;
@@ -206,12 +211,8 @@ import api_test from '../api/api_test'
         console.log(val)
       },
       handleSelectionChange(val) {
-        let arr = [];
-        for (var i = 0; i < val.length; i++) {
-          arr.push(this.filterRoleData[val[i]].id);
-        }
-        this.multipleSelection = arr.join(',')
-        console.log(val)
+       
+        this.multipleSelection = val.join(',')
       },
       upRole(id){
         var _this = this;
@@ -224,19 +225,18 @@ import api_test from '../api/api_test'
         }
         this.$refs.roleForm.validate((valid) => {
           if(valid){
-            _this.$http.post(api.addRole, data,{emulateJSON: true,headers:{"Content-Type":"application/x-www-form-urlencoded"}}).then((response) => {
-              if(response.body.status == 0){
-                  $Message({
-                      type: 'success',
-                      message: '添加成功!'
-                  });
-              }else{
-                  $MsgBox.alert(response.body.msg)
+            this.ajax(this,{
+              url:api.searchPerson,
+              type:"post",
+              data:data,
+              success:function(response){
+                $Message({
+                    type: 'success',
+                    message: _this.dtitle+'成功!'
+                });
+                this.dFVisible = false;
               }
-            }, (response) => {
-              // error callback
-            });
-            this.dFVisible = false;
+            })
           }else{
 
           }
@@ -244,6 +244,7 @@ import api_test from '../api/api_test'
       },
       addRole(){
         this.dtitle = "添加角色"
+        this.upUrl = api.updateRole;
         this.dFVisible = true;
         this.$refs.roleForm && this.$refs.roleForm.resetFields();
         this.roleForm.roleName = "";
@@ -252,6 +253,7 @@ import api_test from '../api/api_test'
       },
       updateRole(row){
         this.dtitle = "修改角色"
+        this.upUrl = api.addRole;
         this.dFVisible = true;
         this.$refs.roleForm && this.$refs.roleForm.resetFields();
         this.roleForm.roleName = row.roleName;
@@ -265,26 +267,24 @@ import api_test from '../api/api_test'
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          _this.$http.post(api.deleteUser, {
-            id:id
-          },{
-            emulateJSON: true,
-            headers:{
-              "Content-Type":"application/x-www-form-urlencoded"
+          _this.ajax(this,{
+            url:api.delRole,
+            type:"post",
+            data:{
+              id:id
+            },
+            success:function(response){
+              if(response.body.status == 0){
+                $Message({
+                    type: 'success',
+                    message: '删除成功!'
+                });
+                _this.loadRoleData();
+              }else{
+                $MsgBox.alert(response.body.msg)
+              }
             }
-          }).then((response) => {
-            if(response.body.status == 0){
-              $Message({
-                  type: 'success',
-                  message: '删除成功!'
-              });
-              _this.loadRoleData();
-            }else{
-              $MsgBox.alert(response.body.msg)
-            }
-          }, (response) => {
-          // error callback
-          });
+          })
         }).catch(() => {
           $Message({
             type: 'info',
@@ -293,24 +293,25 @@ import api_test from '../api/api_test'
         });
       },
       querySearchAsync(queryString, cb) {
-        this.$http.post(api.searchPerson, {
-          row:10,
-          page: 1,
-          userNickName:queryString
-        },{emulateJSON: true,headers:{"Content-Type":"application/x-www-form-urlencoded"}}).then((response) => {
-          if(response.body.status == 0){
-              let data = response.body.data;
+        this.ajax(this,{
+          url:api.searchPerson,
+          type:"post",
+          data:{
+            row:10,
+            page: 1,
+            userNickName:queryString
+          },
+          success:function(response){
+            let data = response.body.data;
               let restaurants = data.content;
               for (let i = restaurants.length - 1; i >= 0; i--) {
                 restaurants[i].value = restaurants[i].userNickName+"(姓名："+restaurants[i].userRealName+")"+"(工号："+restaurants[i].userWorkNo+")"
               }
-              console.log(restaurants)
+              //console.log(restaurants)
               //var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
               cb(restaurants);
           }
-        }, (response) => {
-        // error callback
-        });
+        })
       },
       createStateFilter(queryString) {
         return (state) => {
@@ -321,33 +322,34 @@ import api_test from '../api/api_test'
           var restut = {};
           for (var i = 0; i < data.length; i++) {
             restut[data[i].roleName] = data[i];
+            this.searchRoleCheckData[i] = {};
           }
+          console.log(this.searchRoleCheckData)
           return restut;
       },
       loadRoleData(){
         var _this = this;
-        var Loading = $Loading.service({text:"正在拼命加载中..."})
-        this.$http.post(api.getRoles, {
-          row:100,
-          page: 1
-        },{emulateJSON: true,headers:{"Content-Type":"application/x-www-form-urlencoded"}}).then((response) => {
-          if(response.body.status == 0){
-              var data = response.body.data;
-              _this.roleTableData = data.content;
-              _this.filterRoleData = _this.filterRoleData(data.content)
-          }else{
-            $MsgBox.alert(response.body.msg)
+        //var Loading = $Loading.service({text:"正在拼命加载中..."})
+        this.ajax(this,{
+          url:api.getRoles,
+          type:"post",
+          data:{
+            row:100,
+            page: 1
+          },
+          success:function(response){
+            var data = response.body.data.data;
+              _this.roleTableData = data;
+              //console.log(response.body.data)
+              _this.filterRoleData = _this.filterRoleData(data);
+              //$Loading.close({text:"正在拼命加载中..."})
           }
-          Loading.close();
-        }, (response) => {
-        // error callback
-          //console.log(response)
-          Loading.close();
-        });
+        })
       }
     },
     created() {
       this.loadRoleData();
+      console.log(this.searchRoleCheckData)
     },
     component:{
     	
