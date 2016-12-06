@@ -28,7 +28,7 @@
                                 <el-button type="primary" @click="handleCheck(item.id,1)">不采纳</el-button>
                               </div>
                             </el-col>
-                            <el-col :span="4" :offset="4" v-if="item.messageStatus==1">
+                            <el-col :span="4" :offset="8" v-if="item.messageStatus==1">
                               <div class="grid-content bg-purple-light">
                                 <el-button type="primary" :disabled="true" @click="handleCheck(item.id,2)">不采纳</el-button>
                               </div>
@@ -91,7 +91,7 @@ default {
         handleCheck(id, messageStatus) {
             console.log(messageStatus)
             var self = this;
-            $MsgBox.confirm('此操作将同意审核, 是否继续?', '提示', {
+            $MsgBox.confirm('此操作将采纳或不采纳, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
@@ -109,7 +109,7 @@ default {
                         self.getUserData();
                         $Message({
                             type: 'success',
-                            message: '审核成功!'
+                            message: '成功!'
                         });
                     } else {
                         $MsgBox.alert(data.body.msg)
@@ -121,7 +121,7 @@ default {
             catch (() => {
                 $Message({
                     type: 'info',
-                    message: '已取消审核'
+                    message: '已取消'
                 });
             });
         },

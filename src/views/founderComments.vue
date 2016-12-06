@@ -38,6 +38,9 @@
               <el-button type="info" @click="handleCheck()">审核通过</el-button>
             </el-col>
             <el-col :span="3">
+              <el-button type="info" @click="handleCheck()">审核不通过</el-button>
+            </el-col>
+            <el-col :span="3">
               <el-button type="danger" @click="handleDel()">删除</el-button>
             </el-col>
           </span>
@@ -140,7 +143,8 @@ import api from '../api/api'
         console.log(`当前页: ${val}`);
         console.log('页'+this.currentPage);
       },
-      handleCheck(){
+      //审核
+      handleCheck(commentsStatus){
       var id='';
       var messageStatus;
       for(var i=0;i<this.multipleSelection.length;i++){
@@ -157,7 +161,7 @@ import api from '../api/api'
         }).then(() => {
           self.$http.post(api.getFounderCommentsCheck, {
 					commentId:id,
-					status:messageStatus
+					status:commentsStatus
 				},{
 	            emulateJSON: true,
 					    headers:{"Content-Type":"application/x-www-form-urlencoded"}
