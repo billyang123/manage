@@ -241,6 +241,25 @@ export default {
 		        return callback(new Error('请输入正确的手机号码'));
 		    } 
     	}
+    	// var checkEmail = (rule, value, callback) => {
+    	// 	this.ajax({
+    	// 		url:'/manage/user/isEmailExist',
+    	// 		type:"get",
+    	// 		data:{
+
+    	// 		},
+    	// 		success:function(res){
+
+    	// 		}
+    	// 	})
+    	// 	if (value === '') {
+	    //       callback(new Error('请输入用户登录邮箱'));
+	    //     } else if (value !== this.ruleForm2.pass) {
+	    //       callback(new Error('两次输入密码不一致!'));
+	    //     } else {
+	    //       callback();
+	    //     }
+    	// }
       return {
       	upUrl:'',
       	dialogtitle:"添加用户",
@@ -271,6 +290,9 @@ export default {
           userLoginName: [
             { required: true, message: '请输入用户邮箱', trigger: 'blur,change' },
             { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
+            // {
+            // 	validator:checkEmail,trigger:'blur'
+            // }
           ],
           userPassword:[
           	{ required: true, message: '请输入用户密码', trigger: 'blur,change' }
