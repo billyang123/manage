@@ -11,27 +11,27 @@
             <el-table-column prop="founderTitle" label="创始人标题" width="180">
             </el-table-column>
           </el-table-column>
-            <el-table-column :label="founderData.enjoyNumber?founderData.enjoyNumber:''">
+            <el-table-column :label="founderData.enjoyNumber+''">
               <el-table-column prop="enjoyNumber" label="播放次数" width="180">
               </el-table-column>
             </el-table-column>
-            <el-table-column :label="founderData.clickNumber">
+            <el-table-column :label="founderData.clickNumber+''">
               <el-table-column prop="clickNumber" label="点击次数" width="180">
               </el-table-column>
             </el-table-column>
-            <el-table-column :label="founderData.shareNumber" width="180">
+            <el-table-column :label="founderData.shareNumber+''">
               <el-table-column prop="shareNumber" label="分享次数" width="180">
               </el-table-column>
             </el-table-column>
-            <el-table-column :label="founderData.shareClickNumber" width="180">
+            <el-table-column :label="founderData.shareClickNumber+''" width="180">
               <el-table-column prop="shareClickNumber" label="分享页被点击次数" width="180">
               </el-table-column>
             </el-table-column>
-            <el-table-column :label="founderData.praiseNumber" width="180">
+            <el-table-column :label="founderData.praiseNumber+''">
               <el-table-column prop="praiseNumber" label="点赞数量" width="180">
               </el-table-column>
             </el-table-column>
-            <el-table-column :label="founderData.commentNumber" width="180">
+            <el-table-column :label="founderData.commentNumber+''">
               <el-table-column prop="commentNumber" label="评论数量" width="180">
               </el-table-column>
             </el-table-column>
