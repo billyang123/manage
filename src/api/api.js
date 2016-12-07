@@ -19,7 +19,9 @@ var api = {
 	searchPerson:'/manage/user/findAllBylikeQuery',
 	findUserRole:'/manage/user/findUserRole',
 
-	resourceByRoleId:'/manage/assignResourceByRoleId',
+	saveAssignRole:'/manage/user/assignRole',
+
+	//resourceByRoleId:'/manage/assignResourceByRoleId',
 	//保存角色权限配置
 	setrassignRole:'/manage/role/assignResourceByRoleId',
 

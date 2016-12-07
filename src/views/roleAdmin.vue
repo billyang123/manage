@@ -1,5 +1,4 @@
 <template>
-
 	<div class="myrole-main">
     <h2>基础配置 - 角色管理</h2>
     
@@ -109,7 +108,6 @@ import api_test from '../api/api_test'
   	name:"roleAdmin",
     data(){
       return {
-
         spanstyle:'display:inline-block;width:80px;text-align:right;',
         roleTableData:[],
         searchRoleCheckData:[{}],
@@ -151,7 +149,7 @@ import api_test from '../api/api_test'
       saveEdit(){
         var _this = this;
         this.ajax(this,{
-          url:api.setrassignRole,
+          url:api.saveAssignRole,
           type:"post",
           data:{
             accountId:this.curPerson.id,
@@ -172,7 +170,7 @@ import api_test from '../api/api_test'
         this.roleHandleSelect(this.curPerson)
       },
       roleHandleFocus(val){
-        console.log(1111)
+        
       },
       roleHandleSelect(val){
         var _this = this;
@@ -188,10 +186,11 @@ import api_test from '../api/api_test'
           url:api.findUserRole,
           type:"post",
           data:{
+            id:val.id,
             userNickName:val.userNickName
           },
           success:function(response){
-            let roles = response.body.data[0].roles;
+            let roles = response.body.data.roles;
                 _this.searchRoleCheckData = roles;
                 _this.checkList = _this.filterCheckList(roles);
           }
@@ -221,12 +220,12 @@ import api_test from '../api/api_test'
           roleDesc:this.roleForm.roleDesc
         }
         if(id){
-          data["id"] = id;
+          data["roleId"] = id;
         }
         this.$refs.roleForm.validate((valid) => {
           if(valid){
-            this.ajax(this,{
-              url:api.searchPerson,
+            _this.ajax(this,{
+              url:_this.upUrl,
               type:"post",
               data:data,
               success:function(response){
@@ -234,7 +233,7 @@ import api_test from '../api/api_test'
                     type: 'success',
                     message: _this.dtitle+'成功!'
                 });
-                this.dFVisible = false;
+                _this.dFVisible = false;
               }
             })
           }else{
@@ -244,7 +243,8 @@ import api_test from '../api/api_test'
       },
       addRole(){
         this.dtitle = "添加角色"
-        this.upUrl = api.updateRole;
+
+        this.upUrl = api.addRole;
         this.dFVisible = true;
         this.$refs.roleForm && this.$refs.roleForm.resetFields();
         this.roleForm.roleName = "";
@@ -253,7 +253,7 @@ import api_test from '../api/api_test'
       },
       updateRole(row){
         this.dtitle = "修改角色"
-        this.upUrl = api.addRole;
+        this.upUrl = api.updateRole;
         this.dFVisible = true;
         this.$refs.roleForm && this.$refs.roleForm.resetFields();
         this.roleForm.roleName = row.roleName;
@@ -297,8 +297,8 @@ import api_test from '../api/api_test'
           url:api.searchPerson,
           type:"post",
           data:{
-            row:10,
-            page: 1,
+            size:10,
+            page: 0,
             userNickName:queryString
           },
           success:function(response){
@@ -334,8 +334,8 @@ import api_test from '../api/api_test'
           url:api.getRoles,
           type:"post",
           data:{
-            row:100,
-            page: 1
+            size:100,
+            page: 0
           },
           success:function(response){
             var data = response.body.data.data;

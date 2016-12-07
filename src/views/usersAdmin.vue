@@ -108,7 +108,7 @@ export default {
 	    },
     	upUser(id){
     		var _this = this;
-    		this.dialogFormVisible = false;
+    		//this.dialogFormVisible = false;
 
     		var formdata = {
     			userLoginName:this.userForm.userLoginName,
@@ -128,14 +128,17 @@ export default {
 		          type:"post",
 		          data:formdata,
 		          success:function(response){
+		          	_this.getUsers();
 		            $Message({
 			            type: 'success',
 			            message: '添加或修改成功!'
 			        });
 		          }
 		        })
+		        _this.dialogFormVisible = false
 	          } else {
 	            //console.log('error submit!!');
+
 	            return false;
 	          }
 	        });
@@ -147,7 +150,7 @@ export default {
 	          url:api.getUsers,
 	          type:"post",
 	          data:{
-	          	row:this.pgSize,
+	          	size:this.pgSize,
 	          	page:this.currentPage-1
 	          },
 	          success:function(response){
@@ -198,9 +201,9 @@ export default {
 	          type: 'warning'
 	        }).then(() => {
 	        	_this.ajax(_this,{
-		          url:this.deleteUser,
+		          url:api.deleteUser,
 		          type:"post",
-		          data:{row:this.pgSize,page: this.currentPage-1},
+		          data:{id:id},
 		          success:function(response){
 		            _this.getUsers();
 					$Message({
