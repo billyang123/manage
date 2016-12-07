@@ -1,6 +1,6 @@
 <template>
     <div class="founder" style="padding-left:30px;padding-right:30px">
-        <h2 style="padding-top:40px;color:#1D8CE0;font-size:30px">创始人说话题</h2>
+        <h2 style="padding-top:40px;font-size:32px">创始人说话题</h2>
         <el-button type="primary" style="float:right;margin-bottom:10px;margin-right:10px" @click="handleAdd">话题上传</el-button>
         <el-table :data="tableData" border style="width: 100%">
             <el-table-column fixed prop="createTime" label="日期" width="200">

@@ -1,6 +1,6 @@
 <template>
     <div class="founderMessage" style="padding:20px">
-        <h2 style="padding-top:40px;color:#1D8CE0;font-size:30px;padding:0;margin:0;">创始人留言</h2>
+        <h2 style="padding-top:40px;font-size:32px;padding:0;margin:0;">创始人留言</h2>
         <el-tabs :active-name="activeName">
             <el-tab-pane label="全部" name="first">
                 <div class="founderMessageGroup">

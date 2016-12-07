@@ -1,6 +1,6 @@
 <template>
     <div class="founderData" style="padding:30px;">
-        <h2>话题数据</h2>
+        <h2 style="font-size:32px">话题数据</h2>
         <el-table :data="tableData" border style="width: 100%">
           <el-table-column label="总数">
             <el-table-column prop="founderName" label="姓名" width="180">
@@ -11,7 +11,7 @@
             <el-table-column prop="founderTitle" label="创始人标题" width="180">
             </el-table-column>
           </el-table-column>
-            <el-table-column :label="founderData.enjoyNumber">
+            <el-table-column :label="founderData.enjoyNumber?founderData.enjoyNumber:''">
               <el-table-column prop="enjoyNumber" label="播放次数" width="180">
               </el-table-column>
             </el-table-column>
