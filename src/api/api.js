@@ -31,6 +31,7 @@ var api = {
   //创始人说
   getFounderData:'/manage/founder/findTopicList',
   getFounderDel:'/manage/founder/deleteTopic',
+  getFounderOut:'/manage/founder/offlineTopic',
   getFounderChange:'/manage/founder/updateTopic',
   getFounderAdd:'/manage/founder/addTopic',
   getFounderRelease:'/manage/founder/publishTopic',
@@ -42,9 +43,9 @@ var api = {
   getFounderCommentsCheck:'/manage/founder/approveComment',
   getFounderReplay:'/manage/founder/findCommentReplyList',
   getFounderReplayDel:'/manage/founder/deleteCommentReply',
-  getFounderReplayCheck:'/manage/founder/approveCommentReply'
-
-
+  getFounderReplayCheck:'/manage/founder/approveCommentReply',
+  getFounderCommentsLook:'/manage/founder/fclistByInteractionId',
+  getFounderDataLook:'/manage/founder/findInteractionData'
 };
 for(var index in api){
 	api[index] = Prefix+api[index]

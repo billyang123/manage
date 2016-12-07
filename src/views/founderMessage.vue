@@ -1,6 +1,6 @@
 <template>
-    <div class="founderMessage" style="padding-top:20px">
-        <h2 style="padding-top:40px;color:#1D8CE0;font-size:30px;padding:0;margin:0;">创始人留言</h2>
+    <div class="founderMessage" style="padding:20px">
+        <h2 style="padding-top:40px;font-size:32px;padding:0;margin:0;">创始人留言</h2>
         <el-tabs :active-name="activeName">
             <el-tab-pane label="全部" name="first">
                 <div class="founderMessageGroup">
@@ -51,7 +51,7 @@
         <el-tab-pane label="未采纳" name="third">33</el-tab-pane>-->
         </el-tabs>
         <div class="block" style="margin-top:20px;padding-bottom:40px">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="currentPageSize" layout="total, sizes, prev, pager, next, jumper" :total="totalElement">
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="currentPageSize" layout="total, sizes, prev, pager, next, jumper" :total="totalElement" v-if="totalPages>1">
             </el-pagination>
         </div>
 
@@ -67,18 +67,25 @@ default {
     methods: {
         getUserData() {
             var self = this;
-            this.$http.get(api.getFounderMessage + '?page=' + (this.currentPage - 1) + '&size=' + this.currentPageSize).then((data) => {
-                console.log(data)
-                if (data.body.status == 0) {
-                    var _data = data.body.data;
+            this.ajax(this,{
+              url:api.getFounderMessage,
+              type:"get",
+              data:{
+                page:self.currentPage-1,
+                size:self.currentPageSize
+              },
+              success:function(data){
+                let _data = data.body.data;
                     self.founderMessage = _data.content
-                    self.totalElement = data.body.data.totalElements
-                }
+                    self.totalElement = _data.totalElements
+                    self.totalPages = _data.totalPages
+              }
             })
+
         },
         handleSizeChange(val) {
             this.currentPageSize = val;
-            this.currentPage = 0;
+            this.currentPage = 1;
             this.getUserData();
             console.log(val)
         },
@@ -96,27 +103,23 @@ default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                self.$http.post(api.getFounderMessageCheck, {
-                    messageId: id,
-                    status: messageStatus
-                }, {
-                    emulateJSON: true,
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    }
-                }).then((data) => {
-                    if (data.body.status == 0) {
-                        self.getUserData();
+                 self.ajax(self,{
+                    url:api.getFounderMessageCheck,
+                    type:"post",
+                    data:{
+                        messageId: id,
+                        status:messageStatus
+                    },
+                    success:function(data){
+                      self.getUserData();
                         $Message({
                             type: 'success',
                             message: '成功!'
                         });
-                    } else {
-                        $MsgBox.alert(data.body.msg)
                     }
-                }, (response) => {
-                    // error callback
-                });
+                  })
+
+
             }).
             catch (() => {
                 $Message({
@@ -133,27 +136,21 @@ default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                self.$http.post(api.getFounderMessageDel, {
-                    messageId: id
-                }, {
-                    emulateJSON: true,
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    }
-                }).then((data) => {
-                    if (data.body.status == 0) {
-                        console.log(data)
-                        self.getUserData();
+                self.ajax(self,{
+                    url:api.getFounderMessageDel,
+                    type:"post",
+                    data:{
+                        messageId: id,
+                    },
+                    success:function(data){
+                      self.getUserData();
                         $Message({
                             type: 'success',
                             message: '删除成功!'
                         });
-                    } else {
-                        $MsgBox.alert(data.body.msg)
                     }
-                }, (response) => {
-                    // error callback
-                });
+                  })
+
             }).
             catch (() => {
                 $Message({
@@ -177,7 +174,8 @@ default {
             totalElement: 40,
             activeName: 'first',
             founderMessage: [],
-            messageBl: false
+            messageBl: false,
+            totalPages:1
         }
     },
 

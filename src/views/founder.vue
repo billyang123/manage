@@ -1,6 +1,6 @@
 <template>
-    <div class="founder">
-        <h2 style="padding-top:40px;color:#1D8CE0;font-size:30px">创始人说话题</h2>
+    <div class="founder" style="padding-left:30px;padding-right:30px">
+        <h2 style="padding-top:40px;font-size:32px">创始人说话题</h2>
         <el-button type="primary" style="float:right;margin-bottom:10px;margin-right:10px" @click="handleAdd">话题上传</el-button>
         <el-table :data="tableData" border style="width: 100%">
             <el-table-column fixed prop="createTime" label="日期" width="200">
@@ -32,25 +32,24 @@
             </el-table-column>
             <el-table-column inline-template :context="_self" fixed="right" label="操作" width="160">
                 <span>
-                    <el-button @click="handleChange(row)" type="text" size="small">修改</el-button>
+                    <el-button @click="handleChange(row)" type="text" size="small" v-if="row.status==0">修改</el-button>
+                    <el-button @click="handleChange(row)" type="text" size="small" :style="{color:founderStatus[2].c}" :disabled="founderStatus[2].s" v-if="row.status==1">修改</el-button>
+                    <el-button @click="handleChange(row)" type="text" size="small" :style="{color:founderStatus[2].c}" :disabled="founderStatus[2].s" v-if="row.status==2">修改</el-button>
                     <el-button @click="handleDel(row.id,$index,row)" type="text" size="small">删除</el-button>
-                    <el-button @click="handleRelease(row.id,$index,row)" type="text" size="small" :style="{color:founderStatus[row.status].c}" :disabled="founderStatus[row.status].s">发布</el-button>
+                    <el-button @click="handleRelease(row.id,$index,row)" type="text" size="small" :style="{color:founderStatus[0].c}" v-if="row.status==0">发布</el-button>
+                    <el-button @click="handleOut(row.id,$index,row)" type="text" size="small" :style="{color:founderStatus[1].c}" v-if="row.status==1">下线</el-button>
+                    <el-button type="text" size="small" :style="{color:founderStatus[2].c}" :disabled="founderStatus[2].s" v-if="row.status==2">已下线</el-button>
                 </span>
             </el-table-column>
         </el-table>
         <div class="block" style="padding-top:30px;padding-bottom:40px">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="currentPageSize" layout="total, sizes, prev, pager, next, jumper" :total="totalElement">
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="currentPageSize" layout="total, sizes, prev, pager, next, jumper" :total="totalElement" v-if="totalPages>1">
             </el-pagination>
         </div>
 
         <div class="fonunder-dialog">
             <el-dialog :title="dialogtitle" v-model="dialogVisible" size="tiny">
                 <el-form ref="formDialog" :model="formDialog" label-width="200px" :rules="rules">
-                    <el-form-item label="上传时间" prop="time">
-                        <el-col :span="11">
-                            <el-date-picker type="datetime" placeholder="选择日期时间" v-model="formDialog.time" style="width: 100%;"></el-date-picker>
-                        </el-col>
-                    </el-form-item>
                     <el-form-item label="类型" prop="type">
                         <el-radio-group v-model="formDialog.type">
                             <el-radio :label="1">视频</el-radio>
@@ -112,7 +111,7 @@ default {
             this.$refs.formDialog && this.$refs.formDialog.resetFields();
         },
         //确认
-        handleSure(url) {
+        handleSure(sureUrl) {
             var self = this;
             this.dialogVisible = false;
             console.log(this.formDialog.type)
@@ -134,25 +133,18 @@ default {
 
             this.$refs.formDialog.validate((valid) => {
                 if(valid){
-                   self.$http.post(url, formData, {
-                      emulateJSON: true,
-                      headers: {
-                          "Content-Type": "application/x-www-form-urlencoded"
-                      }
-                  }).then((data) => {
-                      if (data.body.status == 0) {
-                          this.getUserData();
-                          console.log('修改成功' + data)
-                          $Message({
-                              type: 'success',
-                              message: '添加或修改成功!'
-                          });
-                      } else {
-                          $MsgBox.alert(data.body.msg)
-                      }
-                  }, (response) => {
-                      // error callback
-                  });
+                  self.ajax(this,{
+                    url:sureUrl,
+                    type:"post",
+                    data:formData,
+                    success:function(data){
+                      self.getUserData();
+                        $Message({
+                            type: 'success',
+                            message: '添加或修改成功!'
+                        });
+                    }
+                  })
                 }else{
                     this.dialogVisible = true;
                     return false
@@ -213,26 +205,22 @@ default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                self.$http.post(api.getFounderDel, {
-                    topicId: id
-                }, {
-                    emulateJSON: true,
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    }
-                }).then((data) => {
-                    if (data.body.status == 0) {
-                        self.getUserData();
+                self.ajax(this,{
+                    url:api.getFounderDel,
+                    type:"post",
+                    data:{
+                        topicId: id
+                    },
+                    success:function(data){
+                      self.getUserData();
                         $Message({
                             type: 'success',
-                            message: '删除成功!'
+                            message: '添加或修改成功!'
                         });
-                    } else {
-                        $MsgBox.alert(data.body.msg)
                     }
-                }, (response) => {
-                    // error callback
-                });
+                  })
+
+
             }).
             catch (() => {
                 $Message({
@@ -249,27 +237,21 @@ default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                self.$http.post(api.getFounderRelease, {
-                    topicId: id
-                }, {
-                    emulateJSON: true,
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    }
-                }).then((data) => {
-                    if (data.body.status == 0) {
-                        self.getUserData();
-
+                self.ajax(self,{
+                    url:api.getFounderRelease,
+                    type:"post",
+                    data:{
+                        topicId: id
+                    },
+                    success:function(data){
+                      self.getUserData();
                         $Message({
                             type: 'success',
-                            message: '发布成功!'
+                            message: '添加或修改成功!'
                         });
-                    } else {
-                        $MsgBox.alert(data.body.msg)
                     }
-                }, (response) => {
-                    // error callback
-                });
+                  })
+
             }).
             catch (() => {
                 $Message({
@@ -278,21 +260,60 @@ default {
                 });
             });
         },
+        //下线
+        handleOut(id){
+        var self = this;
+            $MsgBox.confirm('此操作将下线该话题, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                self.ajax(this,{
+                    url:api.getFounderOut,
+                    type:"post",
+                    data:{
+                        topicId: id
+                    },
+                    success:function(data){
+                      self.getUserData();
+                        $Message({
+                            type: 'success',
+                            message: '下线成功!'
+                        });
+                    }
+                  })
+
+            }).
+            catch (() => {
+                $Message({
+                    type: 'info',
+                    message: '已取消下线'
+                });
+            });
+        },
         //话题列表
         getUserData() {
-            var self = this;
-            this.$http.get(api.getFounderData + '?page=' + (this.currentPage - 1) + '&size=' + this.currentPageSize).then((data) => {
-                if (data.body.status == 0) {
-                    var _data = data.body.data;
+            let self=this;
+            this.ajax(this,{
+              url:api.getFounderData,
+              type:"get",
+              data:{
+                page:self.currentPage-1,
+                size:self.currentPageSize
+              },
+              success:function(data){
+                let _data = data.body.data;
                     self.tableData = _data.content
-                    self.totalElement = data.body.data.totalElements
-                    console.log(data)
-                }
+                    self.totalElement = _data.totalElements
+                    self.totalPages = _data.totalPages
+              }
             })
+
+
         },
         handleSizeChange(val) {
             this.currentPageSize = val;
-            this.currentPage = 0;
+            this.currentPage = 1;
             this.getUserData();
         },
         handleCurrentChange(val) {
@@ -310,8 +331,8 @@ default {
                 c: "#FF4949"
             }, {
                 n: "已发布",
-                s: true,
-                c: "#8492A6"
+                s: false,
+                c: "#FF4949"
             }, {
                 n: "已下线",
                 s: true,
@@ -396,12 +417,14 @@ default {
             currentPage: 1,
             currentPageSize: 10,
             totalElement: 40,
+            totalPages:1,
             tableData: []
         }
     }
 }
 </script>
 <style>
+.founder .cell{text-align:center}
 .founder .el-dialog--tiny {
     width:60%
 }
