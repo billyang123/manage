@@ -3,6 +3,8 @@
         <h2 style="padding-top:40px;font-size:32px;padding:0;margin:0;">创始人留言</h2>
         <el-tabs :active-name="activeName">
             <el-tab-pane label="全部" name="first">
+              <el-row>
+                <el-col :span="24">
                 <div class="founderMessageGroup">
                     <div v-for="item in founderMessage" class="founderMessage_item" style="border-bottom:1px solid #dddddd;padding-bottom:10px;margin-left:50px;margin-right:50px">
                         <el-row justify="center" type="flex">
@@ -46,6 +48,8 @@
                         </el-row>
                     </div>
                 </div>
+                </el-col>
+              </el-row>
             </el-tab-pane>
             <!-- <el-tab-pane label="已采纳" name="second">22</el-tab-pane>
         <el-tab-pane label="未采纳" name="third">33</el-tab-pane>-->
@@ -164,7 +168,7 @@ default {
     data() {
         return {
             msg: 'hello vue',
-            currentPage: 0,
+            currentPage: 1,
             messageStatus:[
               {n:0,t:'未处理',b:false},
               {n:1,t:'未采纳',b:false},
@@ -181,3 +185,6 @@ default {
 
 }
 </script>
+<style>
+  .founderMessage .el-tabs{display:block}
+</style>
