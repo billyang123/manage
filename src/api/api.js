@@ -18,6 +18,11 @@ var api = {
 
   //资源管理
   getResourceData:"/manage/resource/findResourceList",
+  getResourceTree:"/manage/resource/findMenuResourceTree",
+  getAddResource:"/manage/resource/addResource",
+  getChangeTree:"/manage/resource/findMenuResourceTreeUpdate",
+  getChangeResource:"/manage/resource/updateResource",
+  getDelResource:"/manage/resource/deleteResource",
 
 
 	//用户分配角色
