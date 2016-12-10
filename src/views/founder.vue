@@ -1,52 +1,51 @@
 <template>
-    <div class="founder" style="padding-left:30px;padding-right:30px">
-        <h2 style="padding-top:40px;font-size:32px">创始人说话题</h2>
-        <el-button type="primary" style="float:right;margin-bottom:10px;margin-right:10px" @click="handleAdd">话题上传</el-button>
+    <div class="founder" style="padding:20px">
+        <h2>话题管理</h2>
+        <el-button type="primary" style="float:right;margin-bottom:10px;margin-right:10px" @click="handleAdd">添加话题</el-button>
         <el-table :data="tableData" border style="width: 100%">
-            <el-table-column fixed prop="createTime" label="日期" width="200">
+            <el-table-column prop="createTime" label="创建日期" width="170">
             </el-table-column>
-            <el-table-column label="类型" width="120" inline-template>
+            <el-table-column label="类型" width="80" inline-template>
                 <span>{{row.type==1?'视频':'音频'}}</span>
             </el-table-column>
-            <el-table-column prop="duration" label="时长" width="120">
+            <el-table-column prop="duration" label="时长" width="80">
             </el-table-column>
             <el-table-column prop="founderName" label="创始人姓名" width="120">
             </el-table-column>
-            <el-table-column prop="founderHeadImg" label="创始人头像" width="320">
+            <el-table-column label="创始人头像" width="120" inline-template>
+              <span style="width:80px;height:80px"><img :src="row.founderHeadImg" style="width:80px;height:80px;border-radius:100%"></span>
             </el-table-column>
             <el-table-column prop="founderTitle" label="创始人title" width="120">
             </el-table-column>
-            <el-table-column prop="title" label="互动标题" width="120">
+            <el-table-column prop="title" label="互动标题" width="220">
             </el-table-column>
             <el-table-column prop="contentWord" label="文字内容" width="420">
             </el-table-column>
-            <el-table-column prop="contentUrl" label="视频或音频URL地址" width="220">
+            <el-table-column label="视频或音频URL地址" width="220" inline-template>
+              <span><a :href="row.contentUrl" target=_blank>{{row.contentUrl}}</a></span>
             </el-table-column>
-            <el-table-column prop="coverImageUrl" label="视频封面" width="220">
-            </el-table-column>
-            <el-table-column label="是否发布" width="120" inline-template>
-                <span>{{founderStatus[row.status].n}}</span>
+            <el-table-column label="视频封面" width="140" inline-template>
+              <span><img :src="row.coverImageUrl" style="width:120px;height:80px"></span>
             </el-table-column>
             <el-table-column label="首页展示" width="120" inline-template>
                 <span>{{row.indexDisplay==1?'展示':'不展示'}}</span>
             </el-table-column>
-            <el-table-column inline-template :context="_self" fixed="right" label="操作" width="160">
+            <el-table-column inline-template :context="_self" fixed="right" label="操作" width="240">
                 <span>
-                    <el-button @click="handleChange(row)" type="text" size="small" v-if="row.status==0">修改</el-button>
-                    <el-button @click="handleChange(row)" type="text" size="small" :style="{color:founderStatus[2].c}" :disabled="founderStatus[2].s" v-if="row.status==1">修改</el-button>
-                    <el-button @click="handleChange(row)" type="text" size="small" :style="{color:founderStatus[2].c}" :disabled="founderStatus[2].s" v-if="row.status==2">修改</el-button>
-                    <el-button @click="handleDel(row.id,$index,row)" type="text" size="small">删除</el-button>
-                    <el-button @click="handleRelease(row.id,$index,row)" type="text" size="small" :style="{color:founderStatus[0].c}" v-if="row.status==0">发布</el-button>
-                    <el-button @click="handleOut(row.id,$index,row)" type="text" size="small" :style="{color:founderStatus[1].c}" v-if="row.status==1">下线</el-button>
-                    <el-button type="text" size="small" :style="{color:founderStatus[2].c}" :disabled="founderStatus[2].s" v-if="row.status==2">已下线</el-button>
+                    <el-button @click="handleChange(row)" :plain="true" type="info" v-if="row.status==0">修改</el-button>
+                    <el-button @click="handleChange(row)" :plain="true" type="info" :disabled="founderStatus[2].s" v-if="row.status==1">修改</el-button>
+                    <el-button @click="handleChange(row)" :plain="true" type="info" :disabled="founderStatus[2].s" v-if="row.status==2">修改</el-button>
+                    <el-button @click="handleDel(row.id,$index,row)" :plain="true" type="info">删除</el-button>
+                    <el-button @click="handleRelease(row.id,$index,row)" :plain="true" type="danger" v-if="row.status==0">发布</el-button>
+                    <el-button @click="handleOut(row.id,$index,row)" :plain="true" type="danger" v-if="row.status==1">下线</el-button>
+                    <el-button :plain="true" type="info" :disabled="founderStatus[2].s" v-if="row.status==2">已下线</el-button>
                 </span>
             </el-table-column>
         </el-table>
         <div class="block" style="padding-top:30px;padding-bottom:40px">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="currentPageSize" layout="total, sizes, prev, pager, next, jumper" :total="totalElement" v-if="totalPages>1">
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[30, 50, 100, 200]" :page-size="currentPageSize" layout="total, sizes, prev, pager, next, jumper" :total="totalElement" v-if="totalPages>1">
             </el-pagination>
         </div>
-
         <div class="fonunder-dialog">
             <el-dialog :title="dialogtitle" v-model="dialogVisible" size="tiny">
                 <el-form ref="formDialog" :model="formDialog" label-width="200px" :rules="rules">
@@ -56,31 +55,31 @@
                             <el-radio :label="2">音频</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <el-form-item label="音频时间" prop="duration">
-                        <el-input v-model="formDialog.duration"></el-input>
-                    </el-form-item>
                     <el-form-item label="创始人姓名" prop="founderName">
-                        <el-input v-model="formDialog.founderName"></el-input>
-                    </el-form-item>
-                    <el-form-item label="创始人头像" prop="founderHeadImg">
-                        <el-input v-model="formDialog.founderHeadImg"></el-input>
-                    </el-form-item>
-                    <el-form-item label="互动标题" prop="title">
-                        <el-input v-model="formDialog.title"></el-input>
-                    </el-form-item>
-                    <el-form-item label="文字内容" prop="contentWord">
-                        <el-input v-model="formDialog.contentWord"></el-input>
+                      <el-input v-model="formDialog.founderName"></el-input>
                     </el-form-item>
                     <el-form-item label="创始人title" prop="founderTitle">
-                        <el-input v-model="formDialog.founderTitle"></el-input>
+                      <el-input v-model="formDialog.founderTitle"></el-input>
+                    </el-form-item>
+                    <el-form-item label="创始人头像" prop="founderHeadImg">
+                      <el-input v-model="formDialog.founderHeadImg"></el-input>
                     </el-form-item>
                     <el-form-item label="视频或音频URL地址" prop="contentUrl">
-                        <el-input v-model="formDialog.contentUrl"></el-input>
+                      <el-input v-model="formDialog.contentUrl"></el-input>
+                    </el-form-item>
+                    <el-form-item label="音频时间" prop="duration">
+                      <el-input v-model="formDialog.duration" placeholder="输入格式(03:14)"></el-input>
                     </el-form-item>
                     <el-form-item label="视频封面" prop="coverImageUrl">
-                        <el-input v-model="formDialog.coverImageUrl"></el-input>
+                      <el-input v-model="formDialog.coverImageUrl"></el-input>
                     </el-form-item>
-                    <el-form-item label="首页展示是否展示" prop="indexDisplay">
+                    <el-form-item label="互动标题" prop="title">
+                      <el-input v-model="formDialog.title"></el-input>
+                    </el-form-item>
+                    <el-form-item label="文字内容" prop="contentWord">
+                      <el-input type="textarea" v-model="formDialog.contentWord" row="4"></el-input>
+                    </el-form-item>
+                    <el-form-item label="首页展示" prop="indexDisplay">
                         <el-radio-group v-model="formDialog.indexDisplay">
                             <el-radio :label="1">展示</el-radio>
                             <el-radio :label="0">不展示</el-radio>
@@ -94,6 +93,7 @@
             </el-dialog>
         </div>
     </div>
+
 </template>
 <script>
 import api from '../api/api'
@@ -113,8 +113,7 @@ default {
         //确认
         handleSure(sureUrl) {
             var self = this;
-            this.dialogVisible = false;
-            console.log(this.formDialog.type)
+
             var formData = {
                 type: this.formDialog.type,
                 duration: this.formDialog.duration,
@@ -139,6 +138,7 @@ default {
                     data:formData,
                     success:function(data){
                       self.getUserData();
+                      self.dialogVisible = false;
                         $Message({
                             type: 'success',
                             message: '添加或修改成功!'
@@ -146,7 +146,6 @@ default {
                     }
                   })
                 }else{
-                    this.dialogVisible = true;
                     return false
 
                 }
@@ -198,7 +197,7 @@ default {
         },
         //话题删除
         handleDel(id, index, row) {
-            console.log(id, row)
+
             var self = this;
             $MsgBox.confirm('此操作将永久删除该话题, 是否继续?', '提示', {
                 confirmButtonText: '确定',
@@ -215,7 +214,7 @@ default {
                       self.getUserData();
                         $Message({
                             type: 'success',
-                            message: '添加或修改成功!'
+                            message: '删除成功!'
                         });
                     }
                   })
@@ -303,9 +302,12 @@ default {
               },
               success:function(data){
                 let _data = data.body.data;
+                if(_data){
                     self.tableData = _data.content
                     self.totalElement = _data.totalElements
                     self.totalPages = _data.totalPages
+                }
+
               }
             })
 
@@ -319,7 +321,6 @@ default {
         handleCurrentChange(val) {
             this.currentPage = val;
             this.getUserData();
-            console.log(this.currentPage);
         }
     },
 
@@ -415,8 +416,8 @@ default {
                 ]
             },
             currentPage: 1,
-            currentPageSize: 10,
-            totalElement: 40,
+            currentPageSize: 30,
+            totalElement: 1,
             totalPages:1,
             tableData: []
         }
@@ -434,4 +435,6 @@ default {
 .founder .el-table .Release-row {
     background: #c9e5f5;
 }
+.founder .el-form-item__content{text-align:left}
+.founder .el-button+.el-button{margin-left:0}
 </style>

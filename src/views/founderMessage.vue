@@ -1,7 +1,39 @@
 <template>
     <div class="founderMessage" style="padding:20px">
-        <h2 style="padding-top:40px;font-size:32px;padding:0;margin:0;">创始人留言</h2>
-        <el-tabs :active-name="activeName">
+        <h2>留言管理</h2>
+        <el-table
+          :data="founderMessage"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="createTime"
+            label="创建时间"
+            width="170">
+          </el-table-column>
+          <el-table-column
+            prop="messageContent"
+            label="留言内容">
+          </el-table-column>
+          <el-table-column
+            inline-template
+            :context="_self"
+            fixed="right"
+            label="操作"
+            width="180">
+        <span>
+         <el-button :plain="true" type="info" @click="handleCheck(row.id,2)" v-if="row.messageStatus==0">采纳</el-button>
+         <el-button :plain="true" type="info" @click="handleCheck(row.id,1)" v-if="row.messageStatus==0">不采纳</el-button>
+         <el-button :plain="true" type="info" :disabled="true" @click="handleCheck(row.id,2)" v-if="row.messageStatus==1">不采纳</el-button>
+         <el-button :plain="true" type="info" :disabled="true" @click="handleCheck(row.id)" v-if="row.messageStatus==2">已采纳</el-button>
+        </span>
+          </el-table-column>
+        </el-table>
+
+
+
+
+
+        <!--<el-tabs :active-name="activeName">
             <el-tab-pane label="全部" name="first">
               <el-row>
                 <el-col :span="24">
@@ -51,11 +83,9 @@
                 </el-col>
               </el-row>
             </el-tab-pane>
-            <!-- <el-tab-pane label="已采纳" name="second">22</el-tab-pane>
-        <el-tab-pane label="未采纳" name="third">33</el-tab-pane>-->
-        </el-tabs>
+        </el-tabs>-->
         <div class="block" style="margin-top:20px;padding-bottom:40px">
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="currentPageSize" layout="total, sizes, prev, pager, next, jumper" :total="totalElement" v-if="totalPages>1">
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[30, 50, 100, 200]" :page-size="currentPageSize" layout="total, sizes, prev, pager, next, jumper" :total="totalElement" v-if="totalPages>1">
             </el-pagination>
         </div>
 
@@ -80,9 +110,11 @@ default {
               },
               success:function(data){
                 let _data = data.body.data;
+                  if(_data){
                     self.founderMessage = _data.content
                     self.totalElement = _data.totalElements
                     self.totalPages = _data.totalPages
+                  }
               }
             })
 
@@ -91,7 +123,6 @@ default {
             this.currentPageSize = val;
             this.currentPage = 1;
             this.getUserData();
-            console.log(val)
         },
         handleCurrentChange(val) {
             this.currentPage = val;
@@ -100,7 +131,6 @@ default {
 
         //采纳
         handleCheck(id, messageStatus) {
-            console.log(messageStatus)
             var self = this;
             $MsgBox.confirm('此操作将采纳或不采纳, 是否继续?', '提示', {
                 confirmButtonText: '确定',
@@ -174,8 +204,8 @@ default {
               {n:1,t:'未采纳',b:false},
               {n:2,t:'已采纳',b:true}
             ],
-            currentPageSize: 10,
-            totalElement: 40,
+            currentPageSize: 30,
+            totalElement: 1,
             activeName: 'first',
             founderMessage: [],
             messageBl: false,
@@ -187,4 +217,6 @@ default {
 </script>
 <style>
   .founderMessage .el-tabs{display:block}
+  .founderMessage .cell{text-align:center}
+  .founderMessage .el-button+.el-button{margin-left:0}
 </style>

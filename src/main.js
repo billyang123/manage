@@ -18,7 +18,8 @@ import {
   Loading,
   Tabs,
   TabPane,
-  Tag
+  Tag,
+  Tree
 }
 from 'element-ui'
 Vue.use(VueResource)
@@ -57,6 +58,7 @@ Vue.component(Card.name, Card)
 Vue.component(Tabs.name, Tabs)
 Vue.component(TabPane.name, TabPane)
 Vue.component(Tag.name, Tag)
+Vue.component(Tree.name, Tree)
 var _MsgBox = MessageBox;
 var _Message = Message;
 var _Loading = Loading;
@@ -68,12 +70,14 @@ import index from './views/index.vue'
 import login from './views/login.vue'
 import usersAdmin from './views/usersAdmin.vue'
 import roleAdmin from './views/roleAdmin.vue'
-import authAdmin from './views/authAdmin.vue'
+import resourceAdmin from './views/resourceAdmin.vue'
+
 import founder from './views/founder.vue'
 import founderMessage from './views/founderMessage.vue'
 import founderComments from './views/founderComments.vue'
 import founderReplay from './views/founderReplay.vue'
 import founderData from './views/founderData.vue'
+
 
 
 
@@ -105,8 +109,8 @@ let router = new VueRouter({
           component: roleAdmin
         },
         {
-          path:'authAdmin',
-          component:authAdmin
+          path:'resourceAdmin',
+          component:resourceAdmin
         },
         {
           path:'founder',

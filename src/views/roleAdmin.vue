@@ -1,8 +1,8 @@
 <template>
 	<div class="myrole-main">
     <h2>基础配置 - 角色管理</h2>
-    
-    <el-card class="box-card consearchbox">
+
+    <!--<el-card class="box-card consearchbox">
       <div slot="header" class="clearfix">
         <span style="line-height: 36px;">角色分配</span>
       </div>
@@ -12,7 +12,7 @@
           :fetch-suggestions="querySearchAsync"
           placeholder="请输入工号或用户名"
           @select="roleHandleSelect"
-          
+
         ><el-button slot="append" icon="search" @click="searchPerson"></el-button></el-autocomplete>
       </div>
       <div class="person-role-box" v-show="curPerson.userNickName!=''">
@@ -46,28 +46,21 @@
         </el-row>
       </div>
       <el-button type="warning" @click="saveEdit" v-show="curPerson.userNickName!=''">保存用户角色配置</el-button>
-    </el-card>
-    <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <el-button type="warning" style="float: left;" @click="addRole">添加角色</el-button>
-        <span style="line-height: 36px;">角色管理</span>
+    </el-card>-->
+
+      <div slot="header" class="clearfix" style="margin-bottom:20px">
+        <el-button type="primary" style="float: right;" @click="addRole">添加角色</el-button>
         <!-- <el-button type="danger" style="float: right;">批量删除角色</el-button> -->
       </div>
       <el-table
         :data="roleTableData"
         border
         style="width: 100%">
-        <!-- <el-table-column
-          prop="id"
-          type="selection"
-          width="50">
-        </el-table-column> -->
         <el-table-column
           label="角色"
           prop="roleName"
-          width="120">
+          width="240">
         </el-table-column>
-      
         <el-table-column
           prop="roleDesc"
           label="描述">
@@ -75,29 +68,58 @@
         <el-table-column
           inline-template
           :context="_self"
-          fixed="right"
           label="操作"
-          width="100">
+          width="260">
           <span>
-            <el-button type="text" size="small" @click="updateRole(row)">修改</el-button>
-            <el-button type="text" size="small" @click="delRole(row.id)">删除</el-button>
+            <el-button :plain="true" type="info" @click="updateRole(row)">修改</el-button>
+            <el-button :plain="true" type="info" @click="delRole(row.id)">删除</el-button>
+            <el-button :plain="true" type="danger" @click="handleAccess(row)">分配权限</el-button>
           </span>
         </el-table-column>
       </el-table>
-    </el-card>
+    <!--分页-->
+    <div class="blobk" style="margin:20px 0;">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[30, 50, 100, 200]"
+        :page-size="pgSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+      </el-pagination>
+    </div>
+
     <el-dialog ref="userdialog3" :title="dtitle" v-model="dFVisible" >
       <el-form ref="roleForm" :model="roleForm" :rules="roleFormRules">
         <el-form-item label="角色名" :label-width="formLabelWidth" prop="roleName">
           <el-input v-model="roleForm.roleName" placeholder="请输入角色名" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="描述" :label-width="formLabelWidth" prop="roleDesc">
-          <el-input v-model="roleForm.roleDesc" placeholder="请输入角色名" auto-complete="off"></el-input>
+          <el-input v-model="roleForm.roleDesc" type="textarea" placeholder="请输入角色描述" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dFVisible = false">取 消</el-button>
         <el-button type="primary" @click="upRole(roleid)">确 定</el-button>
       </div>
+    </el-dialog>
+
+    <!--分配权限-->
+    <el-dialog title="分配权限" v-model="dialogAccessVisible" size="tiny">
+      <el-tree
+        :data="treeData"
+        :props="props"
+        :default-expand-all=true
+        node-key="id"
+        :default-checked-keys="defaultChecked"
+        show-checkbox
+        @check-change="handleCheckChange" ref="access">
+      </el-tree>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogAccessVisible = false">取 消</el-button>
+        <el-button type="primary" @click="saveEdit">确 定</el-button>
+      </span>
     </el-dialog>
 	</div>
 </template>
@@ -108,17 +130,33 @@ import api_test from '../api/api_test'
   	name:"roleAdmin",
     data(){
       return {
+        treeData: [],
+         props: {
+          label: 'nodeName',
+          children: 'children'
+        },
+        pgSize:30,
+      	total:1,
+      	currentPage: 1,
+      	totalPages:1,
         spanstyle:'display:inline-block;width:80px;text-align:right;',
         roleTableData:[],
+        defaultChecked:[],
+        idArray:[],
         searchRoleCheckData:[{}],
+        dialogAccessVisible:false,
         restaurants: [],
+        selectCheckbox:'',
         multipleSelection:'',
+        selectBox:'',
         state: '',
         roleid:'',
+        _roleId:'',
         timeout:null,
         multipleSelection:[],
         checkboxValue:[],
         checkList: [],
+        accessData:[],
         upUrl:'',
         dtitle:"添加角色",
         dFVisible:false,
@@ -146,22 +184,77 @@ import api_test from '../api/api_test'
       }
     },
     methods: {
+
+      handleChecked(){
+
+      },
+      handleCheckChange(data, checked, indeterminate) {
+        var self=this
+        let _i=self.defaultChecked.indexOf(data.id);
+        if(_i!=-1){
+         self.defaultChecked.splice(_i,1)
+        }
+        if(checked){
+          self.defaultChecked.push(data.id)
+        }
+        if(indeterminate){
+          self.defaultChecked.push(data.id)
+        }else{
+
+        }
+
+      },
+      handleNodeClick(data) {
+
+      },
       saveEdit(){
         var _this = this;
+        _this.selectBox = _this.defaultChecked.join(',')
+        console.log(_this.selectBox)
         this.ajax(this,{
-          url:api.saveAssignRole,
+          url:api.setrassignRole,
           type:"post",
           data:{
-            accountId:this.curPerson.id,
-            roleId:this.multipleSelection
+            roleId:_this._roleId,
+            resourceId:_this.selectBox
           },
           success:function(response){
+            _this.dialogAccessVisible=false;
             $Message({
                 type: 'success',
-                message: '保存用户角色配置成功!'
+                message: '保存角色权限配置成功!'
             });
           }
         })
+      },
+      //分配权限
+      handleAccess(row){
+      this.dialogAccessVisible=true
+      this.handleChecked()
+      this._roleId=row.id
+      var self=this;
+         self.checkList.length=0;
+            this.ajax(this,{
+            url:api.getResouce,
+            type:"get",
+            data:{
+              roleId:row.id,
+            },
+            success:function(response){
+              let roles = response.body.data;
+                  self.accessData = JSON.parse(roles.resourceTreeJson);
+                  self.treeData = self.accessData
+                   let checkData = self.accessData;
+                   self.defaultChecked = roles.checkedIds
+            }
+          })
+      },
+      handleSelectionChange(val) {
+        var _val=val;
+        if(val[0]==' '){
+          _val.splice(0,1)
+        }
+        this.selectCheckbox = _val.join(',')
       },
       searchPerson(){
         if(this.curPerson.userNickName==""){
@@ -170,7 +263,7 @@ import api_test from '../api/api_test'
         this.roleHandleSelect(this.curPerson)
       },
       roleHandleFocus(val){
-        
+
       },
       roleHandleSelect(val){
         var _this = this;
@@ -207,10 +300,9 @@ import api_test from '../api/api_test'
       },
       handleCheckBoxChange(val){
         this.checkboxValue = val;
-        console.log(val)
       },
       handleSelectionChange(val) {
-       
+
         this.multipleSelection = val.join(',')
       },
       upRole(id){
@@ -220,7 +312,7 @@ import api_test from '../api/api_test'
           roleDesc:this.roleForm.roleDesc
         }
         if(id){
-          data["roleId"] = id;
+          data["id"] = id;
         }
         this.$refs.roleForm.validate((valid) => {
           if(valid){
@@ -229,6 +321,7 @@ import api_test from '../api/api_test'
               type:"post",
               data:data,
               success:function(response){
+                _this.loadRoleData();
                 $Message({
                     type: 'success',
                     message: _this.dtitle+'成功!'
@@ -289,7 +382,7 @@ import api_test from '../api/api_test'
           $Message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });
         });
       },
       querySearchAsync(queryString, cb) {
@@ -324,35 +417,46 @@ import api_test from '../api/api_test'
             restut[data[i].roleName] = data[i];
             this.searchRoleCheckData[i] = {};
           }
-          console.log(this.searchRoleCheckData)
           return restut;
       },
       loadRoleData(){
         var _this = this;
         //var Loading = $Loading.service({text:"正在拼命加载中..."})
-        this.ajax(this,{
+        this.ajax(_this,{
           url:api.getRoles,
           type:"post",
           data:{
-            size:100,
-            page: 0
+            size:_this.pgSize,
+            page: _this.currentPage-1
           },
           success:function(response){
-            var data = response.body.data.data;
-              _this.roleTableData = data;
+            var data = response.body.data;
+              _this.roleTableData = data.content;
+              _this.total = data.totalElements;
+				      _this.totalPages = data.totalPages;
               //console.log(response.body.data)
-              _this.filterRoleData = _this.filterRoleData(data);
+              //_this.filterRoleData = _this.filterRoleData(data);
               //$Loading.close({text:"正在拼命加载中..."})
           }
         })
+      },
+      handleSizeChange(val) {
+        this.pgSize = val;
+        this.currentPage = 1;
+        this.loadRoleData();
+
+      },
+      handleCurrentChange(val) {
+        this.currentPage = val;
+        this.loadRoleData();
+
       }
     },
     created() {
       this.loadRoleData();
-      console.log(this.searchRoleCheckData)
     },
     component:{
-    	
+
     }
   }
 </script>
@@ -379,18 +483,20 @@ import api_test from '../api/api_test'
   .myrole-main .box-card {
     width: 100%;
   }
-  .myrole-main .consearchbox {
-    margin-bottom: 20px;
-    overflow: inherit;
-  }
+
   .person-role-box {
     padding: 20px 0;
     text-align: left;
   }
   .person-info {
-    
+
   }
   .userrole-box {
-    
+
   }
+  .myrole-main .cell{text-align:center}
+  .myrole-main .el-button+.el-button{margin-left:0}
+  .myrole-main .el-dialog--tiny{width:60%}
+  .myrole-main .el-checkbox-group{text-align:left}
+  .myrole-main .el-tree-node{ text-align:left}
 </style>

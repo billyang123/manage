@@ -2,11 +2,11 @@
 	<div class="login-main">
 		<div class="login-content">
 			<h2 class="title">登录</h2>
-			<el-form ref="form" :model="form" label-width="80px" :rules="rules" >
-			  <el-form-item label="用户名" prop="username">
+			<el-form ref="form" :model="form" label-width="120px" :rules="rules" >
+			  <el-form-item label="登录邮箱" prop="username">
 			    <el-input v-model="form.username" auto-complete="on"></el-input>
 			  </el-form-item>
-			  <el-form-item label="密码" prop="password">
+			  <el-form-item label="登录密码" prop="password">
 			    <el-input v-model="form.password" type="password"></el-input>
 			  </el-form-item>
 			  <el-form-item label="验证码" prop="checkcode" class="checkcode">
@@ -53,10 +53,10 @@ export default {
 	  }
 	},
 	components:{
-		
+
 	},
 	created(){
-		
+
 	},
 	methods: {
 		setTime(){
@@ -84,7 +84,6 @@ export default {
 					"Content-Type":"application/x-www-form-urlencoded"
 				}
 			}).then((response) => {
-				console.log(response)
 				if(response.body.status == 0){
 					_this.setTime();
 				}else{
@@ -103,7 +102,7 @@ export default {
 	    	this.login();
 	    },
 		login() {
-			
+
 			var _this = this;
 			var _formData = {
 				name:_this.form.username,
@@ -118,10 +117,10 @@ export default {
 						"Content-Type":"application/x-www-form-urlencoded"
 					}
 				}).then((response) => {
-					console.log(response)
 					if(response.body.status == 0){
 						sessionStorage.setItem('userId', 10001)
                     	sessionStorage.setItem('userName', _this.form.username)
+                    	sessionStorage.setItem('creatorName', response.body.data.user.creatorName)
                     	localStorage.setItem("menu",response.body.data.resources);
 						_this.$router.push('/')
 					}else{
@@ -142,7 +141,7 @@ export default {
 <style>
 	.title {
 		text-align: center;
-	} 
+	}
 	.login-main {
 		padding: 1px;
 		width: 100%;
@@ -162,7 +161,7 @@ export default {
 		margin-left: 0 !important;
 	}
 	.login-content {
-		width: 400px;
+		width: 500px;
 		margin: 100px auto;
 		padding: 20px;
 		background-color: #EFF2F7;

@@ -5,14 +5,23 @@ var api = {
 	//登录
 	doLogin:"/manage/login",
 	getCode:"/manage/verifyUser",
+
+  //修改密码
+  changePass:"/manage/user/updatePassword",
+
+
 	//用户管理
 	addUser:"/manage/user/addUser",
 	updateUser:"/manage/user/updateUser",
 	deleteUser:"/manage/user/deleteUser",
 	getUsers:"/manage/user/findAll",
 
+  //资源管理
+  getResourceData:"/manage/resource/findResourceList",
+
+
 	//用户分配角色
-	getRoles:'/manage/role/findAllByConfirmDeleteNoPage',
+	getRoles:'/manage/role/findAllByConfirmDelete',
 	addRole:'/manage/role/addRole',
 	updateRole:'/manage/role/updateByRoleId',
 	delRole:'/manage/role/deleteRole',
