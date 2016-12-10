@@ -78,7 +78,13 @@ import founderComments from './views/founderComments.vue'
 import founderReplay from './views/founderReplay.vue'
 import founderData from './views/founderData.vue'
 
-
+import fundAppList from './views/loveChou/fundAppList.vue'
+import fundProject from './views/loveChou/fundProject.vue'
+import fundShowData from './views/loveChou/fundShowData.vue'
+import aFundList from './views/loveChou/aFundList.vue'
+import loveAmbAppList from './views/loveChou/loveAmbAppList.vue'
+import loveAmbList from './views/loveChou/loveAmbList.vue'
+import certloveAmb from './views/loveChou/certloveAmb.vue'
 
 
 // import autocomplete from './components/autocomplete.vue'
@@ -131,6 +137,41 @@ let router = new VueRouter({
         {
           path:'founderData',
           component:founderData
+        },
+        //筹款申请列表
+        {
+          path:'fundAppList',
+          component:fundAppList
+        },
+        //筹款项目维护
+        {
+          path:'fundProject',
+          component:fundProject
+        },
+        //申请款项列表
+        {
+          path:'fundProject',
+          component:fundProject
+        },
+        //打款项目数据
+        {
+          path:'fundShowData',
+          component:fundShowData
+        },
+        //爱心大使申请列表
+        {
+          path:'loveAmbAppList',
+          component:loveAmbAppList
+        },
+        //爱心大使列表
+        {
+          path:'loveAmbList',
+          component:loveAmbList
+        },
+        //认证爱心大使
+        {
+          path:'certloveAmb',
+          component:certloveAmb
         }
       ]
 		},
