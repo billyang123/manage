@@ -2,7 +2,7 @@
 	<div class="resource">
 		<h2>基础配置 - 资源管理</h2>
 		<div class="block addbtn">
-			<el-button type="primary" @click="handleAdd({})">添加资源</el-button>
+			<el-button type="primary" @click="handleAdd()">添加资源</el-button>
 		</div>
 		<el-table
 	    :data="tableData"
@@ -58,7 +58,6 @@
 	      :total="total" v-if="totalPages > 1">
 	   </el-pagination>
 	  </div>
-
 	  <el-dialog ref="userdialog" :title="dialogtitle" v-model="dialogFormVisible" >
 		  <el-form ref="formDialog" :model="formDialog" :rules="rules">
 		  	<el-form-item label="数据类型" :label-width="formLabelWidth" prop="resourceType">
@@ -90,14 +89,13 @@
 		  </el-form>
 		  <div slot="footer" class="dialog-footer">
 		    <el-button @click="dialogFormVisible = false">取 消</el-button>
-		    <el-button type="primary" @click="upUser(curUserId)">确 定</el-button>
+		    <el-button type="primary" @click="handleSure" :disabled="dis">确 定</el-button>
 		  </div>
 		</el-dialog>
 
     <!--获取父节点ID和组名-->
-    <el-dialog title="获取父节点ID和组名" v-model="dialogParentIdVisible" size="tiny">
-      11
-      <!--<el-tree
+    <el-dialog title="获取父节点ID和组名(只能选一个)" v-model="dialogParentIdVisible" size="tiny">
+      <el-tree
         :data="treeData"
         :props="props"
         :default-expand-all=true
@@ -105,10 +103,10 @@
         :default-checked-keys="defaultChecked"
         show-checkbox
         @check-change="handleCheckChange" ref="access">
-      </el-tree>-->
+      </el-tree>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogParentIdVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleSure">确 定</el-button>
+        <el-button type="primary" @click="handleTreeSure">确 定</el-button>
       </span>
     </el-dialog>
 	</div>
@@ -123,53 +121,90 @@ export default {
   		//console.log(MessageBox.alert("sadassad"))
   	},
     methods: {
+      handleTreeSure(){
+        var self = this;
+        self.dialogParentIdVisible = false
 
-      handleParentId(){
-        this.dialogParentIdVisible = true;
+
 
       },
+
+      handleCheckChange(data, checked, indeterminate) {
+        var self=this
+        self.formDialog.groupName = data.nodeName;
+        self.formDialog.parentId = data.id;
+      },
+
+      handleParentId(){
+        var self = this;
+        var _url = self.parentIdUrl
+        self.ajax(self,{
+	          url:_url,
+	          type:"get",
+	          data:{
+	          	id:self.formDialog.id
+	          },
+	          success:function(response){
+	            console.log(response)
+	            self.dialogParentIdVisible = true;
+	            var data;
+
+	            if(self.addOrChange){
+	                 data = JSON.parse(response.body.data);
+	                 self.treeData = data
+	            }else{
+	                 data = JSON.parse(response.body.data.resourceTreeJson);
+	                 self.treeData = data
+	                 self.defaultChecked = response.body.data.checkedIds;
+	                 console.log(self.defaultChecked)
+	            }
+	           // var data = JSON.parse(response.body.data);
+	          //  console.log(data)
+           // _this.tableData = data.content;
+           // _this.total = data.totalElements;
+          //  _this.totalPages = data.totalPages;
+	          }
+	        })
+
+
+      },
+      //确认
       handleSure(){
-         this.dialogParentIdVisible = false;
+        var self = this;
+         var _url = self.handleUrl
+         self.dis = true;
+         var formDialog = {
+          resourceType:self.formDialog.resourceType,
+          resourceName:self.formDialog.resourceName,
+          resourceUrl:self.formDialog.resourceUrl,
+          groupName:self.formDialog.groupName,
+          parentId:self.formDialog.parentId
+         };
+         if(self.formDialog.id){
+            formDialog['id'] = self.formDialog.id;
+         }
+          self.ajax(self,{
+	          url:_url,
+	          type:"post",
+	          data:formDialog,
+	          success:function(response){
+	            self.getUsers()
+	            self.dialogFormVisible = false;
+	            console.log(response)
+	           $Message({
+			            type: 'success',
+			            message: '添加成功!'
+			        });
+	          },
+	          complete:function(){
+	            self.dis = false;
+	          }
+	        })
       },
 
     	handleReset(cb) {
 	        this.$refs.formDialog && this.$refs.formDialog.resetFields();
 	    },
-    	upUser(id){
-    		var _this = this;
-    		var _msg = _this.popUpMsg
-
-    		var formdata = {
-    			userLoginName:this.userForm.userLoginName,
-				  userPassword:this.userForm.userPassword,
-				  userRealName:this.userForm.userRealName,
-				  userWorkNo:this.userForm.userWorkNo,
-				  userNickName:this.userForm.userNickName,
-				  userPhone:this.userForm.userPhone
-    		}
-    		if (id) {
-    			formdata["id"] = id;
-    		}
-    		this.$refs.formDialog.validate((valid) => {
-	          if (valid) {
-	          	_this.ajax(_this,{
-		          url:_this.upUrl,
-		          type:"post",
-		          data:formdata,
-		          success:function(response){
-		             _this.dialogFormVisible = false;
-		            $Message({
-			            type: 'success',
-			            message: _msg
-			        });
-		          }
-		        })
-	          } else {
-	            //console.log('error submit!!');
-	            return false;
-	          }
-	        });
-    	},
     	getUsers(){
     		var _this = this;
     		//return console.log(this.ajax)
@@ -190,14 +225,18 @@ export default {
 	          }
 	        })
     	},
+    	//修改
 		handleUpdate(row) {
 			this.curUserId = row.id;
 			this.dialogtitle = "修改资源";
 			this.popUpMsg = "修改成功!"
-			this.upUrl = api.updateUser;
-			this.dialogFormVisible = true
+			this.handleUrl = api.getChangeResource;
+			this.parentIdUrl = api.getChangeTree;
+			this.dialogFormVisible = true;
+			this.addOrChange = false;
 			this.handleReset();
 			this.formDialog = {
+			  id:row.id,
 				resourceType:row.resourceType,
 				resourceName:row.resourceName,
 				resourceUrl:row.resourceUrl,
@@ -206,34 +245,37 @@ export default {
 			};
 			//this.handleReset();
 		},
+		//新增资源
 		handleAdd(row){
 			this.curUserId = "";
 			this.dialogtitle = "添加资源"
 			this.popUpMsg = "添加成功!"
-			this.upUrl = api.addUser;
+			this.handleUrl = api.getAddResource
+			this.parentIdUrl = api.getResourceTree
 			this.dialogFormVisible = true;
+			this.addOrChange = true;
 			this.handleReset();
-			this.userForm = {
-				userLoginName:'',
-				userPassword:'',
-				userRealName:'',
-				userWorkNo:'',
-				userNickName:'',
-				userPhone:''
+			this.formDialog = {
+				resourceType:'',
+				resourceName:'',
+				resourceUrl:'',
+				groupName:'',
+				parentId:''
 			};
 			//this.handleReset();
 		},
-		handleDel(id){
+		//删除
+		handleDel(_id){
 			var _this = this;
-			$MsgBox.confirm('此操作将删除该改用户, 是否继续?', '提示', {
+			$MsgBox.confirm('此操作将删除该资源, 是否继续?', '提示', {
 	          confirmButtonText: '确定',
 	          cancelButtonText: '取消',
 	          type: 'warning'
 	        }).then(() => {
 	        	_this.ajax(_this,{
-		          url:this.deleteUser,
+		          url:api.getDelResource,
 		          type:"post",
-		          data:{row:this.pgSize,page: this.currentPage-1},
+		          data:{id:_id},
 		          success:function(response){
 		            _this.getUsers();
 					$Message({
@@ -274,10 +316,22 @@ export default {
       return {
       	upUrl:'',
       	dialogtitle:"添加用户",
+      	treeName:'',
       	popUpMsg:'',
+      	treeData:[],
+      	handleUrl:'',
+      	parentIdUrl:'',
+      	dis:false,
+      	addOrChange:false,
+      	props: {
+          label: 'nodeName',
+          children: 'children'
+        },
+        defaultChecked:[],
       	dialogFormVisible: false,
       	dialogParentIdVisible:false,
       	formDialog:{
+      	  id:'',
       	  resourceType:'',
       	  resourceName:'',
       	  resourceUrl:'',
@@ -331,4 +385,5 @@ export default {
 	}
 	.resource .el-form-item__content{text-align:left}
 	.resource .cell{text-align:center}
+	.resource .el-tree-node{ text-align:left}
 </style>

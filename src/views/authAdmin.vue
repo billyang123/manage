@@ -58,13 +58,13 @@ import api_test from '../api/api_test'
 	    },
 	    getChecked(d){
 	    	var arr = [];
-	    	
+
 	    	for (var i = 0; i < d.length; i++) {
 				if(d[i].checked){
 					arr.push(d[i].id);
 				}
 			}
-			
+
 			return arr;
 	    },
     	getRoles(){
@@ -138,7 +138,7 @@ import api_test from '../api/api_test'
 	}
 	.roles-content {
 		text-align: left;
-		
+
 	}
 	.role-box {
 		float: left;
@@ -147,6 +147,6 @@ import api_test from '../api/api_test'
 		top: 0;
 	}
 	.auth-box {
-		
+
 	}
 </style>

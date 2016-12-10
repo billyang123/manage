@@ -218,8 +218,9 @@ Vue.prototype.ajax = function(_this,options){
         }else{
           $MsgBox.alert(response.body.msg)
         }
-        options.error && options.options.error(response)
+        options.error && options.error(response)
     }
+    options.complete && options.complete(response)
   }
   var _err = (response) => {
     // error callback

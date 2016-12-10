@@ -23,8 +23,8 @@
     <!--修改密码-->
     <el-dialog title="修改密码" v-model="dialogPassWordVisible" size="tiny">
       <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="旧密码" prop="oldPass">
-          <el-input type="password" v-model.trim="ruleForm2.oldPass" auto-complete="off"></el-input>
+        <el-form-item label="旧密码" prop="oldPassword">
+          <el-input type="password" v-model.trim="ruleForm2.oldPassword" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="pass">
           <el-input type="password" v-model.trim="ruleForm2.pass" auto-complete="off"></el-input>
@@ -55,7 +55,7 @@ export default {
         if(value.length>18||value.length<6){
           callback(new Error('长度在 6 到 18 个字符'));
         }else{
-          if (this.ruleForm2.checkPass !== '') {
+          if (this.ruleForm2.pass !== '') {
             this.$refs.ruleForm2.validateField('pass');
           }
           callback();
@@ -99,7 +99,7 @@ export default {
       ruleForm2:{oldPassword:'',pass:'',checkPass:''},
       userName:'',
       rules2: {
-        oldPass: [
+        oldPassword: [
           { validator: validatePass1, trigger: 'blur' }
         ],
         pass: [
@@ -120,6 +120,7 @@ export default {
           url:api.changePass,
          type:"post",
          data:{
+           oldPassword:self.ruleForm2.oldPassword,
            password: self.ruleForm2.pass,
            confirmPassword:self.ruleForm2.checkPass
           },
