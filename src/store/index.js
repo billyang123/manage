@@ -1,4 +1,4 @@
-import Vue from 'vue'
+.import Vue from 'vue'
 import Vuex from 'vuex'
 import loginInfo from './modules/login'
 Vue.use(Vuex)

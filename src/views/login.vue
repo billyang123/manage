@@ -120,7 +120,7 @@ export default {
 					if(response.body.status == 0){
 						sessionStorage.setItem('userId', 10001)
                     	sessionStorage.setItem('userName', _this.form.username)
-                    	sessionStorage.setItem('creatorName', response.body.data.user.creatorName)
+                    	sessionStorage.setItem('creatorName', response.body.data.user.userRealName)
                     	localStorage.setItem("menu",response.body.data.resources);
 						_this.$router.push('/')
 					}else{

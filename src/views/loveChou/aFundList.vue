@@ -69,18 +69,6 @@
 	    </el-table-column>
 	  </el-table>
 	  <!-- Form -->
-	<el-dialog title="状态更新" v-model="dialogFormVisible" size="tiny">
-	  <el-form :model="statusForm">
-	    <el-form-item label="理由" :label-width="150">
-	      <el-input type="textarea" v-model="statusForm.textarea" auto-complete="off"></el-input>
-	    </el-form-item>
-	  </el-form>
-	  <div slot="footer" class="dialog-footer">
-	    <el-button @click="dialogFormVisible = false">取 消</el-button>
-	    <el-button type="primary" @click="changeStatus">审核通过</el-button>
-	    <el-button type="primary" @click="changeStatus">审核不通过</el-button>
-	  </div>
-	</el-dialog>
  </div>
 </template>
 <script>
@@ -114,12 +102,7 @@ import api from '../../api/api'
   		}
   	},
     methods: {
-    	showChangeHandle(e){
-    		this.dialogFormVisible = true;
-    	},
-    	changeStatus(e){
-
-    	}
+    	
     }
 }
 </script>

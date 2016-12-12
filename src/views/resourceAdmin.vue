@@ -145,7 +145,7 @@ export default {
 	          	id:self.formDialog.id
 	          },
 	          success:function(response){
-	            console.log(response)
+	            //console.log(response)
 	            self.dialogParentIdVisible = true;
 	            var data;
 
@@ -156,7 +156,7 @@ export default {
 	                 data = JSON.parse(response.body.data.resourceTreeJson);
 	                 self.treeData = data
 	                 self.defaultChecked = response.body.data.checkedIds;
-	                 console.log(self.defaultChecked)
+	                 //console.log(self.defaultChecked)
 	            }
 	           // var data = JSON.parse(response.body.data);
 	          //  console.log(data)
@@ -190,7 +190,7 @@ export default {
 	          success:function(response){
 	            self.getUsers()
 	            self.dialogFormVisible = false;
-	            console.log(response)
+	            //console.log(response)
 	           $Message({
 			            type: 'success',
 			            message: '添加成功!'
@@ -218,7 +218,7 @@ export default {
 	          success:function(response){
 
 	            var data = JSON.parse(response.body.data);
-	            console.log(data)
+	            //console.log(data)
             _this.tableData = data.content;
             _this.total = data.totalElements;
             _this.totalPages = data.totalPages;

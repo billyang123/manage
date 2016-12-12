@@ -179,6 +179,7 @@ export default {
     },
     handlePassWord(){
     this.dialogPassWordVisible = true
+    this.ruleForm2 = {oldPassword:'',pass:'',checkPass:''}
     },
     getUserName(){
        var creatorName = sessionStorage.getItem('creatorName');

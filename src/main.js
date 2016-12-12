@@ -150,8 +150,8 @@ let router = new VueRouter({
         },
         //申请款项列表
         {
-          path:'fundProject',
-          component:fundProject
+          path:'aFundList',
+          component:aFundList
         },
         //打款项目数据
         {
@@ -226,7 +226,6 @@ Vue.prototype.ajax = function(_this,options){
     // error callback
   }
   if(options.type=="post"){
-    console.log(options)
    _this.$http.post(options.url, options.data,{emulateJSON: true,headers:{"Content-Type":"application/x-www-form-urlencoded"}}).then(_callback,_err);
   }
   if(options.type=="get"){
