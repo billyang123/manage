@@ -24,13 +24,13 @@
     <el-dialog title="修改密码" v-model="dialogPassWordVisible" size="tiny">
       <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
         <el-form-item label="旧密码" prop="oldPassword">
-          <el-input type="password" v-model.trim="ruleForm2.oldPassword" auto-complete="off"></el-input>
+          <el-input type="password" v-model.trim="ruleForm2.oldPassword" placeholder="请输入旧密码" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="pass">
-          <el-input type="password" v-model.trim="ruleForm2.pass" auto-complete="off"></el-input>
+          <el-input type="password" v-model.trim="ruleForm2.pass" placeholder="请输入新密码" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="checkPass">
-          <el-input type="password" v-model.trim="ruleForm2.checkPass" auto-complete="off"></el-input>
+          <el-input type="password" v-model.trim="ruleForm2.checkPass" placeholder="请再输入新密码" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -178,8 +178,10 @@ export default {
       // });
     },
     handlePassWord(){
-    this.dialogPassWordVisible = true
-    this.ruleForm2 = {oldPassword:'',pass:'',checkPass:''}
+    this.dialogPassWordVisible = true;
+    this.ruleForm2.oldPassword='';
+    this.ruleForm2.pass='';
+    this.ruleForm2.checkPass='';
     },
     getUserName(){
        var creatorName = sessionStorage.getItem('creatorName');
