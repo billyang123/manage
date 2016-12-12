@@ -13,32 +13,35 @@
 	      label="顺序"
 	      width="150">
 	    </el-table-column>
+      <el-table-column
+        prop="id"
+        label="ID"
+        width="80">
+      </el-table-column>
 	    <el-table-column
 	      prop="groupName"
-	      label="组名">
+	      label="组名"
+        width="120">
 	    </el-table-column>
 	    <el-table-column
 	      prop="resourceName"
-	      label="资源名称">
+	      label="资源名称"
+        width="120">
 	    </el-table-column>
 	    <el-table-column
 	      prop="resourceUrl"
 	      label="资源路径">
 	    </el-table-column>
 	    <el-table-column
+        inline-template
 	      prop="resourceType"
 	      label="资源类型"
-	      width="160">
-	    </el-table-column>
-	    <el-table-column
-	      prop="createTime"
-	      label="创建时间"
-	      width="150">
+	      width="100">
+        <span>{{row.resourceType==0?'菜单':'数据操作'}}</span>
 	    </el-table-column>
 	    <el-table-column
 	      inline-template
 	      :context="_self"
-	      fixed="right"
 	      label="操作"
 	      width="200" type="index">
 	      <span>
@@ -69,22 +72,23 @@
 		    <el-form-item label="资源名称" :label-width="formLabelWidth" prop="resourceName">
 		    	<el-input v-model="formDialog.resourceName" placeholder="请输入资源名称" auto-complete="off"></el-input>
 		    </el-form-item>
-		    <el-form-item label="资源路径" :label-width="formLabelWidth" prop="resourceUrl">
+		    <el-form-item label="资源路径" :label-width="formLabelWidth" v-if="formDialog.resourceType==0">
 		      <el-input v-model="formDialog.resourceUrl" auto-complete="off" placeholder="请输入资源路径"></el-input>
 		    </el-form-item>
+        <el-form-item label="资源路径" :label-width="formLabelWidth" prop="resourceUrl" v-if="formDialog.resourceType==2">
+          <el-input v-model="formDialog.resourceUrl" auto-complete="off" placeholder="请输入资源路径"></el-input>
+        </el-form-item>
 		    <el-form-item label="父节点ID" :label-width="formLabelWidth" prop="parentId" v-if="formDialog.resourceType==2">
-          <el-row>
-            <el-col :span="6"><el-input v-model="formDialog.parentId" :value="formDialog.parentId?formDialog.parentId+'':''" :disabled="true" placeholder="点击获取父节点ID" auto-complete="off"></el-input></el-col>
-            <el-col :span="6" style="margin-left:20px"><el-input :value="formDialog.groupName?formDialog.groupName+'':''" v-model="formDialog.groupName" :disabled="true" placeholder="点击获取组名" auto-complete="off"></el-input></el-col>
-            <el-col :span="6" style="margin-left:20px"><el-button type="primary" @click="handleParentId">点击获取</el-button></el-col>
-          </el-row>
+          <el-input v-model="formDialog.parentId" placeholder="请输入父节点ID" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="组名" :label-width="formLabelWidth" prop="groupName" v-if="formDialog.resourceType==2">
+          <el-input v-model="formDialog.groupName" placeholder="请输入组名" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="父节点ID" :label-width="formLabelWidth" v-if="formDialog.resourceType==0">
-          <el-row>
-            <el-col :span="6"><el-input v-model="formDialog.parentId" :disabled="true" placeholder="点击获取父节点ID" auto-complete="off"></el-input></el-col>
-            <el-col :span="6" style="margin-left:20px"><el-input v-model="formDialog.groupName" :disabled="true" placeholder="点击获取组名" auto-complete="off"></el-input></el-col>
-            <el-col :span="6" style="margin-left:20px"><el-button type="primary" @click="handleParentId">点击获取</el-button></el-col>
-          </el-row>
+          <el-input v-model="formDialog.parentId" placeholder="请输入父节点ID" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="组名" :label-width="formLabelWidth" v-if="formDialog.resourceType==0">
+          <el-input v-model="formDialog.groupName" placeholder="请输入组名" auto-complete="off"></el-input>
         </el-form-item>
 		  </el-form>
 		  <div slot="footer" class="dialog-footer">
@@ -183,23 +187,33 @@ export default {
          if(self.formDialog.id){
             formDialog['id'] = self.formDialog.id;
          }
-          self.ajax(self,{
-	          url:_url,
-	          type:"post",
-	          data:formDialog,
-	          success:function(response){
-	            self.getUsers()
-	            self.dialogFormVisible = false;
-	            console.log(response)
-	           $Message({
-			            type: 'success',
-			            message: '添加成功!'
-			        });
-	          },
-	          complete:function(){
-	            self.dis = false;
-	          }
-	        })
+
+         this.$refs.formDialog.validate((valid) => {
+                if(valid){
+                  self.ajax(self,{
+                    url:_url,
+                    type:"post",
+                    data:formDialog,
+                    success:function(response){
+                      self.getUsers()
+                      self.dialogFormVisible = false;
+                      console.log(response)
+                     $Message({
+                          type: 'success',
+                          message: self.popUpMsg
+                      });
+                    },
+                    complete:function(){
+                      self.dis = false;
+                    }
+                  })
+                }else{
+                self.dis = false;
+                    return false
+
+                }
+
+            })
       },
 
     	handleReset(cb) {
@@ -241,7 +255,7 @@ export default {
 				resourceName:row.resourceName,
 				resourceUrl:row.resourceUrl,
 				groupName:row.groupName,
-				parentId:row.parentId
+				parentId:row.parentId+''
 			};
 			//this.handleReset();
 		},
@@ -365,7 +379,7 @@ export default {
             { required: true, message: '请输入资源路径', trigger: 'blur,change' },
           ],
           parentId: [
-            { required: true, message: '请点击获取父节点ID和组名', trigger: 'blur,change' }
+            { required: true, message: '请输入父节点ID', trigger: 'blur,change' }
           ],
           groupName:[
           	{ required: true, message: '请输入组名', trigger: 'blur,change' }
