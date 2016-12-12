@@ -85,6 +85,7 @@ import aFundList from './views/loveChou/aFundList.vue'
 import loveAmbAppList from './views/loveChou/loveAmbAppList.vue'
 import loveAmbList from './views/loveChou/loveAmbList.vue'
 import certloveAmb from './views/loveChou/certloveAmb.vue'
+import projectDetail from './views/loveChou/projectDetail.vue'
 
 
 // import autocomplete from './components/autocomplete.vue'
@@ -148,10 +149,15 @@ let router = new VueRouter({
           path:'fundProject',
           component:fundProject
         },
-        //申请款项列表
+        // //申请款项列表
+        // {
+        //   path:'aFundList',
+        //   component:aFundList
+        // },
+        //项目详情
         {
-          path:'aFundList',
-          component:aFundList
+          path:'projectDetail',
+          component:projectDetail
         },
         //打款项目数据
         {

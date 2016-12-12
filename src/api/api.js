@@ -1,6 +1,7 @@
 var domain = 'http://118.178.132.182:10088';
 var isDev = /localhost/.test(window.location.host)?true:false;
 var Prefix = isDev?"/api":"";
+console.log(Prefix)
 var api = {
 	//登录
 	doLogin:"/manage/login",
