@@ -19,7 +19,8 @@ import {
   Tabs,
   TabPane,
   Tag,
-  Tree
+  Tree,
+  Upload
 }
 from 'element-ui'
 Vue.use(VueResource)
@@ -59,6 +60,7 @@ Vue.component(Tabs.name, Tabs)
 Vue.component(TabPane.name, TabPane)
 Vue.component(Tag.name, Tag)
 Vue.component(Tree.name, Tree)
+Vue.component(Upload.name, Upload)
 var _MsgBox = MessageBox;
 var _Message = Message;
 var _Loading = Loading;
@@ -86,8 +88,8 @@ import loveAmbAppList from './views/loveChou/loveAmbAppList.vue'
 import loveAmbList from './views/loveChou/loveAmbList.vue'
 import certloveAmb from './views/loveChou/certloveAmb.vue'
 import projectDetail from './views/loveChou/projectDetail.vue'
-
-
+import projectTrends from './views/loveChou/projectTrends.vue'
+import remitApplyList from './views/loveChou/remitApplyList.vue'
 // import autocomplete from './components/autocomplete.vue'
 // Vue.component(autocomplete.name, autocomplete)
 
@@ -141,7 +143,7 @@ let router = new VueRouter({
         },
         //筹款申请列表
         {
-          path:'fundAppList',
+          path:'/fundAppList',
           component:fundAppList
         },
         //筹款项目维护
@@ -156,8 +158,18 @@ let router = new VueRouter({
         // },
         //项目详情
         {
-          path:'projectDetail',
+          path:'projectDetail/:id',
           component:projectDetail
+        },
+        //动态维护
+        {
+          path:'projectTrends/:id',
+          component:projectTrends
+        },
+        //打款纪录
+        {
+          path:'remitApplyList/:id',
+          component:remitApplyList
         },
         //打款项目数据
         {
