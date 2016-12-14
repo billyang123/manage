@@ -1,4 +1,4 @@
-var domain = 'http://118.178.132.182:10088';
+var domain = 'http://120.27.144.150:10086';
 var isDev = /localhost/.test(window.location.host)?true:false;
 var Prefix = isDev?"/api":"";
 var api = {
@@ -61,7 +61,6 @@ var api = {
   getFounderCommentsLook:'/manage/founder/fclistByInteractionId',
   getFounderDataLook:'/manage/founder/findInteractionData',
 
-  //17爱心筹
   fundApplicationList:'/manage/fundraise/applicationlist',
   fundApplicationhandle:'/manage/fundraise/applicationhandle',
   fundGetVolunteerApplyList:'/manage/fundraise/getVolunteerApplyList',
@@ -70,7 +69,26 @@ var api = {
   fundUpdateVolunteerApplyProcesseStatus:'/manage/fundraise/updateVolunteerApplyProcesseStatus',
   fundApproveVolunteer:'/manage/fundraise/approveVolunteer',
   fundGetVolunteerList:'/manage/fundraise/getVolunteerList',
-  fundCancleVolunteer:'/manage/fundraise/cancleVolunteer'
+  fundCancleVolunteer:'/manage/fundraise/cancleVolunteer',
+  fund_getFundraiseProjectList:'/manage/fundraise/getFundraiseProjectList',//回去项目列表
+  fund_maintainProject:'/manage/fundraise/maintainProject',//修改项目基本信息
+  fund_publishPreview:'/manage/fundraise/publishPreview',//上线预览
+  fund_cancelPublishPreview:'/manage/fundraise/cancelPublishPreview',//取消预览
+  fund_publishFundraise:'/manage/fundraise/publishFundraise',//发布筹款
+  fund_closeFundraise:'/manage/fundraise/closeFundraise',//强制关闭
+  fund_getFundraiseStateList:'/manage/fundraise/getFundraiseStateList',//获取动态列表
+  fund_addFunPatienState:'/manage/fundraise/addFunPatienState',//增加动态
+  fund_updateFunPatienState:'/manage/fundraise/updateFunPatienState',//修改动态
+  fund_deleteFunPatienState:'/manage/fundraise/deleteFunPatienState',//删除动态
+  fund_addFundraiseRemit:'/manage/fundraise/addFundraiseRemit',//添加打款记录（待确认）
+  fund_fundraiseRemitApplyList:'/manage/fundraise/fundraiseRemitApplyList',//打款申请列表
+  fund_getRemitApplyByFundIdList:"/manage/fundraise/getRemitApplyByFundIdList",//根据项目id获取打款纪录
+  fund_updateFundraiseRemit:"/manage/fundraise/updateFundraiseRemit",//修改打款纪录
+  fund_getFundraiseProjectById:'/manage/fundraise/getFundraiseProjectById',//根据id获取筹款项目详情
+
+  fund_getFunDonationList:'/manage/fundraise/getFunDonationList',//获取评论列表。参数里面的id是筹款项目的id
+  fund_deleteMessage:"/manage/fundraise/deleteMessage",//删除评论"
+  fund_image:"/uploadoss/image"//上传图片
 };
 for(var index in api){
 	api[index] = Prefix+api[index]

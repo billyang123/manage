@@ -1,86 +1,80 @@
 <template>
- <div class="fundAppList">
+ <div class="fundAppList" style="padding:20px">
+   <h2>爱心筹申请列表</h2>
 	  <el-table
 	    :data="tableData"
 	    border
 	    style="width: 100%">
-	    
-	    <el-table-column
-	      prop="userNickname"
-	      label="申请人昵称"
-	      width="180">
-	    </el-table-column>
-	    <el-table-column
-	      prop="createTime"
-	      label="创建时间"
-	      width="180">
-	    </el-table-column>
-	    <el-table-column
-	      prop="patientName"
-	      label="患者姓名"
-	      width="180">
-	    </el-table-column>
+      <el-table-column
+        prop="createTime"
+        label="创建时间"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="patientName"
+        label="患者姓名"
+        width="130">
+      </el-table-column>
+      <el-table-column
+        prop="linkmanName"
+        label="联系人姓名"
+        width="130">
+      </el-table-column>
+      <el-table-column
+        prop="linkmanPhone"
+        label="联系人电话"
+        width="160">
+      </el-table-column>
 	    <el-table-column
 	      prop="fundraiseProjectTitle"
-	      label="项目标题">
+	      label="筹款项目标题">
 	    </el-table-column>
-	    <el-table-column
-	      prop="fundraiseProjectDuration"
-	      label="筹款持续时间(天数)">
-	    </el-table-column>
-	    <el-table-column
-	      prop="fundraiseHelpCount"
-	      label="当前帮助人数">
-	    </el-table-column>
+      <el-table-column
+        prop="fundraiseProjectDesc"
+        label="筹款项目描述">
+      </el-table-column>
 	    <el-table-column
 	      prop="fundraiseTargetAmount"
-	      label="目标筹款金额">
-	    </el-table-column>
-	    <el-table-column
-	      prop="fundraiseAcquiredAmount"
-	      label="累计打款金额">
-	    </el-table-column>
-	    <el-table-column
-	      prop="fundraiseDonationCount"
-	      label="捐款次数">
-	    </el-table-column>
-	    <el-table-column
-	      prop="fundraiseStartTime"
-	      label="筹款开始时间">
-	    </el-table-column>
-	    <el-table-column
-	      prop="fundraiseEndTime"
-	      label="筹款结束时间">
-	    </el-table-column>
-	    <el-table-column
-	      prop="fundraiseImgKey"
-	      label="筹款图片key">
-	    </el-table-column>
-	    <el-table-column
-	      prop="status"
-	      label="状态">
+	      label="目标筹款金额"
+        width="130">
 	    </el-table-column>
 	    <el-table-column
 	    	inline-template
-	      label="操作">
+	      label="操作"
+        width="220">
 	      <div>
-	      	<el-button size="small" @click="showChangeHandle">审核</el-button>
+          <el-button :plain="true" type="info" @click="handlePass(row.id)" v-if="row.status=='new'">通过</el-button>
+          <el-button :plain="true" type="danger" @click="handleNoPass(row.id)" v-if="row.status=='new'">不通过</el-button>
+          <!--<el-button :plain="true" type="danger" @click="handleNoPass(row.id)" v-if="row.status=='reject'" :disabled="true">不通过</el-button>-->
 	      </div>
 	    </el-table-column>
 	  </el-table>
 	  <!-- Form -->
-	<el-dialog title="审核" v-model="dialogFormVisible" size="tiny">
+	<el-dialog title="爱心筹申请" v-model="dialogFormVisible" size="tiny">
 	  <el-form :model="statusForm" :rules="rules" ref="fundAppListForm">
 	    <el-form-item label="理由" label-width="80px" prop="textarea">
-	      <el-input type="textarea" v-model="statusForm.textarea" auto-complete="off"></el-input>
+	      <el-input type="textarea" v-model="statusForm.textarea" auto-complete="off" placeholder="请输入理由"></el-input>
 	    </el-form-item>
 	  </el-form>
 	  <div slot="footer" class="dialog-footer">
 	    <el-button @click="dialogFormVisible = false">取 消</el-button>
-	    <el-button type="primary" @click="changeStatus('yes')" :disabled="disabled.yes">审核通过</el-button>
-	    <el-button type="primary" @click="changeStatus('no')" :disabled="disabled.no">审核不通过</el-button>
+	    <el-button type="primary" @click="handleSure('no')" :disabled="disabled.no">确定</el-button>
 	  </div>
 	</el-dialog>
+
+   <!--分页-->
+   <div class="block" style="padding-top:30px;padding-bottom:40px">
+     <el-pagination
+       @size-change="handleSizeChange"
+       @current-change="handleCurrentChange"
+       :current-page="currentPage"
+       :page-sizes="[30, 50, 100, 200]"
+       :page-size="currentPageSize"
+       layout="total, sizes, prev, pager, next, jumper"
+       :total="totalElement"
+       v-if="totalPages>1">
+     </el-pagination>
+   </div>
  </div>
 </template>
 <script>
@@ -89,32 +83,21 @@ import api from '../../api/api'
   	name:"fundAppList",
   	data(){
   		return {
+  		  currentPage:1,
+  		  currentPageSize:30,
+  		  totalPages:1,
+  		  totalElement:1,
+  		  tableData:[],
   			disabled:{
   				yes:false,
   				no:false
   			},
   			dialogFormVisible:false,
   			statusForm:{
-  				textarea:""
+  				textarea:"",
+  				id:""
   			},
-  			tableData:[
-  				{
-  					userNickname:"小虎",
-  					createTime:"2016-12-12",
-  					patientName:"患者姓名1",
-  					fundraiseProjectTitle:"项目标题",
-  					fundraiseProjectDuration:'筹款持续时间(天数)',
-  					fundraiseHelpCount:'当前帮助人数',
-  					fundraiseTargetAmount:'目标筹款金额',
-  					fundraiseAcquiredAmount:'已获筹款金额',
-  					fundraiseRemitAmount:'累计打款金额',
-  					fundraiseDonationCount:'捐款次数',
-  					fundraiseStartTime:'筹款开始时间',
-  					fundraiseEndTime:'筹款结束时间',
-  					fundraiseImgKey:'筹款图片key',
-  					status:"状态"
-  				}
-  			],
+  			tableData:[],
   			rules:{
 	    		textarea:[
 	    			{ required: true, message: '请填写理由', trigger: 'change,blur' }
@@ -123,27 +106,120 @@ import api from '../../api/api'
   		}
   	},
     methods: {
-    	showChangeHandle(e){
+
+      //分页
+      handleSizeChange(val) {
+            this.currentPageSize = val;
+            this.currentPage = 1;
+            this.getApplicationList();
+        },
+        handleCurrentChange(val) {
+            this.currentPage = val;
+            this.getApplicationList();
+        },
+
+      //获取筹款申请列表
+      getApplicationList(){
+        let self=this;
+            self.ajax(self,{
+              url:api.fundApplicationList,
+              type:"get",
+              data:{
+                page:self.currentPage-1,
+                size:self.currentPageSize,
+                applicationStatus:"new"
+              },
+              success:function(response){
+                console.log(response);
+                let _data = response.body.data;
+                    if(_data){
+                       self.tableData = _data.content
+                      self.totalElement = _data.totalElements
+                      self.totalPages = _data.totalPages
+                    }
+
+              }
+            })
+      },
+      //不通过
+      handleNoPass(id){
+        let self=this;
+        this.dialogFormVisible = true;
+        console.log(id)
+    		this.statusForm={
+  				textarea:"",
+  				id:id
+  			}
+
+      },
+      //通过
+      handlePass(id){
+        let self=this;
+        $MsgBox.confirm('此操作将通过该申请, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+            }).then(() => {
+          self.ajax(self,{
+            url:api.fundApplicationhandle,
+            type:"post",
+            data:{
+              applicationStatus:"approved",
+              applicationId:id,
+              suggestion:''
+            },
+            success:function(response){
+            self.$router.push({ path: 'projectDetail/'+id})
+            self.getApplicationList()
+
+            }
+          })
+          }).catch (() => {
+                $Message({
+                    type: 'info',
+                    message: '已取消通过'
+                });
+            });
+      },
+      //审核
+    	showChangeHandle(id){
     		this.dialogFormVisible = true;
+    		this.statusForm={
+  				textarea:"",
+  				id:id
+  			}
     	},
-    	changeStatus(type){
+    	//确定
+    	handleSure(type){
     		var _this = this;
+    		var _data={
+  				applicationStatus:"reject",
+  				applicationId:_this.statusForm.id,
+  				suggestion:_this.statusForm.textarea
+  			}
     		this.$refs.fundAppListForm.validate((valid) => {
     			if(valid){
     				_this.disabled[type] = true;
     				_this.ajax(_this,{
-    					url:"#",
+    					url:api.fundApplicationhandle,
     					type:"post",
+    					data:_data,
     					success:(res) => {
     						_this.dialogFormVisible = false;
+    						_this.getApplicationList();
     					},
     					complete:(res) => {
     						_this.disabled[type] = false;
     					}
     				})
-    			}
+    			}else{
+             return false
+          }
     		})
     	}
+    },
+    created() {
+        this.getApplicationList();
     }
 }
 </script>
@@ -151,4 +227,5 @@ import api from '../../api/api'
 	.fundAppList {
 
 	}
+	.fundAppList .cell{text-align:center}
 </style>

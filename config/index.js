@@ -20,11 +20,12 @@ module.exports = {
     env: require('./dev.env'),
     port: 8080,
     assetsSubDirectory: 'static',
-    assetsPublicPath: '',
+    assetsPublicPath: '/',
     proxyTable: {
         '/api': {
           target: 'http://118.178.132.182:10088',
           //target: 'http://test.manage.chinamuxie.com',
+          //target: 'http://118.178.132.182:10088',
           changeOrigin: true,
           pathRewrite: {
               '^/api': '/'

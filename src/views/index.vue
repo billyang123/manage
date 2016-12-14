@@ -26,9 +26,9 @@ export default {
     }
   },
   mounted(){
-    if(!this.checkLogin()){
-      return this.$router.push("/login");
-    }
+    // if(!this.checkLogin()){
+    //   return this.$router.push("/login");
+    // }
   },
   components: {
     TopHeader,SubNav
