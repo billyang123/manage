@@ -354,6 +354,7 @@ import api from '../../api/api'
 		        "detail": "明细",
 		        "fundraiseImgKey":"http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJbLwibUW5iaUK0Xdb7gpFc0WS4HpeYw6T1qNoD4DVvsBbicY5pia7tNW38WrzvnALyHv4nOCGeFKfZBw/0",
 		        "fundraiseProjectResources":[{"fundraisePatientStateId":1,"resourceType":"image","status":"visible","resourceUrl":"http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJbLwibUW5iaUK0Xdb7gpFc0WS4HpeYw6T1qNoD4DVvsBbicY5pia7tNW38WrzvnALyHv4nOCGeFKfZBw/0"}]
+		        // "fundraiseProjectResourcesStr":
 		      },
 		      pickerOptions: {
 		          shortcuts: [{
@@ -522,8 +523,12 @@ import api from '../../api/api'
     	postMyEdit(_form,cbName){
     		var _this = this;
     		console.log(this.$refs[_form] )
-    		this[_form].form.fundraiseProjectResources = this.imgList;
-    		this[_form].form.fundraiseProjectImgurl = this.imgkey;
+
+
+    		this[_form].form.fundraiseProjectResources = JSON.stringify(this.imgList);
+
+    		//this[_form].form.fundraiseProjectImgurl = this.imgkey;
+
     		this.$refs[_form].validate((valid) => {
     			if(valid){
     				_this[_form].disabled = true;
