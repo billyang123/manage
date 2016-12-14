@@ -20,38 +20,35 @@
 	</div>
 	<ul class="object-list">
 
-		<li><span>患者姓名：</span>{{detail.patientName}}</li>
-		<li><span>申请人昵称：</span>{{detail.userNickname}}</li>
-		<li><span>申请人头像：</span><img :src="detail.userHeadimgurl" alt="" style="width:50px;height:50px;"/></li>
-		<li><span>状态：</span>{{status[detail.status]}}</li>
-		<li><span>创建时间：</span>{{detail.createTime}}</li>
-		<li><span>审核时间：</span>{{detail.approveTime}}</li>
-
-		<li><span>筹款原因：</span>{{detail.fundraiseReson}}</li>
-		<li><span>审核意见：</span>{{detail.suggestion}}</li>
-
-		<li><span>筹款持续时间(天数)：</span>{{detail.fundraiseProjectDuration}}</li>
-		<li><span>当前帮助人数：</span>{{detail.fundraiseHelpCount}}</li>
-		<li><span>目标筹款金额：</span>{{detail.fundraiseTargetAmount}}</li>
-		<li><span>已获筹款金额：</span>{{detail.fundraiseAcquiredAmount}}</li>
-		<li><span>累计打款金额：</span>{{detail.fundraiseRemitAmount}}</li>
-		<li><span>分享次数：</span>{{detail.fundraiseShareCount}}</li>
-		<li><span>点击捐款次数：</span>{{detail.fundraiseShareOpenCount}}</li>
-
-		<li><span>点击捐款次数：</span>{{detail.fundraiseDonationClickCount}}</li>
-		<li><span>评论数（包括回复）：</span>{{detail.fundraiseCommentCount}}</li>
-		<li><span>捐款次数：</span>{{detail.fundraiseDonationCount}}</li>
-		<li><span>打开次数：</span>{{detail.openCount}}</li>
-		<li><span>完成原因：</span>{{finishReason[detail.finishReason]?finishReason[detail.finishReason]:''}}</li>
-		<li><span>筹款开始时间：</span>{{detail.fundraiseStartTime}}</li>
-		<li><span>筹款结束时间：</span>{{detail.fundraiseEndTime}}</li>
-		<li><span>封面图片：</span><img :src="detail.fundraiseProjectImgurl" alt="" style="width:50px;height:50px;"/></li>
-		<li><span>列表页图片：</span><img v-for="item in detail.fundraiseProjectResources" :src="item.resourceUrl" alt="" style="width:50px;height:50px;margin-right:5px"/></li>
-		<li><span>操作时间：</span>{{detail.operateTime}}</li>
-		<li><span>分享标题：</span>{{detail.shareTitle}}</li>
-		<li><span>操作时间：</span>{{detail.shareContent}}</li>
-		<li><span>项目描述：</span>{{detail.fundraiseProjectDesc}}</li>
-		<li><span>详情描述：</span>{{detail.detail}}</li>
+		<li><span class="title">患者姓名：</span><span class="con">{{detail.patientName}}</span></li>
+		<li><span class="title">申请人昵称：</span><span class="con">{{detail.userNickname}}</span></li>
+		<li><span class="title">申请人头像：</span><img :src="detail.userHeadimgurl" alt="" style="width:50px;height:50px;"/></li>
+		<li><span class="title">状态：</span>{{status[detail.status]}}</li>
+		<li><span class="title">创建时间：</span><span class="con">{{detail.createTime}}</span></li>
+		<li><span class="title">审核时间：</span><span class="con">{{detail.approveTime}}</span></li>
+		<li><span class="title">筹款原因：</span><span class="con">{{detail.fundraiseReson}}</span></li>
+		<li><span class="title">审核意见：</span><span class="con">{{detail.suggestion}}</span></li>
+		<li><span class="title">筹款持续时间(天数)：</span><span class="con">{{detail.fundraiseProjectDuration}}</span></li>
+		<li><span class="title">当前帮助人数：</span><span class="con">{{detail.fundraiseHelpCount}}</span></li>
+		<li><span class="title">目标筹款金额：</span><span class="con">{{detail.fundraiseTargetAmount}}</span></li>
+		<li><span class="title">已获筹款金额：</span><span class="con">{{detail.fundraiseAcquiredAmount}}</span></li>
+		<li><span class="title">累计打款金额：</span><span class="con">{{detail.fundraiseRemitAmount}}</span></li>
+		<li><span class="title">分享次数：</span><span class="con">{{detail.fundraiseShareCount}}</span></li>
+		<li><span class="title">点击捐款次数：</span><span class="con">{{detail.fundraiseShareOpenCount}}</span></li>
+		<li><span class="title">点击捐款次数：</span><span class="con">{{detail.fundraiseDonationClickCount}}</span></li>
+		<li><span class="title">评论数（包括回复）：</span><span class="con">{{detail.fundraiseCommentCount}}</span></li>
+		<li><span class="title">捐款次数：</span><span class="con">{{detail.fundraiseDonationCount}}</span></li>
+		<li><span class="title">打开次数：</span><span class="con">{{detail.openCount}}</span></li>
+		<li><span class="title">完成原因：</span>{{finishReason[detail.finishReason]?finishReason[detail.finishReason]:''}}</li>
+		<li><span class="title">筹款开始时间：</span><span class="con">{{detail.fundraiseStartTime}}</span></li>
+		<li><span class="title">筹款结束时间：</span><span class="con">{{detail.fundraiseEndTime}}</span></li>
+		<li><span class="title">封面图片：</span><img :src="detail.fundraiseProjectImgurl" alt="" style="width:50px;height:50px;"/></li>
+		<li><span class="title">列表页图片：</span><img v-for="item in detail.fundraiseProjectResources" :src="item.resourceUrl" alt="" style="width:50px;height:50px;margin-right:5px"/></li>
+		<li><span class="title">操作时间：</span><span class="con">{{detail.operateTime}}</span></li>
+		<li><span class="title">分享标题：</span><span class="con">{{detail.shareTitle}}</span></li>
+		<li><span class="title">操作时间：</span><span class="con">{{detail.shareContent}}</span></li>
+		<li><span class="title">项目描述：</span><span class="con">{{detail.fundraiseProjectDesc}}</span></li>
+		<li><span class="title">详情描述：</span><span class="con">{{detail.detail}}</span></li>
 	</ul>
 	<!-- 发起人昵称，目标金额，项目标题，项目详情，患者名字，图片列表，分享主标题、副标题，封面图，筹款时间 -->
 	<el-dialog title="编辑项目" v-model="editProject.visible">
@@ -77,9 +74,24 @@
 	    <el-form-item label="申请人昵称" label-width="150px" prop="userNickname">
 	      <el-input type="text" v-model="editProject.form.userNickname" auto-complete="off"></el-input>
 	    </el-form-item>
+	    <el-form-item label="筹款开始时间" label-width="150px" >
+	    	<div style="text-align:left;">
+			  	<el-date-picker
+			      v-model="editProject.form.fundraiseStartTime"
+			      type="datetime"
+			      format="yyyy-MM-dd HH:mm:ss"
+			      placeholder="选择日期时间"
+			      align="right"
+			      :picker-options="pickerOptions">
+			    </el-date-picker>
+		    </div>
+	      <!-- <el-input type="text" v-model="editProject.form.fundraiseStartTime" auto-complete="off"></el-input> -->
+	    </el-form-item>
 	    <el-form-item label="筹款持续时间(天数)" label-width="150px" prop="fundraiseProjectDuration">
+	      	
 	      <el-input type="text" v-model.number="editProject.form.fundraiseProjectDuration" auto-complete="off"></el-input>
 	    </el-form-item>
+
 	    <el-form-item label="分享标题" label-width="150px" prop="shareTitle">
 	      <el-input type="text" v-model="editProject.form.shareTitle" auto-complete="off"></el-input>
 	    </el-form-item>
@@ -354,7 +366,6 @@ import api from '../../api/api'
 		        "detail": "明细",
 		        "fundraiseImgKey":"http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJbLwibUW5iaUK0Xdb7gpFc0WS4HpeYw6T1qNoD4DVvsBbicY5pia7tNW38WrzvnALyHv4nOCGeFKfZBw/0",
 		        "fundraiseProjectResources":[{"fundraisePatientStateId":1,"resourceType":"image","status":"visible","resourceUrl":"http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJbLwibUW5iaUK0Xdb7gpFc0WS4HpeYw6T1qNoD4DVvsBbicY5pia7tNW38WrzvnALyHv4nOCGeFKfZBw/0"}]
-		        // "fundraiseProjectResourcesStr":
 		      },
 		      pickerOptions: {
 		          shortcuts: [{
@@ -520,13 +531,32 @@ import api from '../../api/api'
 				}
 			})
     	},
+    	getformData(data){
+    		var result = {};
+    		for (var idx in data) {
+    			result[idx] = data[idx]
+    		}
+    		var reso = data.fundraiseProjectResources;
+    		var strArr = [];
+    		for (var i = 0; i < reso.length; i++) {
+    			strArr.push(reso[i].resourceUrl)
+    		}
+    		result.fundraiseProjectResources = strArr.join(',');
+    		return result;
+    	},
+    	pick(e){
+    		console.log(e)
+    	},
     	postMyEdit(_form,cbName){
     		var _this = this;
-    		console.log(this.$refs[_form] )
-
-
-    		this[_form].form.fundraiseProjectResources = JSON.stringify(this.imgList);
-
+ 
+    		var data = _this[_form].form;
+    		if(_form == "editProject"){
+    			this[_form].form.fundraiseProjectResources = this.imgList;
+    			this[_form].form.fundraiseStartTime = (new Date(this[_form].form.fundraiseStartTime)).format('yyyy-MM-dd hh:mm:ss')
+    			data = this.getformData(this[_form].form);
+    			//console.log(this[_form].form.fundraiseStartTime)
+    		}
     		//this[_form].form.fundraiseProjectImgurl = this.imgkey;
 
     		this.$refs[_form].validate((valid) => {
@@ -535,7 +565,7 @@ import api from '../../api/api'
     				_this.ajax(_this,{
     					url:_this[_form].url,
     					type:"post",
-    					data:_this[_form].form,
+    					data:data,
     					success:(res) => {
     						_this[cbName] && _this[cbName](res);
     					},
@@ -560,21 +590,27 @@ import api from '../../api/api'
 	}
 	.object-list li {
 		/*float: left;*/
-		margin: 10px 0;
+		padding: 10px 0;
 		display: -webkit-flex; /* Safari */
   		display: flex;
   		justify-content: flex-start;
   		align-items:center;
+  		border-bottom: 1px solid #eee;
 	}
 	.object-list li.col-50 {
 		width: 50%;
 
 	}
-	.object-list li span {
+	.object-list li .title {
 		font-weight: bold;
 		display: inline-block;
 		width: 200px;
 		text-align: right;
+	}
+	.object-list li .con {
+		display: inline-block;
+		max-width: 800px;
+		text-align: left;
 	}
 	.projectDetail .options {
 		text-align: right;

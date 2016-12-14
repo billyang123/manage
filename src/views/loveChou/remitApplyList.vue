@@ -255,6 +255,7 @@ import api from '../../api/api'
     	postMyEdit(_form,cbName){
     		var _this = this;
     		console.log(this.$refs[_form] )
+    		this[_form].form.remitTime = (new Date(this[_form].form.remitTime)).format('yyyy-MM-dd hh:mm:ss')
     		this.$refs[_form].validate((valid) => {
     			if(valid){
     				_this[_form].disabled = true;

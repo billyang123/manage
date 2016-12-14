@@ -12,6 +12,12 @@
 	      width="180">
 	    </el-table-column>
 	    <el-table-column
+	      prop="userNickname"
+	      label="申请人昵称"
+	      width="150">
+	    </el-table-column>
+	    
+	    <el-table-column
 	      prop="fundraiseProjectDesc"
 	      label="项目描述"
 	      width="500">
@@ -122,6 +128,28 @@ import api from '../../api/api'
   				fundraiseProjectTitle:"项目标题",
   				fundraiseProjectDesc:"项目描述"
   			},
+  			pickerOptions: {
+	          shortcuts: [{
+	            text: '今天',
+	            onClick(picker) {
+	              picker.$emit('pick', new Date());
+	            }
+	          }, {
+	            text: '昨天',
+	            onClick(picker) {
+	              const date = new Date();
+	              date.setTime(date.getTime() - 3600 * 1000 * 24);
+	              picker.$emit('pick', date);
+	            }
+	          }, {
+	            text: '一周前',
+	            onClick(picker) {
+	              const date = new Date();
+	              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+	              picker.$emit('pick', date);
+	            }
+	          }]
+	        },
   			tableData:[
   				{
 		            "id": 1,

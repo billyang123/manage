@@ -360,16 +360,20 @@ import api from '../../api/api'
     	postMyEdit(_form,cbName){
     		var _this = this;
     		console.log(this.$refs[_form] )
-
-    		this[_form].form.fundraisePatientStateResource = this.imgList;
-
+    		//this[_form].form.fundraisePatientStateResource = this.imgList;
+    		var data = _this[_form].form;
+    		if(_form == "editProject"){
+    			this[_form].form.fundraisePatientStateResource = this.imgList;
+    			
+    			data = this.getformData(this[_form].form);
+    		}
     		this.$refs[_form].validate((valid) => {
     			if(valid){
     				_this[_form].disabled = true;
     				_this.ajax(_this,{
     					url:_this[_form].url,
     					type:"post",
-    					data:_this[_form].form,
+    					data:data,
     					success:(res) => {
     						_this[cbName] && _this[cbName](res);
     						_this.$refs[_form].resetFields()
