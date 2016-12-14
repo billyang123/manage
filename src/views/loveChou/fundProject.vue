@@ -28,7 +28,8 @@
 	      label="操作">
 	      <div>
 	      	<!-- <el-button size="small" @click="showChangeHandle('payMoney')">打款</el-button> -->
-	      	<el-button size="small" @click="changeStatus('online',row)" :plain="true" type="info">{{online.status?"取消预览":"在线预览"}}</el-button>
+	      	<el-button size="small" v-if="row.status == 'view'" @click="changeStatus('unOnline',row)" :plain="true" type="info">取消预览</el-button>
+	      	<el-button size="small" v-if="row.status == 'approved'" @click="changeStatus('online',row)" :plain="true" type="info">在线预览</el-button>
 	      	<el-button size="small" @click="changeStatus('publish',row)" :plain="true" type="info" v-if="row.status == 'view'">发布筹款</el-button>
 	      	<el-button size="small" @click="showChangeHandle('forceClose',row)" v-if="row.status != 'finish'" :plain="true" type="info">强制关闭</el-button>
 	      	<!-- <el-button size="small" @click="showChangeHandle('commit')">评论维护1</el-button> -->
@@ -101,9 +102,8 @@ import api from '../../api/api'
   				visible:false,
   				url:"#"
   			},
-  			online:{
-  				status:false
-  			},
+  			online:false,
+  			unOnline:false,
   			publish:{
   				status:false
   			},
@@ -192,16 +192,15 @@ import api from '../../api/api'
     		let _this = this;
     		switch(type){
     			case "online":
-    				if(this.online.status){
-    					txt = '此操作将取消在线预览该项目, 是否继续?';
-    					_url = api.fund_cancelPublishPreview;
-    					success_txt = '取消在线预览该项目成功'
-    				}else{
-    					txt = '此操作将可在线预览该项目, 是否继续?';
-    					_url = api.fund_publishPreview
-    					success_txt = '设置在线预览该项目成功'
-    				}
+    				txt = '此操作将取消在线预览该项目, 是否继续?';
+					_url = api.fund_cancelPublishPreview;
+					success_txt = '取消在线预览该项目成功'
     			break;
+    			case "unOnline":
+    				txt = '此操作将可在线预览该项目, 是否继续?';
+					_url = api.fund_publishPreview
+					success_txt = '设置在线预览该项目成功'
+				break;
     			case "publish":
     				txt = '此操作将发布改筹款项目, 是否继续?';
     				success_txt = '发布改筹款项目成功'
@@ -284,6 +283,7 @@ import api from '../../api/api'
     					type:"post",
     					data:_this[_form].form,
     					success:(res) => {
+    						_this.getObjectList();
     						_this[cbName] && _this[cbName](res);
     					},
     					complete:(res) => {

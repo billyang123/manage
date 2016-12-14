@@ -101,6 +101,7 @@
 		      </ul>
 		      <div class="uploadTarget">
 			      <el-upload
+			      	:show-upload-list="false"
 					  :action="uploadUrl"
 					  :on-success="handleUpSuccess">
 					  <el-button size="small" type="primary">点击上传</el-button>
@@ -145,6 +146,7 @@
 		      </ul>
 		      <div class="uploadTarget">
 			      <el-upload
+			      		:show-upload-list="false"
 					  :action="uploadUrl"
 					  :on-success="handleUpSuccess">
 					  <el-button size="small" type="primary">点击上传</el-button>
@@ -210,9 +212,17 @@ import api from '../../api/api'
   					fundraiseProjectId:1,
   					userNickName:"",
   					userHeadimgUrl:"",
-  					status:"",
+  					status:'visible',
   					content:"",
   					fundraisePatientStateResource:[]
+  				},
+  				rules:{
+  					userNickName:[
+  						 { required: true, message: '请填发布人昵称', trigger: 'change,blur' }
+  					],
+  					userHeadimgUrl:[
+  						 { required: true, message: '请填发布人头像地址', trigger: 'change,blur' }
+  					]
   				}
   			},
   			editTrend:{
@@ -235,6 +245,14 @@ import api from '../../api/api'
   							resourceUrl:'http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJbLwibUW5iaUK0Xdb7gpFc0WS4HpeYw6T1qNoD4DVvsBbicY5pia7tNW38WrzvnALyHv4nOCGeFKfZBw/0'
   						}
   					]
+  				},
+  				rules:{
+  					userNickName:[
+  						 { required: true, message: '请填发布人昵称', trigger: 'change,blur' }
+  					],
+  					userHeadimgUrl:[
+  						 { required: true, message: '请填发布人头像地址', trigger: 'change,blur' }
+  					]
   				}
   			}
   		}
@@ -244,7 +262,7 @@ import api from '../../api/api'
     	
 	    handleUpSuccess(res){
 	    	console.log(res)
-	    	this.addImg(res.data.url)
+	    	this.addImg(res.data)
 	    },
 	    addImg(url){
 	    	this.imgList.push({
@@ -368,8 +386,8 @@ import api from '../../api/api'
     created(){
     	this.id = this.$route.params.id;
     	this.projectTitle = this.$route.query.name
-    	console.log(this.$route)
-    	//this.getTrendList();
+    	//console.log(this.$route)
+    	this.getTrendList();
     }
 }
 </script>

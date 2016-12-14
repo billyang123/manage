@@ -45,8 +45,8 @@
 		<li><span>完成原因：</span>{{finishReason[detail.finishReason]?finishReason[detail.finishReason]:''}}</li>
 		<li><span>筹款开始时间：</span>{{detail.fundraiseStartTime}}</li>
 		<li><span>筹款结束时间：</span>{{detail.fundraiseEndTime}}</li>
-		<li><span>筹款图片key：</span><img :src="detail.fundraiseImgKey" alt="" style="width:50px;height:50px;"/></li>
-		<li><span>列表页图片：</span><img :src="detail.fundraiseProjectImgurl" alt="" style="width:50px;height:50px;"/></li>
+		<li><span>封面图片：</span><img :src="detail.fundraiseProjectImgurl" alt="" style="width:50px;height:50px;"/></li>
+		<li><span>列表页图片：</span><img v-for="item in detail.fundraiseProjectResources" :src="item.resourceUrl" alt="" style="width:50px;height:50px;margin-right:5px"/></li>
 		<li><span>操作时间：</span>{{detail.operateTime}}</li>
 		<li><span>分享标题：</span>{{detail.shareTitle}}</li>
 		<li><span>操作时间：</span>{{detail.shareContent}}</li>
@@ -60,7 +60,7 @@
 	      <el-input type="text" v-model="editProject.form.fundraiseProjectTitle" auto-complete="off"></el-input>
 	    </el-form-item>
 	    <el-form-item label="目标金额" label-width="150px" prop="fundraiseApplyTargetAmount">
-	      <el-input type="text" v-model="editProject.form.fundraiseApplyTargetAmount" auto-complete="off"></el-input>
+	      <el-input type="text" v-model.number="editProject.form.fundraiseApplyTargetAmount" auto-complete="off"></el-input>
 	    </el-form-item>
 	    <el-form-item label="筹款原因" label-width="150px" prop="fundraiseReson">
 	      <el-input type="textarea" v-model="editProject.form.fundraiseReson" auto-complete="off"></el-input>
@@ -72,13 +72,13 @@
 	      <el-input type="text" v-model="editProject.form.linkmanName" auto-complete="off"></el-input>
 	    </el-form-item>
 	    <el-form-item label="联系人电话" label-width="150px" prop="linkmanPhone">
-	      <el-input type="text" v-model="editProject.form.linkmanPhone" auto-complete="off"></el-input>
+	      <el-input type="text" v-model.number="editProject.form.linkmanPhone" auto-complete="off"></el-input>
 	    </el-form-item>
 	    <el-form-item label="申请人昵称" label-width="150px" prop="userNickname">
 	      <el-input type="text" v-model="editProject.form.userNickname" auto-complete="off"></el-input>
 	    </el-form-item>
 	    <el-form-item label="筹款持续时间(天数)" label-width="150px" prop="fundraiseProjectDuration">
-	      <el-input type="text" v-model="editProject.form.fundraiseProjectDuration" auto-complete="off"></el-input>
+	      <el-input type="text" v-model.number="editProject.form.fundraiseProjectDuration" auto-complete="off"></el-input>
 	    </el-form-item>
 	    <el-form-item label="分享标题" label-width="150px" prop="shareTitle">
 	      <el-input type="text" v-model="editProject.form.shareTitle" auto-complete="off"></el-input>
@@ -92,16 +92,16 @@
 	    <el-form-item label="详情描述" label-width="150px" prop="detail">
 	      <el-input type="textarea" v-model="editProject.form.detail" auto-complete="off"></el-input>
 	    </el-form-item>
-	    <el-form-item label="封面图片地址" label-width="150px" prop="fundraiseImgKey">
-	    	<el-input type="text" v-model="editProject.form.fundraiseImgKey" auto-complete="off"></el-input>
+	    <el-form-item label="封面图片地址" label-width="150px">
 			<ul class="img-list" style="padding:10px 0;">
 				<li>
-					<div class="img-box" :style="{backgroundImage:'url('+editProject.form.fundraiseImgKey+')'}"></div>
+					<div class="img-box" :style="{backgroundImage:'url('+imgkey+')'}"></div>
 				</li>
 			</ul>
 			<div class="uploadTarget">
 				<el-upload
-			  action="uploadUrl"
+				:show-upload-list="false"
+			  :action="uploadUrl"
 			  :on-success="handleKeyUpSuccess">
 			  <el-button size="small" type="primary">点击上传</el-button>
 			  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -124,7 +124,8 @@
 		      </ul>
 		      <div class="uploadTarget">
 		      	<el-upload
-				  action="uploadUrl"
+		      	:show-upload-list="false"
+				  :action="uploadUrl"
 				  :on-success="handleUpSuccess">
 				  <el-button size="small" type="primary">点击上传</el-button>
 				  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -192,6 +193,7 @@ import api from '../../api/api'
   		return {
   			id:1,
   			uploadUrl:api.fund_image,
+  			imgkey:"",
   			imgList:[],
   			status:{
   				"new":"申请中",
@@ -240,8 +242,38 @@ import api from '../../api/api'
   					fundraiseProjectTitle:[
   						{ required: true, message: '请填写项目标题', trigger: 'change,blur' }
   					],
+  					fundraiseApplyTargetAmount:[
+  						{ type: 'number', message: '请填写目标金额', trigger: 'change,blur' }
+  					],
+  					fundraiseReson:[
+  						{ required: true, message: '请填写筹款原因', trigger: 'change,blur' }
+  					],
+  					patientName:[
+  						{ required: true, message: '请填写患者姓名', trigger: 'change,blur' }
+  					],
+  					linkmanName:[
+  						{ required: true, message: '请填写联系人姓名', trigger: 'change,blur' }
+  					],
+  					linkmanPhone:[
+  						{ required: true, message: '请填写联系人电话', trigger: 'change,blur' }
+  					],
+  					userNickname:[
+  						{ required: true, message: '请填写昵称', trigger: 'change,blur' }
+  					],
+  					fundraiseProjectDuration:[
+  						{ type: 'number', message: '请正确填写筹款持续时间(天数)', trigger: 'change,blur' }
+  					],
+  					shareTitle:[
+  						{ required: true, message: '请填写分享标题', trigger: 'change,blur' }
+  					],
+  					shareContent:[
+  						{ required: true, message: '请填写分享内容', trigger: 'change,blur' }
+  					],
   					fundraiseProjectDesc:[
-  						{ required: true, message: '请填写项目描述', trigger: 'change,blur' }
+  						{ required: true, message: '请填写筹款项目描述', trigger: 'change,blur' }
+  					],
+  					detail:[
+  						{ required: true, message: '请填写详情描述', trigger: 'change,blur' }
   					]
   				},
   				form:{
@@ -349,11 +381,11 @@ import api from '../../api/api'
   	},
     methods: {
     	handleKeyUpSuccess(res){
-    		this.editProject.form.fundraiseImgKey = res.data.url;
+    		this.imgkey = res.data;
     	},
     	handleUpSuccess(res){
 	    	console.log(res)
-	    	this.addImg(res.data.url)
+	    	this.addImg(res.data)
 	    },
 	    addImg(url){
 	    	this.imgList.push({
@@ -363,7 +395,9 @@ import api from '../../api/api'
 			});
 		
 	    },
-
+	    removeImg(idx){
+	    	this.imgList.splice(idx,1);
+	    },
     	handleSizeChange(val){
     		this.commit.size = val;
     		this.getCommitList();
@@ -382,7 +416,8 @@ import api from '../../api/api'
     		}
     		if(type = "editProject"){
     			this.editProject.form = this.detail;
-	    		this.imgList = detail.fundraiseProjectResources;
+	    		this.imgList = this.detail.fundraiseProjectResources;
+	    		this.imgkey = this.detail.fundraiseImgKey;
     		}
     	},
     	deleteCommit(id){
@@ -488,6 +523,7 @@ import api from '../../api/api'
     		var _this = this;
     		console.log(this.$refs[_form] )
     		this[_form].form.fundraiseProjectResources = this.imgList;
+    		this[_form].form.fundraiseProjectImgurl = this.imgkey;
     		this.$refs[_form].validate((valid) => {
     			if(valid){
     				_this[_form].disabled = true;
@@ -509,7 +545,7 @@ import api from '../../api/api'
     },
     created(){
     	this.id = this.$route.params.id;
-    	//this.getDetail();
+    	this.getDetail();
     }
 }
 </script>
@@ -574,6 +610,9 @@ import api from '../../api/api'
 			margin-bottom: 10px;
 			border: 1px solid #ddd;
 			border-radius: 4px;
+			&:hover {
+				border: 1px solid #b90e25;
+			}
 		}
 	}
 </style>
