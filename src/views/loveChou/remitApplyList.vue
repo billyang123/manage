@@ -233,6 +233,7 @@ import api from '../../api/api'
     		}
     	},
     	getPayList(){
+    		var _this = this;
     		///fund_getRemitApplyByFundIdList
     		this.ajax(this,{
 				url:api.fund_getRemitApplyByFundIdList,
@@ -243,7 +244,7 @@ import api from '../../api/api'
 					size:this.size
 				},
 				success:(res) => {
-					console.log(res)
+					//console.log(res)
 					_this.detail = res.body.data;
 					_this.total = res.body.data.totalElements
 				},
