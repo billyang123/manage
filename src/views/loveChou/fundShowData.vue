@@ -245,6 +245,16 @@ import api from '../../api/api'
   		}
   	},
     methods: {
+      //分页
+      handleSizeChange(val) {
+            this.page.currentPageSize = val;
+            this.page.currentPage = 1;
+            this.getData();
+        },
+      handleCurrentChange(val) {
+            this.page.currentPage = val;
+            this.getData();
+      },
     	showChangeHandle(e){
     		this.dialogFormVisible = true;
     	},

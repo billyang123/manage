@@ -143,7 +143,7 @@ let router = new VueRouter({
         },
         //筹款申请列表
         {
-          path:'/fundAppList',
+          path:'fundAppList',
           component:fundAppList
         },
         //筹款项目维护

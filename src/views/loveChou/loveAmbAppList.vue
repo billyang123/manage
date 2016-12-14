@@ -116,7 +116,7 @@ import api from '../../api/api'
       handleCurrentChange(val) {
         this.page.currentPage = val;
         this.getData();
-       },
+      },
       onSearch() {
         var self = this;
         console.log(self.formInline.region);
