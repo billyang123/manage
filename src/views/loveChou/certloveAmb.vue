@@ -1,104 +1,68 @@
 <template>
- <div class="fundAppList">
-	  <el-table
-	    :data="tableData"
-	    border
-	    style="width: 100%">
-	    
-	    <el-table-column
-	      prop="fundraiseProjectTitle"
-	      label="项目标题"
-	      width="180">
-	    </el-table-column>
-	    <el-table-column
-	      prop="fundraiseProjectDesc"
-	      label="项目描述"
-	      width="400">
-	    </el-table-column>
-	    <el-table-column
-	    	inline-template
-	      label="操作">
-	      <div>
-	      	<el-button size="small" @click="showChangeHandle('editProject')">编辑</el-button>
-	      	<el-button size="small" @click="showChangeHandle('payMoney')">打款</el-button>
-	      	<el-button size="small" @click="changeStatus('online')">{{online?"取消预览":"在线预览"}}</el-button>
-	      	<el-button size="small" @click="changeStatus('forceClose')" v-if="!forceClose">强制关闭</el-button>
-	      	<el-button size="small" @click="showChangeHandle('commit')">评论维护</el-button>
-	      </div>
-	    </el-table-column>
-	  </el-table>
-	  <!-- Form -->
-	<el-dialog title="编辑项目" v-model="editProject.visible" size="large">
-	  <el-form :model="editProject.form" :rules="editProject.rules" ref="editProject">
-	    <el-form-item label="项目标题" label-width="150px" prop="fundraiseProjectTitle">
-	      <el-input type="text" v-model="editProject.form.fundraiseProjectTitle" auto-complete="off"></el-input>
-	    </el-form-item>
-	    <el-form-item label="项目描述" label-width="150px" prop="fundraiseProjectDesc">
-	      <el-input type="textarea" v-model="editProject.form.fundraiseProjectDesc" auto-complete="off"></el-input>
-	    </el-form-item>
-	  </el-form>
-	  <div slot="footer" class="dialog-footer">
-	    <el-button @click="editProject.visible = false">取 消</el-button>
-	    <el-button type="primary" @click="postMyEdit('editProject')" :disabled="editProject.disabled">保存</el-button>
-	  </div>
-	</el-dialog>
-	<el-dialog title="打款" v-model="payMoney.visible">
-		<div style="text-align: left;padding:0 40px;">
-			<p>项目标题:{{curProject.fundraiseProjectTitle}}</p>
-	  		<p>项目描述:{{curProject.fundraiseProjectDesc}}</p>
-		</div>
-	  	<el-form :inline="true" :model="payMoney.form" class="demo-form-inline">
-		  <el-form-item>
-		    <el-input v-model="payMoney.form.money" placeholder="金额"></el-input>
-		  </el-form-item>
-		  <el-form-item>
-		  	<el-date-picker
-		      v-model="payMoney.form.time"
-		      type="datetime"
-		      placeholder="选择日期时间"
-		      align="right"
-		      :picker-options="pickerOptions">
-		    </el-date-picker>
-		  </el-form-item>
-		  <el-form-item>
-		    <el-button type="primary" @click="doPayMoney">打款</el-button>
-		  </el-form-item>
-		</el-form>
-	</el-dialog>
-	<el-dialog title="评论维护" v-model="commit.visible" size="large">
-		<el-table
-		    :data="commitList"
-		    border
-		    style="width: 100%">
-		    <el-table-column
-		      prop="time"
-		      label="时间"
-		      width="180">
-		    </el-table-column>
-		    <el-table-column
-		      prop="name"
-		      label="评论者"
-		      width="180">
-		    </el-table-column>
-		    <el-table-column
-		      prop="reName"
-		      label="被评论者"
-		      width="180">
-		    </el-table-column>
-		    <el-table-column
-		      prop="content"
-		      label="评论内容"
-		      width="400">
-		    </el-table-column>
-		    <el-table-column
-		    	inline-template
-		      label="操作">
-		      <div>
-		      	<el-button size="small" type="danger" @click="deletePost('')">删除</el-button>
-		      </div>
-		    </el-table-column>
-		  </el-table>
-	</el-dialog>
+ <div class="certloveAmb" style="padding:20px">
+   <h2>会员信息查询</h2>
+   <div class="certloveAmbSearch">
+     <el-form :inline="true" class="demo-form-inline" :rules="rules" :model="form" ref="form">
+       <el-form-item prop="phoneInput">
+         <el-input
+           placeholder="请输入查询手机号"
+           v-model.number="form.phoneInput" :maxlength="11">
+         </el-input>
+       </el-form-item>
+       <el-form-item>
+         <el-button type="primary" @click="onSearch" :disabled="btnBl">查询</el-button>
+       </el-form-item>
+     </el-form>
+   </div>
+   <div class="volunteerList" v-if="dataBl">
+     <el-table
+       :data="tableData"
+       border
+       style="width: 100%">
+       <el-table-column
+         prop="userNickname"
+         label="用户昵称"
+         width="260">
+       </el-table-column>
+       <el-table-column
+         prop="userPhone"
+         label="用户手机号"
+         width="200">
+       </el-table-column>
+       <el-table-column
+         inline-template
+         prop="userHeadimgurl"
+         label="用户头像"
+         width="100">
+         <span><img :src="row.userHeadimgurl" style="width:80px;height:80px; border-radius:100%"></span>
+       </el-table-column>
+       <el-table-column
+         prop="userCreateTime"
+         label="用户创建时间"
+         width="200">
+       </el-table-column>
+       <el-table-column
+         inline-template
+         prop="userVolunteerFlag"
+         label="爱心大使标记">
+         <span>{{Volunteer[row.userVolunteerFlag]}}</span>
+       </el-table-column>
+       <el-table-column
+         inline-template
+         label="操作"
+         width="160">
+         <div>
+           <div v-if="resultBl">
+             <el-button :plain="true" type="info" @click="handleSubmit('adopt',row.userPhone)" v-if="row.userVolunteerFlag=='normal'">认证</el-button>
+             <!--<el-button :plain="true" type="danger" @click="handleSubmit('reject',row.userPhone)" v-if="row.userVolunteerFlag=='normal'">不认证</el-button>-->
+           </div>
+           <el-button :plain="true" type="danger" @click="handleRemove(row.id,'normal')" v-if="row.userVolunteerFlag=='volunteer'">撤销认证</el-button>
+           <el-button :plain="true" type="danger" @click="handleRemove(row.id,'normal')" v-if="result=='adopt'">撤销认证</el-button>
+         </div>
+       </el-table-column>
+     </el-table>
+   </div>
+
  </div>
 </template>
 <script>
@@ -106,141 +70,125 @@ import api from '../../api/api'
  export default {
   	name:"fundProject",
   	data(){
+  	  var checkAge = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('手机号不能为空'));
+        }
+        setTimeout(() => {
+          if (!Number.isInteger(value)) {
+            callback(new Error('请输入正确手机号'));
+          } else {
+          let _val=value+'';
+            if (_val.length != 11) {
+              callback(new Error('请输入正确手机号'));
+            } else {
+              callback();
+            }
+          }
+        }, 1000);
+      };
   		return {
-  			commitList:[
-  				{
-  					name:"",
-  					reName:"",
-  					time:"",
-  					content:""
-  				}
-  			],
-  			editProject:{
-  				disabled:false,
-  				visible:false,
-  				form:{
-  					fundraiseProjectTitle:"",
-  					fundraiseProjectDesc:""
-  				},
-  				rules:{
-  					fundraiseProjectTitle:[
-  						{ required: true, message: '请填写项目标题', trigger: 'change,blur' }
-  					],
-  					fundraiseProjectDesc:[
-  						{ required: true, message: '请填写项目描述', trigger: 'change,blur' }
-  					]
-  				}
-  			},
-  			payMoney:{
-  				disabled:false,
-  				visible:false,
-  				form:{
-  					money:"",
-  					time:""
-  				}
-  			},
-  			onlineTxt:{
-  				on:"在线预览",
-  				off:"取消预览"
-  			},
-  			commit:{
-  				disabled:false,
-  				visible:false
-  			},
-  			online:false,
-  			forceClose:false,
-  			curProject:{
-  				fundraiseProjectTitle:"项目标题",
-  				fundraiseProjectDesc:"项目描述"
-  			},
-  			tableData:[
-  				{
-  					fundraiseProjectPitle:"项目标题",
-  					fundraiseProjectDesc:"项目描述"
-  				}
-  			],
-  			pickerOptions: {
-	          shortcuts: [{
-	            text: '今天',
-	            onClick(picker) {
-	              picker.$emit('pick', new Date());
-	            }
-	          }, {
-	            text: '昨天',
-	            onClick(picker) {
-	              const date = new Date();
-	              date.setTime(date.getTime() - 3600 * 1000 * 24);
-	              picker.$emit('pick', date);
-	            }
-	          }, {
-	            text: '一周前',
-	            onClick(picker) {
-	              const date = new Date();
-	              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-	              picker.$emit('pick', date);
-	            }
-	          }]
-	        }
+  		  result:'',
+  		  resultBl:true,
+  		  form:{
+  		    phoneInput:''
+  		  },
+  		  rules: {
+  		     phoneInput: [
+            { validator: checkAge, trigger: 'blur,change' }
+          ]
+          //phoneInput: [
+          //{required: true, message: '请输入查询手机号', trigger: 'blur,change'},
+          //{type: 'number', message: '请输入正确手机号', trigger: 'blur,change'}
+          //]
+        },
+        tableData:[],
+        Volunteer:{
+          "normal":"不是志愿者",
+          "volunteer":"志愿者"
+        },
+        dataBl:false,
+        btnBl:false
 
   		}
   	},
     methods: {
-    	showChangeHandle(type){
-    		this[type].visible = true;
-    	},
-    	doPayMoney(){
+      onSearch(){
+        var self = this;
+        self.btnBl = true;
+        self.$refs.form.validate((valid)=>{
+          if(valid){
+            self.ajax(self,{
+            url:api.fundGetVolunteerInfo,
+            type:"post",
+            data:{
+              volunteerPhone:self.form.phoneInput
+            },
+            success:function(response){
 
-    	},
-    	changeStatus(type){
-    		this[type] = !this[type]
-    	},
-    	deletePost(url,id,type){
-    		console.log(url)
-    		$MsgBox.confirm('此操作将删除该'+type+', 是否继续?', '提示', {
-	          confirmButtonText: '确定',
-	          cancelButtonText: '取消',
-	          type: 'warning'
-	        }).then(() => {
-	          _this.ajax(this,{
-	            url:url,
-	            type:"post",
-	            data:{
-	              id:id
-	            },
-	            success:function(response){
-	              	
-	            }
-	          })
-	        }).catch(() => {
-	          
-	        });
-    	},
-    	postMyEdit(_form){
-    		var _this = this;
-    		console.log(this.$refs[_form] )
-    		this.$refs[_form].validate((valid) => {
-    			if(valid){
-    				_this[_form].disabled = true;
-    				_this.ajax(_this,{
-    					url:"#",
-    					type:"post",
-    					data:_this[_form].form,
-    					success:(res) => {
-    						
-    					},
-    					complete:(res) => {
-    						_this[_form].disabled = false;
-    						_this[_form].visible = false;
-    					}
-    				})
-    			}
-    		})
-    	}
+              let _data = response.body.data;
+              if(_data){
+                 self.tableData = _data
+                  self.dataBl=true;
+                 //self.page.totalElement = _data.totalElements
+                 //self.page.totalPages = _data.totalPages
+              }
+           },
+           complete:function(){
+              self.btnBl = false;
+           }
+            })
+          }else{
+            self.btnBl = false;
+             return false
+          }
+        })
+
+      },
+      //认证和不认证
+      handleSubmit(status,phone){
+        var self = this;
+        self.ajax(self,{
+            url:api.fundApproveVolunteer,
+            type:"post",
+            data:{
+              volunteerPhone:phone,
+              applyStatus:status
+            },
+            success:function(response){
+              let _data = response.body.data;
+              self.result = _data;
+              self.resultBl = false
+              if(_data){
+                 //self.tableData = _data
+              }
+           },
+            })
+      },
+      //撤销认证
+      handleRemove(volunteerId,flag){
+        var self = this;
+        self.ajax(self,{
+            url:api.fundCancleVolunteer,
+            type:"post",
+            data:{
+              id:volunteerId,
+              userVolunteerFlag:flag
+            },
+            success:function(response){
+              let _data = response.body.data;
+
+              if(_data){
+                 self.result = _data;
+                 self.resultBl = true;
+                 self.tableData[0].userVolunteerFlag = "normal";
+              }
+           },
+            })
+      }
     }
 }
 </script>
 <style>
-	.fundAppList {
-
-	}
+	.certloveAmb .cell {text-align:center}
 </style>

@@ -1,7 +1,6 @@
 var domain = 'http://120.27.144.150:10086';
 var isDev = /localhost/.test(window.location.host)?true:false;
 var Prefix = isDev?"/api":"";
-console.log(Prefix)
 var api = {
 	//登录
 	doLogin:"/manage/login",
@@ -62,7 +61,15 @@ var api = {
   getFounderCommentsLook:'/manage/founder/fclistByInteractionId',
   getFounderDataLook:'/manage/founder/findInteractionData',
 
-
+  fundApplicationList:'/manage/fundraise/applicationlist',
+  fundApplicationhandle:'/manage/fundraise/applicationhandle',
+  fundGetVolunteerApplyList:'/manage/fundraise/getVolunteerApplyList',
+  fundGetVolunteerInfo:'/manage/fundraise/getVolunteerInfo',
+  fundGetFundraiseProjectDataList:'/manage/fundraise/getFundraiseProjectDataList',
+  fundUpdateVolunteerApplyProcesseStatus:'/manage/fundraise/updateVolunteerApplyProcesseStatus',
+  fundApproveVolunteer:'/manage/fundraise/approveVolunteer',
+  fundGetVolunteerList:'/manage/fundraise/getVolunteerList',
+  fundCancleVolunteer:'/manage/fundraise/cancleVolunteer',
   fund_getFundraiseProjectList:'/manage/fundraise/getFundraiseProjectList',//回去项目列表
   fund_maintainProject:'/manage/fundraise/maintainProject',//修改项目基本信息
   fund_publishPreview:'/manage/fundraise/publishPreview',//上线预览
@@ -82,7 +89,6 @@ var api = {
   fund_getFunDonationList:'/manage/fundraise/getFunDonationList',//获取评论列表。参数里面的id是筹款项目的id
   fund_deleteMessage:"/manage/fundraise/deleteMessage",//删除评论"
   fund_image:"/uploadoss/image"//上传图片
-
 };
 for(var index in api){
 	api[index] = Prefix+api[index]

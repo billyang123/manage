@@ -282,8 +282,7 @@ default {
                     }
                   })
 
-            }).
-            catch (() => {
+            }).catch (() => {
                 $Message({
                     type: 'info',
                     message: '已取消下线'
