@@ -130,6 +130,7 @@ import api from '../../api/api'
               if(_data){
                  self.tableData = _data
                   self.dataBl=true;
+                  self.result='';
                  //self.page.totalElement = _data.totalElements
                  //self.page.totalPages = _data.totalPages
               }
@@ -145,7 +146,7 @@ import api from '../../api/api'
         })
 
       },
-      //认证和不认证
+      //认证
       handleSubmit(status,phone){
         var self = this;
         self.ajax(self,{
@@ -157,10 +158,12 @@ import api from '../../api/api'
             },
             success:function(response){
               let _data = response.body.data;
-              self.result = _data;
-              self.resultBl = false
               if(_data){
+                self.result = _data;
+                self.resultBl = false
                  //self.tableData = _data
+                 self.tableData[0].userVolunteerFlag = "volunteer";
+                 self.result='';
               }
            },
             })
