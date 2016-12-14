@@ -24,6 +24,7 @@ module.exports = {
     proxyTable: {
         '/api': {
           target: 'http://118.178.132.182:10088',
+          //target: 'http://test.manage.chinamuxie.com',
           changeOrigin: true,
           pathRewrite: {
               '^/api': '/'

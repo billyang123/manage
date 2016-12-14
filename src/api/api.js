@@ -1,7 +1,6 @@
 var domain = 'http://118.178.132.182:10088';
 var isDev = /localhost/.test(window.location.host)?true:false;
 var Prefix = isDev?"/api":"";
-console.log(Prefix)
 var api = {
 	//登录
 	doLogin:"/manage/login",
@@ -60,7 +59,18 @@ var api = {
   getFounderReplayDel:'/manage/founder/deleteCommentReply',
   getFounderReplayCheck:'/manage/founder/approveCommentReply',
   getFounderCommentsLook:'/manage/founder/fclistByInteractionId',
-  getFounderDataLook:'/manage/founder/findInteractionData'
+  getFounderDataLook:'/manage/founder/findInteractionData',
+
+  //17爱心筹
+  fundApplicationList:'/manage/fundraise/applicationlist',
+  fundApplicationhandle:'/manage/fundraise/applicationhandle',
+  fundGetVolunteerApplyList:'/manage/fundraise/getVolunteerApplyList',
+  fundGetVolunteerInfo:'/manage/fundraise/getVolunteerInfo',
+  fundGetFundraiseProjectDataList:'/manage/fundraise/getFundraiseProjectDataList',
+  fundUpdateVolunteerApplyProcesseStatus:'/manage/fundraise/updateVolunteerApplyProcesseStatus',
+  fundApproveVolunteer:'/manage/fundraise/approveVolunteer',
+  fundGetVolunteerList:'/manage/fundraise/getVolunteerList',
+  fundCancleVolunteer:'/manage/fundraise/cancleVolunteer'
 };
 for(var index in api){
 	api[index] = Prefix+api[index]

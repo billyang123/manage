@@ -1,7 +1,7 @@
 <template>
 	<div class="main">
 		<TopHeader></TopHeader>
-		
+
 		<div class="page-content">
 			<div class="SubNav-box">
 				<SubNav></SubNav>
@@ -36,7 +36,7 @@ export default {
 }
 </script>
 <style>
-	
+
 	.SubNav-box {
 		position: absolute;
 		top: 0;
