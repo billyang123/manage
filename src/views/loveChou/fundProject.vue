@@ -85,7 +85,7 @@ import api from '../../api/api'
   			status:{
   				"new":"申请中",
   				"reject":"审核不通过",
-  				"pass":"审核通过",
+  				"approved":"审核通过",
   				"view":"预览",
   				"process":"筹款中",
   				"finish":"筹款完成"

@@ -40,7 +40,6 @@ export default {
     },
     handler(){
     	if(document.body.scrollTop > 100){
-			console.log(document.body.scrollTop)
 			this.pos = "fixed";
 			// this.top = 0
 		}else{

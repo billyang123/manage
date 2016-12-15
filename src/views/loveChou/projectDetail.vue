@@ -444,7 +444,7 @@ import api from '../../api/api'
     		if(type = "editProject"){
     			this.editProject.form = this.detail;
     			this.editProject.form.fundraiseStartTime = this.editProject.form.fundraiseStartTime || (new Date()).format('yyyy-MM-dd hh:mm:ss');
-    			this.editProject.form.fundraiseProjectDuration = this.editProject.form.fundraiseProjectDuration || "15";
+    			this.editProject.form.fundraiseProjectDuration = this.editProject.form.fundraiseProjectDuration || "10";
 	    		this.imgList = this.detail.fundraiseProjectResources;
 	    		this.imgkey = this.detail.fundraiseProjectImgurl;
 	    		this.editProject.form.fundraiseTargetAmount = this.editProject.form.fundraiseTargetAmount+""
