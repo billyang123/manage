@@ -2,12 +2,12 @@
 	<div class="main">
 		<TopHeader></TopHeader>
 
-		<div class="page-content">
-			<div class="SubNav-box" :style="{left:left+'px',position:pos,top:top+'px'}">
+		<div class="page-content" :style="{paddingLeft:pd+'px'}">
+			<div class="SubNav-box" :style="{left:left+'px',position:pos,top:top+'px',height:wh+'px'}">
 				<SubNav></SubNav>
 				<div class="menu-icon" @click="showMenu"><i class="el-icon-menu" v-if="left==-200"></i><i class="el-icon-d-arrow-left" v-if="left==0"></i></div>
 			</div>
-			<div class="content">
+			<div class="content" :style="{height:wh+'px'}">
 				<router-view></router-view>
 			</div>
 		</div>
@@ -24,7 +24,9 @@ export default {
   	return {
   		left:-200,
   		top:0,
-  		pos:"absolute"
+  		pd:0,
+  		pos:"absolute",
+  		wh:window.innerHeight
   	}
   },
   methods:{
@@ -34,6 +36,7 @@ export default {
     },
     showMenu(){
     	this.left = this.left==0?-200:0;
+    	this.pd = this.pd==0?200:0;
     },
     handler(){
     	if(document.body.scrollTop > 100){
@@ -87,6 +90,7 @@ export default {
 		position: relative;
 		height: 100%;
 		bottom: 0;
+		transition: padding 0.3s;
 	}
 	.content {
 		background-color: #fff;

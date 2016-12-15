@@ -24,6 +24,8 @@
 		<li><span class="title">患者实际姓名：</span><span class="con">{{detail.acturalPatientName}}</span></li>
 		<li><span class="title">申请人昵称：</span><span class="con">{{detail.userNickname}}</span></li>
 		<li><span class="title">申请人头像：</span><img :src="detail.userHeadimgurl" alt="" style="width:50px;height:50px;"/></li>
+		<li><span class="title">联系人姓名：</span><span class="con">{{detail.linkmanName}}</span></li>
+		<li><span class="title">申请人电话：</span><span class="con">{{detail.linkmanPhone}}</span></li>
 		<li><span class="title">状态：</span>{{status[detail.status]}}</li>
 		<li><span class="title">创建时间：</span><span class="con">{{detail.createTime}}</span></li>
 		<li><span class="title">审核时间：</span><span class="con">{{detail.approveTime}}</span></li>
