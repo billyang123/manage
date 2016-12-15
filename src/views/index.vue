@@ -3,8 +3,9 @@
 		<TopHeader></TopHeader>
 
 		<div class="page-content">
-			<div class="SubNav-box">
+			<div class="SubNav-box" :style="{left:left+'px',position:pos,top:top+'px'}">
 				<SubNav></SubNav>
+				<div class="menu-icon" @click="showMenu"><i class="el-icon-menu" v-if="left==-200"></i><i class="el-icon-d-arrow-left" v-if="left==0"></i></div>
 			</div>
 			<div class="content">
 				<router-view></router-view>
@@ -19,16 +20,41 @@ import SubNav from '../components/SubNav'
 
 export default {
   name: 'index',
+  data(){
+  	return {
+  		left:-200,
+  		top:0,
+  		pos:"absolute"
+  	}
+  },
   methods:{
     checkLogin(){
       let userName = sessionStorage.getItem('userName');
       return userName?true:false;
+    },
+    showMenu(){
+    	this.left = this.left==0?-200:0;
+    },
+    handler(){
+    	if(document.body.scrollTop > 100){
+			console.log(document.body.scrollTop)
+			this.pos = "fixed";
+			// this.top = 0
+		}else{
+			this.pos = "absolute";
+			// this.top = 100
+		}
     }
   },
   mounted(){
+  		var _this = this;
      if(!this.checkLogin()){
        return this.$router.push("/login");
      }
+    var handler = function (e) {
+		_this.handler()
+  	}
+  	window.onscroll = handler
   },
   components: {
     TopHeader,SubNav
@@ -38,17 +64,26 @@ export default {
 <style>
 
 	.SubNav-box {
-		position: absolute;
-		top: 0;
-		left: 0;
+		position: fixed;
+		top: 100px;
+		left: -200px;
 		bottom: 0;
 		width: 200px;
 		height: 100%;
 		background-color: #324057;
-
+		transition: left 0.3s;
+		z-index: 99;
+	}
+	.menu-icon {
+		position: absolute;
+		top: 0;
+		right: -56px;
+		cursor: pointer;
+		background-color: #324057;
+		padding: 17px 20px;
+		color: #fff;
 	}
 	.page-content {
-		padding-left: 200px;
 		position: relative;
 		height: 100%;
 		bottom: 0;
@@ -56,7 +91,5 @@ export default {
 	.content {
 		background-color: #fff;
 		min-height: 500px;
-
-
 	}
 </style>

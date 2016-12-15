@@ -30,6 +30,9 @@ body {
   text-align: center;
   color: #2c3e50;
 }
+.main {
+  background-color: #fff;
+}
 .page-content {
   margin: 0 auto;
 }

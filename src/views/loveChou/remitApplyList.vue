@@ -154,8 +154,8 @@ import api from '../../api/api'
 		            "fundraiseProjectId": 1,
 		            "applyAmount": 2000,
 		            "remitAmount": 2000,
-		            "createTime": "2016-12-12 09:20:13",
-		            "remitTime": "2016-12-12 09:20:13",
+		            "createTime": (new Date()).format('yyyy-MM-dd hh:mm:ss'),
+		            "remitTime": (new Date()).format('yyyy-MM-dd hh:mm:ss'),
 		            "status": "new"
   				},
   				rules:{
@@ -175,8 +175,8 @@ import api from '../../api/api'
 		            "fundraiseProjectId": 1,
 		            "applyAmount": 2000,
 		            "remitAmount": 2000,
-		            "createTime": "2016-12-12 09:20:13",
-		            "remitTime": "2016-12-12 09:20:13",
+		            "createTime": (new Date()).format('yyyy-MM-dd hh:mm:ss'),
+		            "remitTime": (new Date()).format('yyyy-MM-dd hh:mm:ss'),
 		            "status": "new"
   				},
   				rules:{

@@ -36,7 +36,7 @@
 		<li><span class="title">已获筹款金额：</span><span class="con">{{detail.fundraiseAcquiredAmount}}元</span></li>
 		<li><span class="title">累计打款金额：</span><span class="con">{{detail.fundraiseRemitAmount}}元</span></li>
 		<li><span class="title">分享次数：</span><span class="con">{{detail.fundraiseShareCount}}</span></li>
-		<li><span class="title">点击捐款次数：</span><span class="con">{{detail.fundraiseShareOpenCount}}</span></li>
+		<li><span class="title">分享进入次数：</span><span class="con">{{detail.fundraiseShareOpenCount}}</span></li>
 		<li><span class="title">点击捐款次数：</span><span class="con">{{detail.fundraiseDonationClickCount}}</span></li>
 		<li><span class="title">评论数（包括回复）：</span><span class="con">{{detail.fundraiseCommentCount}}</span></li>
 		<li><span class="title">捐款次数：</span><span class="con">{{detail.fundraiseDonationCount}}</span></li>
@@ -48,7 +48,7 @@
 		<li><span class="title">列表页图片：</span><img v-for="item in detail.fundraiseProjectResources" :src="item.resourceUrl" alt="" style="width:50px;height:50px;margin-right:5px"/></li>
 		<li><span class="title">操作时间：</span><span class="con">{{detail.operateTime}}</span></li>
 		<li><span class="title">分享标题：</span><span class="con">{{detail.shareTitle}}</span></li>
-		<li><span class="title">操作时间：</span><span class="con">{{detail.shareContent}}</span></li>
+		<li><span class="title">分享内容：</span><span class="con">{{detail.shareContent}}</span></li>
 		<li><span class="title">项目描述：</span><span class="con">{{detail.fundraiseProjectDesc}}</span></li>
 		<li><span class="title">详情描述：</span><span class="con">{{detail.detail}}</span></li>
 	</ul>
@@ -145,7 +145,8 @@
 		      </ul>
 		      <div class="uploadTarget">
 		      	<el-upload
-		      	:show-upload-list="false"
+		      	:show-upload-list="showUploadList"
+		      	:before-upload="beforeUpload"
 				  :action="uploadUrl"
 				  :data="{platform:'fundraise'}"
 				  :on-success="handleUpSuccess">
@@ -396,11 +397,16 @@ import api from '../../api/api'
 		              picker.$emit('pick', date);
 		            }
 		          }]
-		        }
+		        },
+		     showUploadList:false
   		}
   	},
     methods: {
+    	beforeUpload(res){
+    		this.showUploadList = true;
+    	},
     	handleKeyUpSuccess(res){
+    		this.showUploadList = false;
     		this.imgkey = res.data;
     	},
     	handleUpSuccess(res){
@@ -673,5 +679,8 @@ import api from '../../api/api'
 				border: 1px solid #b90e25;
 			}
 		}
+	}
+	.el-upload__btn-delete {
+		display: none !important;
 	}
 </style>

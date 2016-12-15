@@ -101,7 +101,8 @@
 		      </ul>
 		      <div class="uploadTarget">
 			      <el-upload
-			      	:show-upload-list="false"
+			      	:show-upload-list="showUploadList"
+			      	:before-upload="beforeUpload"
 					  :action="uploadUrl"
 					  :data="uploadKey"
 					  :on-success="handleUpSuccess">
@@ -151,7 +152,7 @@
 		      </ul>
 		      <div class="uploadTarget">
 			      <el-upload
-			      		:show-upload-list="false"
+			      		
 					  :action="uploadUrl"
 					  :on-success="handleUpSuccess">
 					  <el-button size="small" type="primary">点击上传</el-button>
@@ -183,6 +184,7 @@ import api from '../../api/api'
   			uploadUrl:api.fund_image,
   			uploadKey:{platform:'fundraise'},
   			tableData:[],
+  			showUploadList:false,
   			addTrend:{
   				disabled:false,
   				visible:false,
@@ -240,9 +242,11 @@ import api from '../../api/api'
   	},
     methods: {
     	//上传图片
-    	
+    	beforeUpload(res){
+    		this.showUploadList = true;
+    	},
 	    handleUpSuccess(res){
-	    	
+	  		this.showUploadList = false;
 	    	this.addImg(res.data)
 	    },
 	    addImg(url){
@@ -352,17 +356,20 @@ import api from '../../api/api'
     		for (var i = 0; i < reso.length; i++) {
     			strArr.push(reso[i].resourceUrl)
     		}
+
     		result.fundraisePatientStateResource = strArr.join(',');
+    		console.log(result)
     		return result;
     	},
     	postMyEdit(_form,cbName){
     		var _this = this;
     		
-    		//this[_form].form.fundraisePatientStateResource = this.imgList;
+    		this[_form].form.fundraisePatientStateResource = this.imgList;
     		
-    		if(_form == "editProject"){
-    			this[_form].form.fundraisePatientStateResource = this.imgList;
-    		}
+    		// if(_form == "editProject"){
+
+    		// 	this[_form].form.fundraisePatientStateResource = this.imgList;
+    		// }
     		this.$refs[_form].validate((valid) => {
     			if(valid){
     				_this[_form].disabled = true;

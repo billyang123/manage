@@ -30,6 +30,7 @@
 			<span>{{status[row.status]}}</span>
 	    </el-table-column>
 	    <el-table-column
+	    	 fixed="right"
 	    	inline-template
 	      label="操作">
 	      <div>
@@ -37,7 +38,7 @@
 	      	<el-button size="small" v-if="row.status == 'view'" @click="changeStatus('unOnline',row)" :plain="true" type="info">取消预览</el-button>
 	      	<el-button size="small" v-if="row.status == 'approved'" @click="changeStatus('online',row)" :plain="true" type="info">在线预览</el-button>
 	      	<el-button size="small" @click="changeStatus('publish',row)" :plain="true" type="info" v-if="row.status == 'view'">发布筹款</el-button>
-	      	<el-button size="small" @click="showChangeHandle('forceClose',row)" v-if="row.status != 'finish'" :plain="true" type="info">强制关闭</el-button>
+	      	<el-button size="small" @click="changeStatus('forceClose',row)" v-if="row.status != 'finish'" :plain="true" type="info">强制关闭</el-button>
 	      	<!-- <el-button size="small" @click="showChangeHandle('commit')">评论维护1</el-button> -->
 	      	<router-link :to="'/projectDetail/'+row.id">
 	      	<el-button size="small">
@@ -192,29 +193,41 @@ import api from '../../api/api'
 					success_txt = '设置在线预览该项目成功'
 				break;
     			case "publish":
-    				txt = '此操作将发布改筹款项目, 是否继续?';
+    				txt = '此操作将发布该筹款项目, 是否继续?';
     				success_txt = '发布改筹款项目成功'
     				_url = api.fund_publishFundraise
     			break;
+    			case "forceClose":
+    				txt = '此操作将关闭改筹款项目, 是否继续?';
+    				success_txt = '关闭改筹款项目成功'
+    				_url = api.fund_closeFundraise
     			default:break;
     		}
-    		_this.ajax(_this,{
-				url:_url,
-				type:"post",
-				data:{
-					id:row.id
-				},
-				success:(res) => {
-					_this.getObjectList()
-                    $Message({
-                        type: 'success',
-                        message: success_txt
-                    });
-				},
-				complete:(res) => {
-					
-				}
-			})
+    		$MsgBox.confirm(txt, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                _this.ajax(_this,{
+					url:_url,
+					type:"post",
+					data:{
+						id:row.id
+					},
+					success:(res) => {
+						_this.getObjectList()
+	                    $Message({
+	                        type: 'success',
+	                        message: success_txt
+	                    });
+					},
+					complete:(res) => {
+						
+					}
+				})
+            }).catch (() => {
+                
+            });
     // 		$MsgBox.confirm(txt, '提示', {
     //             confirmButtonText: '确定',
     //             cancelButtonText: '取消',
