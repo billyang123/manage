@@ -149,45 +149,67 @@ import api from '../../api/api'
       //认证
       handleSubmit(status,phone){
         var self = this;
-        self.ajax(self,{
-            url:api.fundApproveVolunteer,
-            type:"post",
-            data:{
-              volunteerPhone:phone,
-              applyStatus:status
-            },
-            success:function(response){
-              let _data = response.body.data;
-              if(_data){
-                self.result = _data;
-                self.resultBl = false
-                 //self.tableData = _data
-                 self.tableData[0].userVolunteerFlag = "volunteer";
-                 self.result='';
-              }
-           },
-            })
+        $MsgBox.confirm('此操作将认证该用户, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                  self.ajax(self,{
+                      url:api.fundApproveVolunteer,
+                      type:"post",
+                      data:{
+                        volunteerPhone:phone,
+                        applyStatus:status
+                      },
+                      success:function(response){
+                        let _data = response.body.data;
+                        if(_data){
+                          self.result = _data;
+                          self.resultBl = false
+                           //self.tableData = _data
+                           self.tableData[0].userVolunteerFlag = "volunteer";
+                           self.result='';
+                        }
+                     },
+                      })
+             }).catch (() => {
+                $Message({
+                    type: 'info',
+                    message: '已取消'
+                });
+            });
       },
       //撤销认证
       handleRemove(volunteerId,flag){
         var self = this;
-        self.ajax(self,{
-            url:api.fundCancleVolunteer,
-            type:"post",
-            data:{
-              id:volunteerId,
-              userVolunteerFlag:flag
-            },
-            success:function(response){
-              let _data = response.body.data;
+        $MsgBox.confirm('此操作将撤销该用户, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+              self.ajax(self,{
+                  url:api.fundCancleVolunteer,
+                  type:"post",
+                  data:{
+                    id:volunteerId,
+                    userVolunteerFlag:flag
+                  },
+                  success:function(response){
+                    let _data = response.body.data;
 
-              if(_data){
-                 self.result = _data;
-                 self.resultBl = true;
-                 self.tableData[0].userVolunteerFlag = "normal";
-              }
-           },
-            })
+                    if(_data){
+                       self.result = _data;
+                       self.resultBl = true;
+                       self.tableData[0].userVolunteerFlag = "normal";
+                    }
+                 },
+                  })
+            }).catch (() => {
+                $Message({
+                    type: 'info',
+                    message: '已取消'
+                });
+            });
       }
     }
 }
