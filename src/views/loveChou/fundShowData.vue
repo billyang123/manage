@@ -166,16 +166,6 @@
         label="分享标题"
         width="180">
       </el-table-column>
-      <el-table-column
-        prop="shareContent"
-        label="分享内容"
-        width="200">
-      </el-table-column>
-      <el-table-column
-        prop="detail"
-        label="详细内容"
-        width="200">
-      </el-table-column>
 	  </el-table>
    <!--分页-->
    <div class="block" style="padding-top:30px;padding-bottom:40px">
