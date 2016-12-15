@@ -157,13 +157,6 @@
         width="180">
       </el-table-column>
       <el-table-column
-        inline-template
-        prop="fundraiseProjectImgurl"
-        label="列表页图片"
-        width="140">
-        <span><img :src="row.fundraiseProjectImgurl" style="width:120px;height:120px;"></span>
-      </el-table-column>
-      <el-table-column
         prop="operateTime"
         label="操作时间"
         width="180">
@@ -287,8 +280,8 @@ import api from '../../api/api'
                         fundraiseDonationCount:_data.fundraiseDonationCount,
                         openCount:_data.openCount
                      }
-                    self.page.totalElement = _data.totalElements
-                    self.page.totalPages = _data.totalPages
+                    self.page.totalElement = _data.fundraiseProjectDataList.totalElements
+                    self.page.totalPages = _data.fundraiseProjectDataList.totalPages
                   }
 
             }
