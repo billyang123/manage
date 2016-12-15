@@ -9,10 +9,10 @@
 	    </router-link>
 		<el-button size="small" :plain="true" type="info" @click="showChangeHandle('commit')">评论维护</el-button>
 		<el-button size="small" @click="showChangeHandle('editProject')" :plain="true" type="info">编辑</el-button>
-		<router-link :to="'/projectTrends/'+id+'?name='+detail.fundraiseProjectTitle">
+		<router-link :to="'/projectTrends/'+id+'?name='+detail.fundraiseProjectTitle+'&fundraiseUserInfoId='+detail.fundraiseUserInfoId+'&fundraiseProjectId='+detail.fundraiseProjectId">
 	      	<el-button size="small" :plain="true" type="info">动态</el-button>
 	    </router-link>
-	    <router-link :to="'/remitApplyList/'+id+'?name='+detail.fundraiseProjectTitle">
+	    <router-link :to="'/remitApplyList/'+id+'?name='+detail.fundraiseProjectTitle+'&fundraiseUserInfoId='+detail.fundraiseUserInfoId+'&fundraiseProjectId='+detail.fundraiseProjectId">
 	      	<el-button size="small" :plain="true" type="info">
 		      		打款纪录
 	      	</el-button>
@@ -429,7 +429,7 @@ import api from '../../api/api'
     		if(type = "editProject"){
     			this.editProject.form = this.detail;
 	    		this.imgList = this.detail.fundraiseProjectResources;
-	    		this.imgkey = this.detail.fundraiseImgKey;
+	    		this.imgkey = this.detail.fundraiseProjectImgurl;
     		}
     	},
     	deleteCommit(id){
@@ -462,6 +462,7 @@ import api from '../../api/api'
     	},
     	getCommitList(){
     		//获取评论列表
+    		var _this = this;
     		this.ajax(this,{
 				url:api.fund_getFunDonationList,
 				type:"get",
@@ -552,6 +553,7 @@ import api from '../../api/api'
  
     		var data = _this[_form].form;
     		if(_form == "editProject"){
+    			this[_form].form.fundraiseProjectImgurl = this.imgkey;
     			this[_form].form.fundraiseProjectResources = this.imgList;
     			this[_form].form.fundraiseStartTime = (new Date(this[_form].form.fundraiseStartTime)).format('yyyy-MM-dd hh:mm:ss')
     			data = this.getformData(this[_form].form);

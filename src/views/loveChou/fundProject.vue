@@ -16,7 +16,7 @@
 	      label="申请人昵称"
 	      width="150">
 	    </el-table-column>
-	    
+
 	    <el-table-column
 	      prop="fundraiseProjectDesc"
 	      label="项目描述"
@@ -219,12 +219,12 @@ import api from '../../api/api'
     		this.curProject = row;
     		let _this = this;
     		switch(type){
-    			case "online":
+    			case "unOnline":
     				txt = '此操作将取消在线预览该项目, 是否继续?';
 					_url = api.fund_cancelPublishPreview;
 					success_txt = '取消在线预览该项目成功'
     			break;
-    			case "unOnline":
+    			case "online":
     				txt = '此操作将可在线预览该项目, 是否继续?';
 					_url = api.fund_publishPreview
 					success_txt = '设置在线预览该项目成功'

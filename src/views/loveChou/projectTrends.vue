@@ -295,6 +295,9 @@ import api from '../../api/api'
     		}
     		if(type == "addTrend"){
     			this.imgList = [];
+    			this[type].form.id = "";
+    			this[type].form.fundraiseUserInfoId = this.$route.query.fundraiseUserInfoId;
+		        this[type].form.fundraiseProjectId = this.$route.query.fundraiseProjectId;
     		}
 
     	},
@@ -364,7 +367,7 @@ import api from '../../api/api'
     		var data = _this[_form].form;
     		if(_form == "editProject"){
     			this[_form].form.fundraisePatientStateResource = this.imgList;
-    			
+
     			data = this.getformData(this[_form].form);
     		}
     		this.$refs[_form].validate((valid) => {

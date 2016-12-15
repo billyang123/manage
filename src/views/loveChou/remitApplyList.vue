@@ -20,7 +20,7 @@
 	      width="120">	
 	    </el-table-column>
 	    <el-table-column
-	      prop="userNickName"
+	      prop="remitAmount"
 	      label="打款金额"
 	      width="120">
 	    </el-table-column>
@@ -30,7 +30,7 @@
 	      width="180">
 	    </el-table-column>
 	    <el-table-column
-	      prop="content"
+	      prop="remitTime"
 	      label="打款时间"
 	      width="180">
 	    </el-table-column>
@@ -97,6 +97,7 @@
 	</el-dialog>
 	<el-dialog title="编辑打款纪录" v-model="editPayRecordList.visible">
 	  	<el-form :model="editPayRecordList.form" class="demo-form-inline" ref="editPayRecordList" :rules="editPayRecordList.rules">
+
 		  <el-form-item label="打款金额" :label-width="editPayRecordList.labelWidth" prop="remitAmount">
 		    <el-input v-model.number="editPayRecordList.form.remitAmount"></el-input>
 		  </el-form-item>
@@ -231,6 +232,11 @@ import api from '../../api/api'
     		if(type == "editPayRecordList"){
     			this[type].form = row;
     		}
+    		if(type == "addPayRecordList"){
+    			this[type].form.id = "";
+    			this[type].form.fundraiseUserInfoId = this.$route.query.fundraiseUserInfoId;
+		        this[type].form.fundraiseProjectId = this.$route.query.fundraiseProjectId;
+    		}
     	},
     	getPayList(){
     		var _this = this;
@@ -256,7 +262,7 @@ import api from '../../api/api'
     	postMyEdit(_form,cbName){
     		var _this = this;
     		console.log(this.$refs[_form] )
-    		this[_form].form.remitTime = (new Date(this[_form].form.remitTime)).format('yyyy-MM-dd hh:mm:ss')
+    		this[_form].form.remitTime = (new Date(this[_form].form.remitTime)).format('yyyy-MM-dd hh:mm:ss');
     		this.$refs[_form].validate((valid) => {
     			if(valid){
     				_this[_form].disabled = true;
