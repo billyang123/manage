@@ -9,10 +9,10 @@
 	    </router-link>
 		<el-button size="small" :plain="true" type="info" @click="showChangeHandle('commit')">评论维护</el-button>
 		<el-button size="small" @click="showChangeHandle('editProject')" :plain="true" type="info">编辑</el-button>
-		<router-link :to="'/projectTrends/'+id+'?name='+detail.fundraiseProjectTitle+'&fundraiseUserInfoId='+detail.fundraiseUserInfoId+'&fundraiseProjectId='+detail.fundraiseProjectId">
+		<router-link :to="'/projectTrends/'+id+'?name='+detail.fundraiseProjectTitle+'&fundraiseUserInfoId='+detail.fundraiseUserInfoId+'&fundraiseProjectId='+detail.id">
 	      	<el-button size="small" :plain="true" type="info">动态</el-button>
 	    </router-link>
-	    <router-link :to="'/remitApplyList/'+id+'?name='+detail.fundraiseProjectTitle+'&fundraiseUserInfoId='+detail.fundraiseUserInfoId+'&fundraiseProjectId='+detail.fundraiseProjectId">
+	    <router-link :to="'/remitApplyList/'+id+'?name='+detail.fundraiseProjectTitle+'&fundraiseUserInfoId='+detail.fundraiseUserInfoId+'&fundraiseProjectId='+detail.id">
 	      	<el-button size="small" :plain="true" type="info">
 		      		打款纪录
 	      	</el-button>
@@ -65,6 +65,9 @@
 	    <el-form-item label="患者姓名" label-width="150px" prop="patientName">
 	      <el-input type="text" v-model="editProject.form.patientName" auto-complete="off"></el-input>
 	    </el-form-item>
+	    <el-form-item label="患者实际姓名" label-width="150px" prop="acturalPatientName">
+	      <el-input type="text" v-model="editProject.form.acturalPatientName" auto-complete="off"></el-input>
+	    </el-form-item>
 	    <el-form-item label="联系人姓名" label-width="150px" prop="linkmanName">
 	      <el-input type="text" v-model="editProject.form.linkmanName" auto-complete="off"></el-input>
 	    </el-form-item>
@@ -107,13 +110,14 @@
 	    <el-form-item label="封面图片地址" label-width="150px">
 			<ul class="img-list" style="padding:10px 0;">
 				<li>
-					<div class="img-box" :style="{backgroundImage:'url('+imgkey+')'}"></div>
+					<div class="img-box" :style="{backgroundImage:'url('+imgkey+'!128x128)'}"></div>
 				</li>
 			</ul>
 			<div class="uploadTarget">
 				<el-upload
 				:show-upload-list="false"
 			  :action="uploadUrl"
+			  :data="{platform:'fundraise'}"
 			  :on-success="handleKeyUpSuccess">
 			  <el-button size="small" type="primary">点击上传</el-button>
 			  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -125,7 +129,7 @@
 			<!-- <el-input type="text" v-model="editProject.form.fundraiseProjectResources" auto-complete="off"></el-input> -->
 		    <ul class="img-list">
 		      	<li v-for="(item,index) in imgList">
-		      		<div class="img-box" :style="{backgroundImage:'url('+item.resourceUrl+')'}">
+		      		<div class="img-box" :style="{backgroundImage:'url('+item.resourceUrl+'!128x128)'}">
 		      			<i class="del-img el-icon-circle-cross" @click="removeImg(index)"></i>
 		      		</div>
 					<div>
@@ -138,6 +142,7 @@
 		      	<el-upload
 		      	:show-upload-list="false"
 				  :action="uploadUrl"
+				  :data="{platform:'fundraise'}"
 				  :on-success="handleUpSuccess">
 				  <el-button size="small" type="primary">点击上传</el-button>
 				  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -156,22 +161,22 @@
 		    border
 		    style="width: 100%">
 		    <el-table-column
-		      prop="time"
+		      prop="createTime"
 		      label="时间"
 		      width="180">
 		    </el-table-column>
 		    <el-table-column
-		      prop="name"
+		      prop="donateUserNickName"
 		      label="评论者"
 		      width="180">
 		    </el-table-column>
 		    <el-table-column
-		      prop="reName"
-		      label="被评论者"
+		      prop="likeCount"
+		      label="点赞数"
 		      width="180">
 		    </el-table-column>
 		    <el-table-column
-		      prop="content"
+		      prop="message"
 		      label="评论内容"
 		      width="400">
 		    </el-table-column>
@@ -267,7 +272,7 @@ import api from '../../api/api'
   						{ required: true, message: '请填写联系人姓名', trigger: 'change,blur' }
   					],
   					linkmanPhone:[
-  						{ required: true, message: '请填写联系人电话', trigger: 'change,blur' }
+  						{ type: 'number', message: '请填写联系人电话', trigger: 'change,blur' }
   					],
   					userNickname:[
   						{ required: true, message: '请填写昵称', trigger: 'change,blur' }
@@ -357,7 +362,7 @@ import api from '../../api/api'
 		        "openCount": 200,
 		        "finishReason": "attain",
 		        "weight": 1,
-		        "fundraiseStartTime": "2016-12-12 10:29:30",
+		        "fundraiseStartTime": (new Date()).format('yyyy-MM-dd hh:mm:ss'),
 		        "fundraiseEndTime": "2016-12-12 10:29:30",
 		        "fundraiseProjectImgurl": "2016-12-12 10:29:30",
 		        "operateTime": "2016-12-12 10:29:30",
@@ -368,6 +373,7 @@ import api from '../../api/api'
 		        "fundraiseProjectResources":[{"fundraisePatientStateId":1,"resourceType":"image","status":"visible","resourceUrl":"http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJbLwibUW5iaUK0Xdb7gpFc0WS4HpeYw6T1qNoD4DVvsBbicY5pia7tNW38WrzvnALyHv4nOCGeFKfZBw/0"}]
 		      },
 		      pickerOptions: {
+
 		          shortcuts: [{
 		            text: '今天',
 		            onClick(picker) {
@@ -428,6 +434,8 @@ import api from '../../api/api'
     		}
     		if(type = "editProject"){
     			this.editProject.form = this.detail;
+    			this.editProject.form.fundraiseStartTime = this.editProject.form.fundraiseStartTime || (new Date()).format('yyyy-MM-dd hh:mm:ss');
+    			this.editProject.form.fundraiseProjectDuration = this.editProject.form.fundraiseProjectDuration || "15";
 	    		this.imgList = this.detail.fundraiseProjectResources;
 	    		this.imgkey = this.detail.fundraiseProjectImgurl;
     		}
@@ -446,7 +454,7 @@ import api from '../../api/api'
                         id:id
                     },
                     success:function(data){
-                    	_this.commit.visible = false;
+                    	// _this.commit.visible = false;
                       	_this.getCommitList()
                         $Message({
                             type: 'success',
@@ -492,6 +500,7 @@ import api from '../../api/api'
 				success:(res) => {
 					console.log(res)
 					_this.detail = res.body.data;
+					console.log(_this.detail.fundraiseUserInfoId)
 				},
 				complete:(res) => {
 					
@@ -551,12 +560,12 @@ import api from '../../api/api'
     	postMyEdit(_form,cbName){
     		var _this = this;
  
-    		var data = _this[_form].form;
+    		
     		if(_form == "editProject"){
     			this[_form].form.fundraiseProjectImgurl = this.imgkey;
     			this[_form].form.fundraiseProjectResources = this.imgList;
     			this[_form].form.fundraiseStartTime = (new Date(this[_form].form.fundraiseStartTime)).format('yyyy-MM-dd hh:mm:ss')
-    			data = this.getformData(this[_form].form);
+    			
     			//console.log(this[_form].form.fundraiseStartTime)
     		}
     		//this[_form].form.fundraiseProjectImgurl = this.imgkey;
@@ -567,9 +576,15 @@ import api from '../../api/api'
     				_this.ajax(_this,{
     					url:_this[_form].url,
     					type:"post",
-    					data:data,
+    					data:_this.getformData(this[_form].form),
     					success:(res) => {
     						_this[cbName] && _this[cbName](res);
+    						_this.$refs[_form].resetFields();
+    						_this.getDetail()
+    						$Message({
+	                            type: 'success',
+	                            message: "保存成功！"
+	                        });
     					},
     					complete:(res) => {
     						_this[_form].disabled = false;

@@ -142,14 +142,7 @@ import api from '../../api/api'
   			status:{"new":"申请中","success":"打款完成","fail":"申请失败"},
   			tableData:[
 	  			{
-		            "id": 1,
-		            "fundraiseUserInfoId": 1,
-		            "fundraiseProjectId": 1,
-		            "applyAmount": 2000,
-		            "remitAmount": 2000,
-		            "createTime": "2016-12-12 09:20:13",
-		            "remitTime": "2016-12-12 09:20:13",
-		            "status": "new"
+		           
 		        }
   			],
   			addPayRecordList:{
@@ -250,8 +243,8 @@ import api from '../../api/api'
 					size:this.size
 				},
 				success:(res) => {
-					//console.log(res)
-					_this.detail = res.body.data;
+					console.log(res)
+					_this.tableData = res.body.data.content;
 					_this.total = res.body.data.totalElements
 				},
 				complete:(res) => {

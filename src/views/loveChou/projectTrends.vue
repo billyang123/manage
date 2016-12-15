@@ -90,7 +90,7 @@
 	    <el-form-item label="动态图片" :label-width="addTrend.labelWidth">
 	     	 <ul class="img-list">
 		      	<li v-for="(item,index) in imgList">
-		      		<div class="img-box" :style="{backgroundImage:'url('+item.resourceUrl+')'}">
+		      		<div class="img-box" :style="{backgroundImage:'url('+item.resourceUrl+'!128x128)'}">
 		      			<i class="del-img el-icon-circle-cross" @click="removeImg(index)"></i>
 		      		</div>
 					<div>
@@ -103,6 +103,7 @@
 			      <el-upload
 			      	:show-upload-list="false"
 					  :action="uploadUrl"
+					  :data="uploadKey"
 					  :on-success="handleUpSuccess">
 					  <el-button size="small" type="primary">点击上传</el-button>
 					  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -135,7 +136,7 @@
 		    <el-form-item label="动态图片" :label-width="editTrend.labelWidth">
 		      <ul class="img-list">
 		      	<li v-for="(item,index) in imgList">
-		      		<div class="img-box" :style="{backgroundImage:'url('+item.resourceUrl+')'}">
+		      		<div class="img-box" :style="{backgroundImage:'url('+item.resourceUrl+'!160x160)'}">
 		      			<i class="del-img el-icon-circle-cross" @click="removeImg(index)"></i>
 		      		</div>
 					<div>
@@ -176,30 +177,10 @@ import api from '../../api/api'
   			curType:"addTrend",
   			imgList:[],
   			uploadUrl:api.fund_image,
+  			uploadKey:{platform:'fundraise'},
   			tableData:[
 	  			{
-		            "id": 1,
-		            "fundraiseUserInfoId": 1,
-		            "fundraiseProjectId": 1,
-		            "userNickName": "发布人昵称",
-		            "userHeadimgUrl": "http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJbLwibUW5iaUK0Xdb7gpFc0WS4HpeYw6T1qNoD4DVvsBbicY5pia7tNW38WrzvnALyHv4nOCGeFKfZBw/0",
-		            "createTime": "2016-12-12 09:20:13",
-		            "status": "invisible",
-		            "content": "kkkkkkkk",
-		            "fundraisePatientStateResource":[
-  						{
-  							fundraisePatientStateId:1,
-  							resourceType:"image",
-  							status:"visible",
-  							resourceUrl:'http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJbLwibUW5iaUK0Xdb7gpFc0WS4HpeYw6T1qNoD4DVvsBbicY5pia7tNW38WrzvnALyHv4nOCGeFKfZBw/0'
-  						},
-  						{
-  							fundraisePatientStateId:1,
-  							resourceType:"image",
-  							status:"visible",
-  							resourceUrl:'http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJbLwibUW5iaUK0Xdb7gpFc0WS4HpeYw6T1qNoD4DVvsBbicY5pia7tNW38WrzvnALyHv4nOCGeFKfZBw/0'
-  						}
-  					]
+		            
 		        }
   			],
   			addTrend:{
@@ -229,7 +210,7 @@ import api from '../../api/api'
   				disabled:false,
   				visible:false,
   				labelWidth:'150px',
-  				url:api.fund_addFunPatienState,
+  				url:api.fund_updateFunPatienState,
   				form:{
   					fundraiseUserInfoId:1,
   					fundraiseProjectId:1,
@@ -347,7 +328,7 @@ import api from '../../api/api'
                         id:id
                     },
                     success:function(data){
-                      	_this.getObjectList()
+                      	_this.getTrendList()
                         $Message({
                             type: 'success',
                             message: "删除动态成功！"
@@ -360,15 +341,26 @@ import api from '../../api/api'
                 
             });
     	},
+    	getformData(data){
+    		var result = {};
+    		for (var idx in data) {
+    			result[idx] = data[idx]
+    		}
+    		var reso = data.fundraisePatientStateResource;
+    		var strArr = [];
+    		for (var i = 0; i < reso.length; i++) {
+    			strArr.push(reso[i].resourceUrl)
+    		}
+    		result.fundraisePatientStateResource = strArr.join(',');
+    		return result;
+    	},
     	postMyEdit(_form,cbName){
     		var _this = this;
     		console.log(this.$refs[_form] )
     		//this[_form].form.fundraisePatientStateResource = this.imgList;
-    		var data = _this[_form].form;
+    		
     		if(_form == "editProject"){
     			this[_form].form.fundraisePatientStateResource = this.imgList;
-
-    			data = this.getformData(this[_form].form);
     		}
     		this.$refs[_form].validate((valid) => {
     			if(valid){
@@ -376,10 +368,15 @@ import api from '../../api/api'
     				_this.ajax(_this,{
     					url:_this[_form].url,
     					type:"post",
-    					data:data,
+    					data:_this.getformData(this[_form].form),
     					success:(res) => {
     						_this[cbName] && _this[cbName](res);
-    						_this.$refs[_form].resetFields()
+    						_this.$refs[_form].resetFields();
+    						_this.getTrendList();
+    						$Message({
+	                            type: 'success',
+	                            message: "保存成功！"
+	                        });
     					},
     					complete:(res) => {
     						_this[_form].disabled = false;

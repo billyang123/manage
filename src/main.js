@@ -106,7 +106,7 @@ let router = new VueRouter({
         {
           path: '',
           component: {
-            template: '<div style="padding:20px;"><img src="http://s1.yiqihuzhu.com/www/assets/pc/images/logo.png" alt="17互助"><h1>欢迎进入后台管理</h1></div>'
+            template: '<div style="padding:20px;"><img src="https://s1.yiqihuzhu.com/www/assets/pc/images/logo.png" alt="17互助"><h1>欢迎进入后台管理</h1></div>'
           }
         },
         {

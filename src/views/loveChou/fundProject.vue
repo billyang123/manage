@@ -152,41 +152,7 @@ import api from '../../api/api'
 	        },
   			tableData:[
   				{
-		            "id": 1,
-		            "fundraiseUserInfoId": 1,
-		            "fundraiseApplyTargetAmount": 200,
-		            "fundraiseReson": "缺钱",
-		            "patientName": "japanese",
-		            "linkmanName": "meixi",
-		            "linkmanPhone": "12345678901",
-		            "userNickname": "小熊",
-		            "userHeadimgurl": " tt",
-		            "status": "view",
-		            "suggestion": "好感人",
-		            "createTime": "2016-12-12 09:20:13",
-		            "approveTime": "2016-12-12 09:20:13",
-		            "fundraiseProjectTitle": " need help",
-		            "fundraiseProjectDesc": " 筹款项目描述",
-		            "fundraiseProjectDuration": 60,
-		            "fundraiseHelpCount": 200,
-		            "fundraiseTargetAmount": 2000,
-		            "fundraiseAcquiredAmount": 200,
-		            "fundraiseRemitAmount": 200,
-		            "fundraiseShareCount": 10069,
-		            "fundraiseShareOpenCount": 10085,
-		            "fundraiseDonationClickCount": 111,
-		            "fundraiseCommentCount": 200,
-		            "fundraiseDonationCount": 200,
-		            "openCount": 200,
-		            "finishReason": "attain",
-		            "weight": 1,
-		            "fundraiseStartTime": "2016-12-12 09:20:13",
-		            "fundraiseEndTime": "2016-12-12 09:20:13",
-		            "fundraiseProjectImgurl": " tt",
-		            "operateTime": "2016-12-12 09:20:13",
-		            "shareTitle": "分享标题",
-		            "shareContent": "分享内容",
-		            "detail": "详细内容"
+		            
 		        }
   			]
 
