@@ -136,7 +136,6 @@ import api from '../../api/api'
                   id:id
                 },
                 success:function(response){
-                  console.log(response)
                  self.getData()
 
                 }
@@ -159,7 +158,6 @@ import api from '../../api/api'
             processeStatus:self.page.processeStatus
           },
           success:function(response){
-            console.log(response)
             let _data = response.body.data;
             if(_data){
                 self.tableData = _data.content

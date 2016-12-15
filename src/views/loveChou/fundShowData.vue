@@ -89,13 +89,6 @@
           label="累计打款金额"
           width="180">
         </el-table-column>
-      </el-table-column>ihao ，
-      <el-table-column :label="totalNumber.fundraiseHelpCount+''">
-        <el-table-column
-          prop="fundraiseHelpCount"
-          label="捐款次数"
-          width="160">
-        </el-table-column>
       </el-table-column>
       <el-table-column :label="totalNumber.fundraiseShareCount+''">
         <el-table-column
@@ -121,7 +114,7 @@
       <el-table-column :label="totalNumber.fundraiseDonationCount+''">
         <el-table-column
           prop="fundraiseDonationCount"
-          label="捐赠次数"
+          label="捐款次数"
           width="120">
         </el-table-column>
       </el-table-column>
@@ -254,7 +247,6 @@ import api from '../../api/api'
               size:self.page.currentPageSize
             },
             success:function(response){
-              console.log(response);
               let _data = response.body.data;
                   if(_data){
                      self.tableData = _data.fundraiseProjectDataList.content

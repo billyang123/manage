@@ -130,7 +130,6 @@ import api from '../../api/api'
                 applicationStatus:"new"
               },
               success:function(response){
-                console.log(response);
                 let _data = response.body.data;
                     if(_data){
                        self.tableData = _data.content
@@ -145,7 +144,6 @@ import api from '../../api/api'
       handleNoPass(id){
         let self=this;
         this.dialogFormVisible = true;
-        console.log(id)
     		this.statusForm={
   				textarea:"",
   				id:id

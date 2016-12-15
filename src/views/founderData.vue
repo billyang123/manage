@@ -70,7 +70,7 @@ default {
               },
               success:function(data){
                 let _data = data.body.data.founderInteractions;
-                    if(_data){
+                    if(data.body.data){
                        self.tableData = _data.content
                       self.totalElement = _data.totalElements
                       self.totalPages = _data.totalPages
