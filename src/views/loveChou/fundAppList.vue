@@ -26,15 +26,11 @@
         width="160">
       </el-table-column>
 	    <el-table-column
-	      prop="fundraiseProjectTitle"
-	      label="筹款项目标题">
+	      prop="fundraiseReson"
+	      label="原因">
 	    </el-table-column>
-      <el-table-column
-        prop="fundraiseProjectDesc"
-        label="筹款项目描述">
-      </el-table-column>
 	    <el-table-column
-	      prop="fundraiseTargetAmount"
+	      prop="fundraiseApplyTargetAmount"
 	      label="目标筹款金额"
         width="130">
 	    </el-table-column>
@@ -130,6 +126,7 @@ import api from '../../api/api'
                 applicationStatus:"new"
               },
               success:function(response){
+              console.log(response)
                 let _data = response.body.data;
                     if(_data){
                        self.tableData = _data.content
