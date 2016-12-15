@@ -21,7 +21,7 @@
 	    </el-table-column>
 	    <el-table-column
 	      prop="remitAmount"
-	      label="打款金额"
+	      label="打款金额（元）"
 	      width="120">
 	    </el-table-column>
 	    <el-table-column
@@ -67,7 +67,7 @@
 	</div>
 	<el-dialog title="添加打款纪录" v-model="addPayRecordList.visible">
 	  	<el-form :model="addPayRecordList.form" class="demo-form-inline" ref="addPayRecordList" :rules="addPayRecordList.rules">
-		  <el-form-item label="打款金额" :label-width="addPayRecordList.labelWidth" prop="remitAmount">
+		  <el-form-item label="打款金额（元）" :label-width="addPayRecordList.labelWidth" prop="remitAmount">
 		    <el-input v-model.number="addPayRecordList.form.remitAmount"></el-input>
 		  </el-form-item>
 
@@ -104,9 +104,11 @@
 
 		  <el-form-item label="打款状态" :label-width="editPayRecordList.labelWidth">
 		  	<div class="text-left">
-		      	<el-radio class="radio" v-model="editPayRecordList.form.status" label="new">申请中</el-radio>
-		      	<el-radio class="radio" v-model="editPayRecordList.form.status" label="success">打款完成</el-radio>
-		      	<el-radio class="radio" v-model="editPayRecordList.form.status" label="fail">申请失败</el-radio>
+		  		<el-radio-group v-model="editPayRecordList.form.status">
+				   	<el-radio class="radio" :label="'new'">申请中</el-radio>
+			      	<el-radio class="radio" :label="'success'">打款完成</el-radio>
+			      	<el-radio class="radio" :label="'fail'">申请失败</el-radio>
+				</el-radio-group>
 		    </div>
 		  </el-form-item>
 		  <el-form-item label="打款时间" :label-width="editPayRecordList.labelWidth">
@@ -140,11 +142,7 @@ import api from '../../api/api'
   			size:20,
   			labelWidth:'150px',
   			status:{"new":"申请中","success":"打款完成","fail":"申请失败"},
-  			tableData:[
-	  			{
-		           
-		        }
-  			],
+  			tableData:[],
   			addPayRecordList:{
   				disabled:false,
   				visible:false,
@@ -224,6 +222,7 @@ import api from '../../api/api'
     		this[type].visible = true;
     		if(type == "editPayRecordList"){
     			this[type].form = row;
+    			this[type].form.remitTime = this[type].form.remitTime || (new Date()).format('yyyy-MM-dd hh:mm:ss');
     		}
     		if(type == "addPayRecordList"){
     			this[type].form.id = "";
@@ -255,16 +254,32 @@ import api from '../../api/api'
     	postMyEdit(_form,cbName){
     		var _this = this;
     		console.log(this.$refs[_form] )
+    		var data = {};
     		this[_form].form.remitTime = (new Date(this[_form].form.remitTime)).format('yyyy-MM-dd hh:mm:ss');
+    		data ={
+    			"id": this[_form].form.id,
+	            "fundraiseUserInfoId": this[_form].form.fundraiseUserInfoId,
+	            "fundraiseProjectId": this[_form].form.fundraiseProjectId,
+	            "applyAmount": this[_form].form.applyAmount,
+	            "remitAmount": this[_form].form.remitAmount,
+	            "remitTime":(new Date(this[_form].form.remitTime)).format('yyyy-MM-dd hh:mm:ss'),
+	            "status": this[_form].form.status
+    		}
+
     		this.$refs[_form].validate((valid) => {
     			if(valid){
     				_this[_form].disabled = true;
     				_this.ajax(_this,{
     					url:_this[_form].url,
     					type:"post",
-    					data:_this[_form].form,
+    					data:data,
     					success:(res) => {
     						_this[cbName] && _this[cbName](res);
+    						$Message({
+	                            type: 'success',
+	                            message: "保存成功！"
+	                        });
+    						_this.getPayList();
     					},
     					complete:(res) => {
     						_this[_form].disabled = false;

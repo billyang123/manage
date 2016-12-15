@@ -90,7 +90,7 @@
 	    <el-form-item label="动态图片" :label-width="addTrend.labelWidth">
 	     	 <ul class="img-list">
 		      	<li v-for="(item,index) in imgList">
-		      		<div class="img-box" :style="{backgroundImage:'url('+item.resourceUrl+'!128x128)'}">
+		      		<div class="img-box" :style="{backgroundImage:'url('+item.resourceUrl+'!160x160)'}">
 		      			<i class="del-img el-icon-circle-cross" @click="removeImg(index)"></i>
 		      		</div>
 					<div>
@@ -140,8 +140,12 @@
 		      			<i class="del-img el-icon-circle-cross" @click="removeImg(index)"></i>
 		      		</div>
 					<div>
-				      	<el-radio class="radio" v-model="item.status" label="visible">显示</el-radio>
-				      	<el-radio class="radio" v-model="item.status" label="invisible">隐藏</el-radio>
+						<el-radio-group v-model="item.status">
+							<el-radio class="radio" label="visible">显示</el-radio>
+				      		<el-radio class="radio" label="invisible">隐藏</el-radio>
+						
+						</el-radio-group>
+				      	
 				    </div>
 		      	</li>
 		      </ul>
@@ -178,11 +182,7 @@ import api from '../../api/api'
   			imgList:[],
   			uploadUrl:api.fund_image,
   			uploadKey:{platform:'fundraise'},
-  			tableData:[
-	  			{
-		            
-		        }
-  			],
+  			tableData:[],
   			addTrend:{
   				disabled:false,
   				visible:false,
@@ -242,7 +242,7 @@ import api from '../../api/api'
     	//上传图片
     	
 	    handleUpSuccess(res){
-	    	console.log(res)
+	    	
 	    	this.addImg(res.data)
 	    },
 	    addImg(url){
@@ -272,6 +272,7 @@ import api from '../../api/api'
     		//this.fileList = [];
     		if(type=="editTrend"){
     			this[type].form = row;
+
     			this.imgList = row.fundraisePatientStateResource;
     		}
     		if(type == "addTrend"){
@@ -356,7 +357,7 @@ import api from '../../api/api'
     	},
     	postMyEdit(_form,cbName){
     		var _this = this;
-    		console.log(this.$refs[_form] )
+    		
     		//this[_form].form.fundraisePatientStateResource = this.imgList;
     		
     		if(_form == "editProject"){
@@ -372,6 +373,7 @@ import api from '../../api/api'
     					success:(res) => {
     						_this[cbName] && _this[cbName](res);
     						_this.$refs[_form].resetFields();
+    						_this.imgList = [];
     						_this.getTrendList();
     						$Message({
 	                            type: 'success',

@@ -21,6 +21,7 @@
 	<ul class="object-list">
 
 		<li><span class="title">患者姓名：</span><span class="con">{{detail.patientName}}</span></li>
+		<li><span class="title">患者实际姓名：</span><span class="con">{{detail.acturalPatientName}}</span></li>
 		<li><span class="title">申请人昵称：</span><span class="con">{{detail.userNickname}}</span></li>
 		<li><span class="title">申请人头像：</span><img :src="detail.userHeadimgurl" alt="" style="width:50px;height:50px;"/></li>
 		<li><span class="title">状态：</span>{{status[detail.status]}}</li>
@@ -30,9 +31,10 @@
 		<li><span class="title">审核意见：</span><span class="con">{{detail.suggestion}}</span></li>
 		<li><span class="title">筹款持续时间(天数)：</span><span class="con">{{detail.fundraiseProjectDuration}}</span></li>
 		<li><span class="title">当前帮助人数：</span><span class="con">{{detail.fundraiseHelpCount}}</span></li>
-		<li><span class="title">目标筹款金额：</span><span class="con">{{detail.fundraiseTargetAmount}}</span></li>
-		<li><span class="title">已获筹款金额：</span><span class="con">{{detail.fundraiseAcquiredAmount}}</span></li>
-		<li><span class="title">累计打款金额：</span><span class="con">{{detail.fundraiseRemitAmount}}</span></li>
+		<li><span class="title">目标筹款金额：</span><span class="con">{{detail.fundraiseTargetAmount}}元</span></li>
+		<li><span class="title">申请筹款金额：</span><span class="con">{{detail.fundraiseApplyTargetAmount}}元</span></li>
+		<li><span class="title">已获筹款金额：</span><span class="con">{{detail.fundraiseAcquiredAmount}}元</span></li>
+		<li><span class="title">累计打款金额：</span><span class="con">{{detail.fundraiseRemitAmount}}元</span></li>
 		<li><span class="title">分享次数：</span><span class="con">{{detail.fundraiseShareCount}}</span></li>
 		<li><span class="title">点击捐款次数：</span><span class="con">{{detail.fundraiseShareOpenCount}}</span></li>
 		<li><span class="title">点击捐款次数：</span><span class="con">{{detail.fundraiseDonationClickCount}}</span></li>
@@ -56,8 +58,11 @@
 	    <el-form-item label="筹款项目名称" label-width="150px" prop="fundraiseProjectTitle">
 	      <el-input type="text" v-model="editProject.form.fundraiseProjectTitle" auto-complete="off"></el-input>
 	    </el-form-item>
-	    <el-form-item label="目标金额" label-width="150px" prop="fundraiseApplyTargetAmount">
-	      <el-input type="text" v-model.number="editProject.form.fundraiseApplyTargetAmount" auto-complete="off"></el-input>
+	    <el-form-item label="目标筹款金额(元)" label-width="150px" prop="fundraiseTargetAmount">
+	      <el-input type="text" v-model="editProject.form.fundraiseTargetAmount" auto-complete="off"></el-input>
+	    </el-form-item>
+	    <el-form-item label="申请筹款金额(元)" label-width="150px" prop="fundraiseApplyTargetAmount">
+	      <el-input type="text" v-model="editProject.form.fundraiseApplyTargetAmount" auto-complete="off"></el-input>
 	    </el-form-item>
 	    <el-form-item label="筹款原因" label-width="150px" prop="fundraiseReson">
 	      <el-input type="textarea" v-model="editProject.form.fundraiseReson" auto-complete="off"></el-input>
@@ -72,7 +77,7 @@
 	      <el-input type="text" v-model="editProject.form.linkmanName" auto-complete="off"></el-input>
 	    </el-form-item>
 	    <el-form-item label="联系人电话" label-width="150px" prop="linkmanPhone">
-	      <el-input type="text" v-model.number="editProject.form.linkmanPhone" auto-complete="off"></el-input>
+	      <el-input type="text" v-model="editProject.form.linkmanPhone" auto-complete="off"></el-input>
 	    </el-form-item>
 	    <el-form-item label="申请人昵称" label-width="150px" prop="userNickname">
 	      <el-input type="text" v-model="editProject.form.userNickname" auto-complete="off"></el-input>
@@ -92,7 +97,7 @@
 	    </el-form-item>
 	    <el-form-item label="筹款持续时间(天数)" label-width="150px" prop="fundraiseProjectDuration">
 	      	
-	      <el-input type="text" v-model.number="editProject.form.fundraiseProjectDuration" auto-complete="off"></el-input>
+	      <el-input type="text" v-model="editProject.form.fundraiseProjectDuration" auto-complete="off"></el-input>
 	    </el-form-item>
 
 	    <el-form-item label="分享标题" label-width="150px" prop="shareTitle">
@@ -110,7 +115,7 @@
 	    <el-form-item label="封面图片地址" label-width="150px">
 			<ul class="img-list" style="padding:10px 0;">
 				<li>
-					<div class="img-box" :style="{backgroundImage:'url('+imgkey+'!128x128)'}"></div>
+					<div class="img-box" :style="{backgroundImage:'url('+imgkey+'!160x160)'}"></div>
 				</li>
 			</ul>
 			<div class="uploadTarget">
@@ -129,7 +134,7 @@
 			<!-- <el-input type="text" v-model="editProject.form.fundraiseProjectResources" auto-complete="off"></el-input> -->
 		    <ul class="img-list">
 		      	<li v-for="(item,index) in imgList">
-		      		<div class="img-box" :style="{backgroundImage:'url('+item.resourceUrl+'!128x128)'}">
+		      		<div class="img-box" :style="{backgroundImage:'url('+item.resourceUrl+'!160x160)'}">
 		      			<i class="del-img el-icon-circle-cross" @click="removeImg(index)"></i>
 		      		</div>
 					<div>
@@ -221,12 +226,6 @@ import api from '../../api/api'
   				"finish":"筹款完成"
   			},
   			commitList:[
-  				{
-  					name:"",
-  					reName:"",
-  					time:"",
-  					content:""
-  				}
   			],
   			payMoney:{
   				disabled:false,
@@ -260,7 +259,10 @@ import api from '../../api/api'
   						{ required: true, message: '请填写项目标题', trigger: 'change,blur' }
   					],
   					fundraiseApplyTargetAmount:[
-  						{ type: 'number', message: '请填写目标金额', trigger: 'change,blur' }
+  						{ required: true, message: '请填写申请目标筹款金额', trigger: 'change,blur' }
+  					],
+  					fundraiseTargetAmount:[
+  						{ required: true, message: '请填写筹款金额', trigger: 'change,blur' }
   					],
   					fundraiseReson:[
   						{ required: true, message: '请填写筹款原因', trigger: 'change,blur' }
@@ -272,13 +274,13 @@ import api from '../../api/api'
   						{ required: true, message: '请填写联系人姓名', trigger: 'change,blur' }
   					],
   					linkmanPhone:[
-  						{ type: 'number', message: '请填写联系人电话', trigger: 'change,blur' }
+  						{ required: true, message: '请填写联系人电话', trigger: 'change,blur' }
   					],
   					userNickname:[
   						{ required: true, message: '请填写昵称', trigger: 'change,blur' }
   					],
   					fundraiseProjectDuration:[
-  						{ type: 'number', message: '请正确填写筹款持续时间(天数)', trigger: 'change,blur' }
+  						{ required: true, message: '请正确填写筹款持续时间(天数)', trigger: 'change,blur' }
   					],
   					shareTitle:[
   						{ required: true, message: '请填写分享标题', trigger: 'change,blur' }
@@ -402,7 +404,6 @@ import api from '../../api/api'
     		this.imgkey = res.data;
     	},
     	handleUpSuccess(res){
-	    	console.log(res)
 	    	this.addImg(res.data)
 	    },
 	    addImg(url){
@@ -438,6 +439,9 @@ import api from '../../api/api'
     			this.editProject.form.fundraiseProjectDuration = this.editProject.form.fundraiseProjectDuration || "15";
 	    		this.imgList = this.detail.fundraiseProjectResources;
 	    		this.imgkey = this.detail.fundraiseProjectImgurl;
+	    		this.editProject.form.fundraiseTargetAmount = this.editProject.form.fundraiseTargetAmount+""
+	    		this.editProject.form.fundraiseApplyTargetAmount = this.editProject.form.fundraiseApplyTargetAmount+""
+	    		this.editProject.form.fundraiseProjectDuration = this.editProject.form.fundraiseProjectDuration+""
     		}
     	},
     	deleteCommit(id){
@@ -480,7 +484,7 @@ import api from '../../api/api'
 					page:this.commit.page-1
 				},
 				success:(res) => {
-					console.log(res)
+					
 					_this.commitList = res.body.data.content;
 					_this.commit.total = res.body.data.totalElements
 				},
@@ -498,9 +502,8 @@ import api from '../../api/api'
 					id:this.id
 				},
 				success:(res) => {
-					console.log(res)
+					
 					_this.detail = res.body.data;
-					console.log(_this.detail.fundraiseUserInfoId)
 				},
 				complete:(res) => {
 					
@@ -516,7 +519,7 @@ import api from '../../api/api'
 					id:this.id
 				},
 				success:(res) => {
-					console.log(res)
+					
 					_this.detail = res.body.data;
 				},
 				complete:(res) => {
@@ -533,7 +536,7 @@ import api from '../../api/api'
 					id:this.id
 				},
 				success:(res) => {
-					console.log(res)
+					
 					_this.detail = res.body.data;
 				},
 				complete:(res) => {
@@ -554,9 +557,7 @@ import api from '../../api/api'
     		result.fundraiseProjectResources = strArr.join(',');
     		return result;
     	},
-    	pick(e){
-    		console.log(e)
-    	},
+    	
     	postMyEdit(_form,cbName){
     		var _this = this;
  

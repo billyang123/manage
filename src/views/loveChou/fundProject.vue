@@ -150,11 +150,7 @@ import api from '../../api/api'
 	            }
 	          }]
 	        },
-  			tableData:[
-  				{
-		            
-		        }
-  			]
+  			tableData:[]
 
   		}
   	},
