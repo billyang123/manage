@@ -121,20 +121,32 @@ import api from '../../api/api'
         var self = this;
         console.log(self.formInline.region);
       },
+      //处理
       handleProcessing(id){
         var self = this;
-        self.ajax(self,{
-          url:api.fundUpdateVolunteerApplyProcesseStatus,
-          type:"post",
-          data:{
-            id:id
-          },
-          success:function(response){
-            console.log(response)
-           self.getData()
+        $MsgBox.confirm('此操作将处理该条数据, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+              self.ajax(self,{
+                url:api.fundUpdateVolunteerApplyProcesseStatus,
+                type:"post",
+                data:{
+                  id:id
+                },
+                success:function(response){
+                  console.log(response)
+                 self.getData()
 
-          }
-        })
+                }
+              })
+        }).catch (() => {
+                $Message({
+                    type: 'info',
+                    message: '已取消'
+                });
+            });
       },
       getData(){
       var self = this;

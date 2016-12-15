@@ -103,20 +103,31 @@ import api from '../../api/api'
      //撤销认证
       handleRemove(volunteerId,flag){
         var self = this;
-        self.ajax(self,{
-            url:api.fundCancleVolunteer,
-            type:"post",
-            data:{
-              id:volunteerId,
-              userVolunteerFlag:flag
-            },
-            success:function(response){
-              let _data = response.body.data;
-              if(_data){
-                 self.getData();
-              }
-           },
-            })
+        $MsgBox.confirm('此操作将撤销该用户, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+              self.ajax(self,{
+                  url:api.fundCancleVolunteer,
+                  type:"post",
+                  data:{
+                    id:volunteerId,
+                    userVolunteerFlag:flag
+                  },
+                  success:function(response){
+                    let _data = response.body.data;
+                    if(_data){
+                       self.getData();
+                    }
+                 },
+                  })
+            }).catch (() => {
+                $Message({
+                    type: 'info',
+                    message: '已取消'
+                });
+            });
       }
     },
     created(){
