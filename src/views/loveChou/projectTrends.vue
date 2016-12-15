@@ -105,7 +105,7 @@
 			      	:before-upload="beforeUpload"
 					  :action="uploadUrl"
 					  :data="uploadKey"
-					  :on-success="handleUpSuccess">
+					  :on-success="handleUpSuccess" ref="trendUpload">
 					  <el-button size="small" type="primary">点击上传</el-button>
 					  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
 					</el-upload>
@@ -152,9 +152,11 @@
 		      </ul>
 		      <div class="uploadTarget">
 			      <el-upload
-			      		
-					  :action="uploadUrl"
-					  :on-success="handleUpSuccess">
+			      		:show-upload-list="showUploadList"
+		      			:before-upload="beforeUpload"
+				  		:action="uploadUrl"
+				  		:data="{platform:'fundraise'}"
+				  		:on-success="handleUpSuccess" ref="listUpload">
 					  <el-button size="small" type="primary">点击上传</el-button>
 					  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
 					</el-upload>
@@ -244,9 +246,11 @@ import api from '../../api/api'
     	//上传图片
     	beforeUpload(res){
     		this.showUploadList = true;
+
     	},
 	    handleUpSuccess(res){
-	  		this.showUploadList = false;
+	    	this.showUploadList = false;
+	  		this.$refs.listUpload.clearFiles();
 	    	this.addImg(res.data)
 	    },
 	    addImg(url){

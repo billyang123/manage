@@ -181,6 +181,9 @@ import api from '../../api/api'
     		let success_txt = ""
     		this.curProject = row;
     		let _this = this;
+    		let data = {
+				id:row.id
+			}
     		switch(type){
     			case "unOnline":
     				txt = '此操作将取消在线预览该项目, 是否继续?';
@@ -201,6 +204,8 @@ import api from '../../api/api'
     				txt = '此操作将关闭改筹款项目, 是否继续?';
     				success_txt = '关闭改筹款项目成功'
     				_url = api.fund_closeFundraise
+    				data["finishReason"] = "stop";
+
     			default:break;
     		}
     		$MsgBox.confirm(txt, '提示', {
@@ -211,9 +216,7 @@ import api from '../../api/api'
                 _this.ajax(_this,{
 					url:_url,
 					type:"post",
-					data:{
-						id:row.id
-					},
+					data:data,
 					success:(res) => {
 						_this.getObjectList()
 	                    $Message({

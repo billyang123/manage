@@ -125,7 +125,7 @@
 				:show-upload-list="false"
 			  :action="uploadUrl"
 			  :data="{platform:'fundraise'}"
-			  :on-success="handleKeyUpSuccess">
+			  :on-success="handleKeyUpSuccess" ref="keyUpload">
 			  <el-button size="small" type="primary">点击上传</el-button>
 			  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
 				</el-upload>
@@ -151,7 +151,7 @@
 		      	:before-upload="beforeUpload"
 				  :action="uploadUrl"
 				  :data="{platform:'fundraise'}"
-				  :on-success="handleUpSuccess">
+				  :on-success="handleUpSuccess" ref="listUpload">
 				  <el-button size="small" type="primary">点击上传</el-button>
 				  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
 				</el-upload>
@@ -163,7 +163,7 @@
 	    <el-button type="primary" @click="postMyEdit('editProject')" :disabled="editProject.disabled">保存</el-button>
 	  </div>
 	</el-dialog>
-	<el-dialog title="评论维护" v-model="commit.visible" size="large">
+	<el-dialog title="评论维护" v-model="commit.visible">
 		<el-table
 		    :data="commitList"
 		    border
@@ -409,9 +409,11 @@ import api from '../../api/api'
     	},
     	handleKeyUpSuccess(res){
     		this.showUploadList = false;
+    		this.$refs.keyUpload.clearFiles();
     		this.imgkey = res.data;
     	},
     	handleUpSuccess(res){
+    		this.$refs.listUpload.clearFiles();
 	    	this.addImg(res.data)
 	    },
 	    addImg(url){

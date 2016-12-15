@@ -1,13 +1,13 @@
 <template>
  <div class="remitApplyList">
- 	<h2>{{this.projectTitle}}-打款纪录</h2>
+ 	<h2>{{this.projectTitle}}-打款记录</h2>
  	<div class="options">
 		<router-link :to="'/projectDetail/'+id">
 	      	<el-button size="small">
 		      		返回项目详情
 	      	</el-button>
 	    </router-link>
-		<el-button size="small" :plain="true" type="info" @click="showChangeHandle('addPayRecordList')">新增纪录</el-button>
+		<el-button size="small" :plain="true" type="info" @click="showChangeHandle('addPayRecordList')">新增记录</el-button>
 	</div>
 	<el-table
 	    :data="tableData"
@@ -65,7 +65,7 @@
 		      :total="total">
 		  </el-pagination>
 	</div>
-	<el-dialog title="添加打款纪录" v-model="addPayRecordList.visible">
+	<el-dialog title="添加打款记录" v-model="addPayRecordList.visible">
 	  	<el-form :model="addPayRecordList.form" class="demo-form-inline" ref="addPayRecordList" :rules="addPayRecordList.rules">
 		  <el-form-item label="打款金额（元）" :label-width="addPayRecordList.labelWidth" prop="remitAmount">
 		    <el-input v-model.number="addPayRecordList.form.remitAmount"></el-input>
@@ -95,7 +95,7 @@
 		    <el-button type="primary" @click="postMyEdit('addPayRecordList')" :disabled="addPayRecordList.disabled">保存</el-button>
 		</div>
 	</el-dialog>
-	<el-dialog title="编辑打款纪录" v-model="editPayRecordList.visible">
+	<el-dialog title="编辑打款记录" v-model="editPayRecordList.visible">
 	  	<el-form :model="editPayRecordList.form" class="demo-form-inline" ref="editPayRecordList" :rules="editPayRecordList.rules">
 
 		  <el-form-item label="打款金额" :label-width="editPayRecordList.labelWidth" prop="remitAmount">
@@ -152,8 +152,8 @@ import api from '../../api/api'
   					"id": 1,
 		            "fundraiseUserInfoId": 1,
 		            "fundraiseProjectId": 1,
-		            "applyAmount": 2000,
-		            "remitAmount": 2000,
+		            "applyAmount": 0,
+		            "remitAmount": 0,
 		            "createTime": (new Date()).format('yyyy-MM-dd hh:mm:ss'),
 		            "remitTime": (new Date()).format('yyyy-MM-dd hh:mm:ss'),
 		            "status": "new"
