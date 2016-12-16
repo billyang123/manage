@@ -36,12 +36,8 @@
 	    </el-table-column>
 	    <el-table-column
 	      prop="createTime"
-	      label="创建时间">
+	      label="申请时间">
 	    </el-table-column>
-      <el-table-column
-        prop="operateTime"
-        label="操作时间">
-      </el-table-column>
 	    <el-table-column
 	    	inline-template
 	      label="操作"

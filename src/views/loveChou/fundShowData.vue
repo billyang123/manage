@@ -7,30 +7,8 @@
 	    style="width: 100%">
       <el-table-column label="总数">
         <el-table-column
-          prop="userNickname"
-          label="用户昵称"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          inline-template
-          prop="userHeadimgurl"
-          label="用户头像"
-          width="100">
-          <span><img :src="row.userHeadimgurl" style="width:80px;height:80px;border-radius:100%"></span>
-        </el-table-column>
-        <el-table-column
           prop="patientName"
           label="患者姓名"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="linkmanName"
-          label="联系人姓名"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="linkmanPhone"
-          label="联系人电话"
           width="180">
         </el-table-column>
         <el-table-column
@@ -41,45 +19,15 @@
           <span>{{fundraise[row.status]}}</span>
         </el-table-column>
         <el-table-column
-          prop="suggestion"
-          label="建议"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="createTime"
-          label="创建时间"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="approveTime"
-          label="批准时间"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="fundraiseProjectTitle"
-          label="筹款项目标题"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="fundraiseProjectDesc"
-          label="筹款项目描述"
-          width="240">
-        </el-table-column>
-        <el-table-column
-          prop="fundraiseProjectDuration"
-          label="筹款项目持续时间"
-          width="180">
-        </el-table-column>
-        <el-table-column
           prop="fundraiseTargetAmount"
-          label="筹款目标金额"
+          label="目标金额"
           width="160">
         </el-table-column>
       </el-table-column>
       <el-table-column :label="totalNumber.fundraiseAcquiredAmount+''">
         <el-table-column
           prop="fundraiseAcquiredAmount"
-          label="筹款已获金额"
+          label="已筹金额"
           width="160">
         </el-table-column>
       </el-table-column>
@@ -133,13 +81,6 @@
         </el-table-column>
       </el-table-column>
       <el-table-column
-        inline-template
-        prop="finishReason"
-        label="结束原因"
-        width="180">
-        <span>{{finishReason[row.finishReason]}}</span>
-      </el-table-column>
-      <el-table-column
         prop="fundraiseStartTime"
         label="筹款开始时间"
         width="180">
@@ -147,16 +88,6 @@
       <el-table-column
         prop="fundraiseEndTime"
         label="筹款结束时间"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="operateTime"
-        label="操作时间"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="shareTitle"
-        label="分享标题"
         width="180">
       </el-table-column>
 	  </el-table>

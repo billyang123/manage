@@ -7,23 +7,23 @@
 	    style="width: 100%">
       <el-table-column
         prop="createTime"
-        label="创建时间"
+        label="申请时间"
         width="180">
       </el-table-column>
       <el-table-column
         prop="patientName"
         label="患者姓名"
-        width="130">
+        width="110">
       </el-table-column>
       <el-table-column
         prop="linkmanName"
         label="联系人姓名"
-        width="130">
+        width="110">
       </el-table-column>
       <el-table-column
         prop="linkmanPhone"
         label="联系人电话"
-        width="160">
+        width="130">
       </el-table-column>
 	    <el-table-column
 	      prop="fundraiseReson"

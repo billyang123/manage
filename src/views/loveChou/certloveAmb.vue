@@ -56,8 +56,8 @@
              <el-button :plain="true" type="info" @click="handleSubmit('adopt',row.userPhone)" v-if="row.userVolunteerFlag=='normal'">认证</el-button>
              <!--<el-button :plain="true" type="danger" @click="handleSubmit('reject',row.userPhone)" v-if="row.userVolunteerFlag=='normal'">不认证</el-button>-->
            </div>
-           <el-button :plain="true" type="danger" @click="handleRemove(row.id,'normal')" v-if="row.userVolunteerFlag=='volunteer'">撤销认证</el-button>
-           <el-button :plain="true" type="danger" @click="handleRemove(row.id,'normal')" v-if="result=='adopt'">撤销认证</el-button>
+           <el-button :plain="true" type="danger" @click="handleRemove(row.id,'normal')" v-if="row.userVolunteerFlag=='volunteer'">撤销</el-button>
+           <el-button :plain="true" type="danger" @click="handleRemove(row.id,'normal')" v-if="result=='adopt'">撤销</el-button>
          </div>
        </el-table-column>
      </el-table>
@@ -182,7 +182,7 @@ import api from '../../api/api'
       //撤销认证
       handleRemove(volunteerId,flag){
         var self = this;
-        $MsgBox.confirm('此操作将撤销该用户, 是否继续?', '提示', {
+        $MsgBox.confirm('此操作将撤销该用户爱心大使, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'

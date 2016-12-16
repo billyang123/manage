@@ -23,12 +23,6 @@
 	      prop="userCreateTime"
 	      label="创建时间">
 	    </el-table-column>
-	    <el-table-column
-        inline-template
-        prop="userVolunteerFlag"
-	      label="标记">
-        <span>{{row.userVolunteerFlag =='volunteer'?'志愿者':'非志愿者'}}</span>
-	    </el-table-column>
       <el-table-column
         inline-template
         label="操作"
@@ -103,7 +97,7 @@ import api from '../../api/api'
      //撤销认证
       handleRemove(volunteerId,flag){
         var self = this;
-        $MsgBox.confirm('此操作将撤销该用户, 是否继续?', '提示', {
+        $MsgBox.confirm('此操作将撤销该用户爱心大使, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
