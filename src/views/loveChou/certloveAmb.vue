@@ -104,8 +104,8 @@ import api from '../../api/api'
         },
         tableData:[],
         Volunteer:{
-          "normal":"不是志愿者",
-          "volunteer":"志愿者"
+          "normal":"不是",
+          "volunteer":"是"
         },
         dataBl:false,
         btnBl:false
