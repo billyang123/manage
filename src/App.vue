@@ -12,7 +12,7 @@ export default {
   name: 'app',
   //store,
   components: {
-    
+    //"vue-html-editor": HtmlEditor
   }
 }
 </script>

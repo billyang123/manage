@@ -236,14 +236,7 @@ import api from '../../api/api'
   					userHeadimgUrl:"lll",
   					status:"invisible",
   					content:"dddd",
-  					fundraisePatientStateResource:[
-  						{
-  							fundraisePatientStateId:1,
-  							resourceType:"image",
-  							status:"visible",
-  							resourceUrl:'http://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJbLwibUW5iaUK0Xdb7gpFc0WS4HpeYw6T1qNoD4DVvsBbicY5pia7tNW38WrzvnALyHv4nOCGeFKfZBw/0'
-  						}
-  					]
+  					fundraisePatientStateResource:[]
   				},
   				rules:{
   					userNickName:[
@@ -260,7 +253,7 @@ import api from '../../api/api'
     	//上传图片
     	beforeUpload(res){
     		this.showUploadList = true;
-    		console.log(this.$refs)
+    		//console.log(this.$refs)
     	},
 	    handleUpSuccess(res){
 	    	this.showUploadList = false;

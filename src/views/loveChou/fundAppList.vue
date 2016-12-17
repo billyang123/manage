@@ -222,5 +222,5 @@ import api from '../../api/api'
 	.fundAppList {
 
 	}
-	.fundAppList .cell{text-align:center}
+	.fundAppList .cell{text-align:left;}
 </style>

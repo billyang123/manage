@@ -14,15 +14,15 @@
 	    border
 	    style="width: 100%">
 	    
-	    <el-table-column
+	   <!--  <el-table-column
 	      prop="applyAmount"
 	      label="申请金额"
 	      width="120">	
-	    </el-table-column>
+	    </el-table-column> -->
 	    <el-table-column
 	      prop="remitAmount"
 	      label="打款金额（元）"
-	      width="120">
+	      width="150">
 	    </el-table-column>
 	    <el-table-column
 	      prop="createTime"
@@ -85,6 +85,7 @@
 			      type="datetime"
 			      placeholder="选择日期时间"
 			      align="right"
+			      format="yyyy-MM-dd hh:mm:ss"
 			      :picker-options="pickerOptions">
 			    </el-date-picker>
 		    </div>
@@ -131,13 +132,13 @@
  </div>
 </template>
 <script>
-import api from '../../api/api'
+import api from '../../api/api';
  export default {
   	name:"projectDetail",
   	data(){
   		var myNumber = (rule, value, callback) => {
 	        if (!value) {
-	          return callback(new Error('不能为空'));
+	          return callback(new Error('不能为空或不能为0'));
 	        }
 	        setTimeout(() => {
 	          if (!Number.isInteger(value)) {
@@ -188,8 +189,8 @@ import api from '../../api/api'
 		            "fundraiseProjectId": 1,
 		            "applyAmount": 2000,
 		            "remitAmount": 2000,
-		            "createTime": (new Date()).format('yyyy-MM-dd hh:mm:ss'),
-		            "remitTime": (new Date()).format('yyyy-MM-dd hh:mm:ss'),
+		            "createTime": (new Date()).format('yyyy-MM-dd HH:mm:ss'),
+		            "remitTime": (new Date()).format('yyyy-MM-dd HH:mm:ss'),
 		            "status": "new"
   				},
   				rules:{
@@ -235,13 +236,14 @@ import api from '../../api/api'
     		this[type].visible = true;
     		if(type == "editPayRecordList"){
     			this[type].form = row;
-    			this[type].form.remitTime = this[type].form.remitTime || (new Date()).format('yyyy-MM-dd hh:mm:ss');
+    			this[type].form.remitTime = this[type].form.remitTime || (new Date()).format('yyyy-MM-dd HH:mm:ss');
+    			//this.editPayRecordList.form.remitAmount = this.editPayRecordList.form.remitAmount+"";
     		}
     		if(type == "addPayRecordList"){
     			this[type].form.id = "";
     			this[type].form.fundraiseUserInfoId = this.$route.query.fundraiseUserInfoId;
 		        this[type].form.fundraiseProjectId = this.$route.query.fundraiseProjectId;
-		        this.editPayRecordList.form.remitAmount = this.editPayRecordList.form.remitAmount+"";
+		        //this.addPayRecordList.form.remitAmount = this.addPayRecordList.form.remitAmount+"";
     		}
     	},
     	getPayList(){
@@ -267,16 +269,16 @@ import api from '../../api/api'
     	},
     	postMyEdit(_form,cbName){
     		var _this = this;
-    		console.log(this.$refs[_form] )
+    		//console.log(this.$refs[_form] )
     		var data = {};
-    		this[_form].form.remitTime = (new Date(this[_form].form.remitTime)).format('yyyy-MM-dd hh:mm:ss');
+    		
     		data ={
     			"id": this[_form].form.id,
 	            "fundraiseUserInfoId": this[_form].form.fundraiseUserInfoId,
 	            "fundraiseProjectId": this[_form].form.fundraiseProjectId,
 	            "applyAmount": this[_form].form.applyAmount,
 	            "remitAmount": this[_form].form.remitAmount,
-	            "remitTime":(new Date(this[_form].form.remitTime)).format('yyyy-MM-dd hh:mm:ss'),
+	            "remitTime":(new Date(this[_form].form.remitTime)).format('yyyy-MM-dd HH:mm:ss'),
 	            "status": this[_form].form.status
     		}
 

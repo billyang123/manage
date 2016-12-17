@@ -23,11 +23,13 @@ import {
   Upload
 }
 from 'element-ui'
+import VueQuillEditor from 'vue-quill-editor'
+
 Vue.use(VueResource)
 Vue.use(VueRouter)
 Vue.use(VueCookie)
 //Vue.use(Vuex)
-
+Vue.use(VueQuillEditor)
 
 Vue.component(Button.name, Button)
 Vue.component(Checkbox.name, Checkbox)
@@ -61,6 +63,7 @@ Vue.component(TabPane.name, TabPane)
 Vue.component(Tag.name, Tag)
 Vue.component(Tree.name, Tree)
 Vue.component(Upload.name, Upload)
+
 var _MsgBox = MessageBox;
 var _Message = Message;
 var _Loading = Loading;

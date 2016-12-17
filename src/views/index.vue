@@ -7,7 +7,7 @@
 				<SubNav></SubNav>
 				<div class="menu-icon" @click="showMenu"><i class="el-icon-menu" v-if="left==-200"></i><i class="el-icon-d-arrow-left" v-if="left==0"></i></div>
 			</div>
-			<div class="content" :style="{height:wh+'px'}">
+			<div class="content">
 				<router-view></router-view>
 			</div>
 		</div>
@@ -37,6 +37,9 @@ export default {
     showMenu(){
     	this.left = this.left==0?-200:0;
     	this.pd = this.pd==0?200:0;
+    },
+    onhover(){
+    	this.op = 1;
     },
     handler(){
     	if(document.body.scrollTop > 100){
@@ -84,6 +87,7 @@ export default {
 		background-color: #324057;
 		padding: 17px 20px;
 		color: #fff;
+		transition: opacity 0.3s;
 	}
 	.page-content {
 		position: relative;
