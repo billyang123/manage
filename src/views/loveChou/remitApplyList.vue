@@ -135,6 +135,18 @@ import api from '../../api/api'
  export default {
   	name:"projectDetail",
   	data(){
+  		var myNumber = (rule, value, callback) => {
+	        if (!value) {
+	          return callback(new Error('不能为空'));
+	        }
+	        setTimeout(() => {
+	          if (!Number.isInteger(value)) {
+	            callback(new Error('请输入数字'));
+	          } else {
+	          	callback();
+	          }
+	        }, 1000);
+	    };
   		return {
   			id:1,
   			page:1,
@@ -153,14 +165,15 @@ import api from '../../api/api'
 		            "fundraiseUserInfoId": 1,
 		            "fundraiseProjectId": 1,
 		            "applyAmount": 0,
-		            "remitAmount": 0,
+		            "remitAmount": "",
 		            "createTime": (new Date()).format('yyyy-MM-dd hh:mm:ss'),
 		            "remitTime": (new Date()).format('yyyy-MM-dd hh:mm:ss'),
 		            "status": "new"
   				},
   				rules:{
 		    		remitAmount:[
-		    			{ type: 'number', message: '请输入数字', trigger: 'change,blur' }
+		    			//{ type: 'number', message: '请输入数字', trigger: 'change,blur' }
+		    			{validator:myNumber,trigger: 'change,blur'}
 		    		]
 		    	}
   			},
@@ -228,6 +241,7 @@ import api from '../../api/api'
     			this[type].form.id = "";
     			this[type].form.fundraiseUserInfoId = this.$route.query.fundraiseUserInfoId;
 		        this[type].form.fundraiseProjectId = this.$route.query.fundraiseProjectId;
+		        this.editPayRecordList.form.remitAmount = this.editPayRecordList.form.remitAmount+"";
     		}
     	},
     	getPayList(){
@@ -242,7 +256,7 @@ import api from '../../api/api'
 					size:this.size
 				},
 				success:(res) => {
-					console.log(res)
+					//console.log(res)
 					_this.tableData = res.body.data.content;
 					_this.total = res.body.data.totalElements
 				},

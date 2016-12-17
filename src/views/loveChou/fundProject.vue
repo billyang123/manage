@@ -20,7 +20,7 @@
 	    <el-table-column
 	      prop="fundraiseProjectDesc"
 	      label="项目描述"
-	      width="500">
+	      >
 	    </el-table-column>
 	    <el-table-column
 	    	inline-template
@@ -32,7 +32,7 @@
 	    <el-table-column
 	    	 fixed="right"
 	    	inline-template
-	      label="操作">
+	      label="操作" width="400">
 	      <div>
 	      	<!-- <el-button size="small" @click="showChangeHandle('payMoney')">打款</el-button> -->
 	      	<el-button size="small" v-if="row.status == 'view'" @click="changeStatus('unOnline',row)" :plain="true" type="info">取消预览</el-button>

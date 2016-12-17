@@ -2,92 +2,205 @@
  <div class="projectDetail">
  	<h2>{{detail.fundraiseProjectTitle}}</h2>
  	<div class="options">
-		<router-link to="/fundProject">
+		<router-link to="/fundProject" style="margin-right:15px;">
 	      	<el-button size="small">
 		      		返回列表
 	      	</el-button>
 	    </router-link>
-		<el-button size="small" :plain="true" type="info" @click="showChangeHandle('commit')">评论维护</el-button>
+		
+
 		<el-button size="small" @click="showChangeHandle('editProject')" :plain="true" type="info">编辑</el-button>
 		<router-link :to="'/projectTrends/'+id+'?name='+detail.fundraiseProjectTitle+'&fundraiseUserInfoId='+detail.fundraiseUserInfoId+'&fundraiseProjectId='+detail.id">
 	      	<el-button size="small" :plain="true" type="info">动态</el-button>
 	    </router-link>
+	    <el-button size="small" :plain="true" type="info" @click="showChangeHandle('commit')">评论维护</el-button>
 	    <router-link :to="'/remitApplyList/'+id+'?name='+detail.fundraiseProjectTitle+'&fundraiseUserInfoId='+detail.fundraiseUserInfoId+'&fundraiseProjectId='+detail.id">
 	      	<el-button size="small" :plain="true" type="info">
 		      		打款纪录
 	      	</el-button>
 	    </router-link>
 	</div>
-	<ul class="object-list">
-
-		<li><span class="title">患者姓名：</span><span class="con">{{detail.patientName}}</span></li>
-		<li><span class="title">患者实际姓名：</span><span class="con">{{detail.acturalPatientName}}</span></li>
-		<li><span class="title">申请人昵称：</span><span class="con">{{detail.userNickname}}</span></li>
-		<li><span class="title">申请人头像：</span><img :src="detail.userHeadimgurl" alt="" style="width:50px;height:50px;"/></li>
-		<li><span class="title">联系人姓名：</span><span class="con">{{detail.linkmanName}}</span></li>
-		<li><span class="title">申请人电话：</span><span class="con">{{detail.linkmanPhone}}</span></li>
-		<li><span class="title">状态：</span>{{status[detail.status]}}</li>
-		<li><span class="title">创建时间：</span><span class="con">{{detail.createTime}}</span></li>
-		<li><span class="title">审核时间：</span><span class="con">{{detail.approveTime}}</span></li>
-		<li><span class="title">筹款原因：</span><span class="con">{{detail.fundraiseReson}}</span></li>
-		<li><span class="title">审核意见：</span><span class="con">{{detail.suggestion}}</span></li>
-		<li><span class="title">筹款持续时间(天数)：</span><span class="con">{{detail.fundraiseProjectDuration}}</span></li>
-		<li><span class="title">当前帮助人数：</span><span class="con">{{detail.fundraiseHelpCount}}</span></li>
-		<li><span class="title">目标筹款金额：</span><span class="con">{{detail.fundraiseTargetAmount}}元</span></li>
-		<li><span class="title">申请筹款金额：</span><span class="con">{{detail.fundraiseApplyTargetAmount}}元</span></li>
-		<li><span class="title">已获筹款金额：</span><span class="con">{{detail.fundraiseAcquiredAmount}}元</span></li>
-		<li><span class="title">累计打款金额：</span><span class="con">{{detail.fundraiseRemitAmount}}元</span></li>
-		<li><span class="title">分享次数：</span><span class="con">{{detail.fundraiseShareCount}}</span></li>
-		<li><span class="title">分享进入次数：</span><span class="con">{{detail.fundraiseShareOpenCount}}</span></li>
-		<li><span class="title">点击捐款次数：</span><span class="con">{{detail.fundraiseDonationClickCount}}</span></li>
-		<li><span class="title">评论数（包括回复）：</span><span class="con">{{detail.fundraiseCommentCount}}</span></li>
-		<li><span class="title">捐款次数：</span><span class="con">{{detail.fundraiseDonationCount}}</span></li>
-		<li><span class="title">打开次数：</span><span class="con">{{detail.openCount}}</span></li>
-		<li><span class="title">完成原因：</span>{{finishReason[detail.finishReason]?finishReason[detail.finishReason]:''}}</li>
-		<li><span class="title">筹款开始时间：</span><span class="con">{{detail.fundraiseStartTime}}</span></li>
-		<li><span class="title">筹款结束时间：</span><span class="con">{{detail.fundraiseEndTime}}</span></li>
-		<li><span class="title">封面图片：</span><img :src="detail.fundraiseProjectImgurl" alt="" style="width:50px;height:50px;"/></li>
-		<li><span class="title">列表页图片：</span><img v-for="item in detail.fundraiseProjectResources" :src="item.resourceUrl" alt="" style="width:50px;height:50px;margin-right:5px"/></li>
-		<li><span class="title">操作时间：</span><span class="con">{{detail.operateTime}}</span></li>
-		<li><span class="title">分享标题：</span><span class="con">{{detail.shareTitle}}</span></li>
-		<li><span class="title">分享内容：</span><span class="con">{{detail.shareContent}}</span></li>
-		<li><span class="title">项目描述：</span><span class="con">{{detail.fundraiseProjectDesc}}</span></li>
-		<li><span class="title">详情描述：</span><span class="con">{{detail.detail}}</span></li>
-	</ul>
+	<el-card class="box-card">
+		<div slot="header" class="clearfix">
+			<span style="line-height: 36px;">申请资料</span>
+		</div>
+		<div class="object-list">
+			<el-row :gutter="20">
+				<el-col :span="6">
+					<p><span class="title" style="width:120px;">患者姓名：</span><span class="con">{{detail.patientName}}</span></p>
+				</el-col>
+				<el-col :span="18">
+					<p><span class="title">申请筹款金额：</span><span class="con">{{detail.fundraiseApplyTargetAmount}}元</span></p>
+				</el-col>
+			</el-row>
+			<el-row :gutter="20">
+				<el-col :span="24">
+					<p><span class="title">筹款原因：</span><span class="con">{{detail.fundraiseReson}}</span></p>
+				</el-col>
+			</el-row>
+			<el-row :gutter="20">
+				<el-col :span="6">
+					<p><span class="title">联系人姓名：</span><span class="con">{{detail.linkmanName}}</span></p>
+				</el-col>
+				<el-col :span="6">
+					<p><span class="title" style="width:120px;">联系人电话：</span><span class="con">{{detail.linkmanPhone}}</span></p>
+				</el-col>
+				<el-col :span="6">
+					<p style="height: 20px;"><span class="title" style="width:120px;">申请人头像：</span><img :src="detail.userHeadimgurl" alt="" style="width:50px;height:50px;position:relative;top:-14px;border-radius:100%;"/></p>
+				</el-col>
+				<el-col :span="6">
+					<p><span class="title" style="width:120px;">申请人昵称：</span><span class="con">{{detail.userNickname}}</span></p>
+				</el-col>
+			</el-row>
+		</div>
+	</el-card>
+	<el-card class="box-card">
+		<div slot="header" class="clearfix">
+			<span style="line-height: 36px;">上线资料</span>
+		</div>
+		<div class="object-list">
+			<el-row :gutter="20">
+				<el-col :span="6">
+					<p><span class="title" style="width:120px;">项目名称：</span><span class="con">{{detail.fundraiseProjectTitle}}</span></p>
+				</el-col>
+				<el-col :span="18">
+					<p><span class="title" >患者姓名(线上显示)：</span><span class="con">{{detail.acturalPatientName}}</span></p>
+				</el-col>
+			</el-row>
+			<el-row :gutter="20">
+				<el-col :span="6">
+					<p><span class="title">目标筹款金额：</span><span class="con">{{detail.fundraiseTargetAmount}}</span></p>
+				</el-col>
+				<el-col :span="6">
+					<p><span class="title">已筹款金额：</span><span class="con">{{detail.fundraiseAcquiredAmount}}</span></p>
+				</el-col>
+				<el-col :span="6">
+					<p><span class="title">累计打款金额：</span><span class="con">{{detail.fundraiseRemitAmount}}</span></p>
+				</el-col>
+			</el-row>
+			<el-row :gutter="20">
+				
+				<el-col :span="9">
+					<p><span class="title">筹款开始时间：</span><span class="con">{{detail.fundraiseStartTime}}</span></p>
+				</el-col>
+				<el-col :span="6">
+					<p><span class="title">筹款持续时间(天数)：</span><span class="con">{{detail.fundraiseProjectDuration}}</span></p>
+				</el-col>
+				<el-col :span="9">
+					<p><span class="title">筹款结束时间：</span><span class="con">{{detail.fundraiseEndTime}}</span></p>
+				</el-col>	
+			</el-row>
+			
+			<el-row :gutter="20">
+				<el-col :span="24">
+					<p><span class="title">项目简介：</span><span class="con">{{detail.fundraiseProjectDesc}}</span></p>
+				</el-col>
+			</el-row>
+			<el-row :gutter="20">
+				<el-col :span="24">
+					<p><span class="title">项目详情：</span><span class="con">{{detail.detail}}</span></p>
+				</el-col>
+			</el-row>
+			<el-row :gutter="20">
+				<el-col :span="24">
+					<p><span class="title">分享标题：</span><span class="con">{{detail.shareTitle}}</span></p>
+				</el-col>
+			</el-row>
+			<el-row :gutter="20">
+				<el-col :span="24">
+					<p><span class="title">分享副标题：</span><span class="con">{{detail.shareContent}}</span></p>
+				</el-col>
+			</el-row>
+			<el-row :gutter="20">
+				<el-col :span="24">
+					<p><span class="title">封面图片：</span><img :src="detail.fundraiseProjectImgurl" alt="" style="width:50px;height:50px;position:relative;"/></p>
+				</el-col>
+			</el-row>
+			<el-col :span="6">
+					<p><span class="title">项目图片：</span><img v-for="item in detail.fundraiseProjectResources" :src="item.resourceUrl" alt="" style="width:50px;height:50px;position:relative;margin-right:5px;"/></p>
+			</el-col>
+		</div>
+	</el-card>
+	<el-card class="box-card">
+		<div class="object-list">
+			<el-row :gutter="20">
+				<el-col :span="8">
+					<p><span class="title">项目状态：</span><span class="con">{{status[detail.status]}}</span></p>
+				</el-col>
+				<el-col :span="8">
+					<p><span class="title">完成原因：</span><span class="con">{{finishReason[detail.finishReason]?finishReason[detail.finishReason]:''}}</span></p>
+				</el-col>
+				<el-col :span="8">
+					<p><span class="title">审核意见：</span><span class="con">{{detail.suggestion}}</span></p>
+				</el-col>
+			</el-row>
+			<el-row :gutter="20">
+				<el-col :span="8">
+					<p><span class="title">创建时间：</span><span class="con">{{detail.createTime}}</span></p>
+				</el-col>
+				<el-col :span="8">
+					<p><span class="title">审核时间：</span><span class="con">{{detail.approveTime}}</span></p>
+				</el-col>
+				<el-col :span="8">
+					<p><span class="title">操作时间：</span><span class="con">{{detail.operateTime}}</span></p>
+				</el-col>
+			</el-row>
+			
+			<el-row :gutter="20">
+				<el-col :span="6">
+					<p><span class="title">分享次数：</span><span class="con">{{detail.fundraiseShareCount}}</span></p>
+				</el-col>
+				<el-col :span="6">
+					<p><span class="title">分享进入次数：</span><span class="con">{{detail.fundraiseShareOpenCount}}</span></p>
+				</el-col>
+				<el-col :span="6">
+					<p><span class="title">捐款次数：</span><span class="con">{{detail.fundraiseDonationCount}}</span></p>
+				</el-col>
+				<el-col :span="6">
+					<p><span class="title">点击捐款次数：</span><span class="con">{{detail.fundraiseDonationClickCount}}</span></p>
+				</el-col>
+			</el-row>
+			<el-row :gutter="20">
+				<el-col :span="12">
+					<p><span class="title">评论数（包括回复）：</span><span class="con">{{detail.fundraiseCommentCount}}</span></p>
+				</el-col>
+				<el-col :span="12">
+					<p><span class="title">打开次数：</span><span class="con">{{detail.openCount}}</span></p>
+				</el-col>
+			</el-row>
+			<el-row :gutter="20">
+				<el-col :span="24">
+					<p><span class="title">审核意见：</span><span class="con">{{detail.suggestion}}</span></p>
+				</el-col>
+			</el-row>
+		</div>
+	</el-card>
 	<!-- 发起人昵称，目标金额，项目标题，项目详情，患者名字，图片列表，分享主标题、副标题，封面图，筹款时间 -->
-	<el-dialog title="编辑项目" v-model="editProject.visible">
+	<el-dialog title="编辑项目" v-model="editProject.visible" size="large">
 	  <el-form :model="editProject.form" :rules="editProject.rules" ref="editProject">
-	    <el-form-item label="筹款项目名称" label-width="150px" prop="fundraiseProjectTitle">
+	    <el-form-item label="项目名称" label-width="150px" prop="fundraiseProjectTitle">
 	      <el-input type="text" v-model="editProject.form.fundraiseProjectTitle" auto-complete="off"></el-input>
 	    </el-form-item>
-	    <el-form-item label="目标筹款金额(元)" label-width="150px" prop="fundraiseTargetAmount">
-	      <el-input type="text" v-model="editProject.form.fundraiseTargetAmount" auto-complete="off"></el-input>
-	    </el-form-item>
-	    <el-form-item label="申请筹款金额(元)" label-width="150px" prop="fundraiseApplyTargetAmount">
-	      <el-input type="text" v-model="editProject.form.fundraiseApplyTargetAmount" auto-complete="off"></el-input>
-	    </el-form-item>
-	    <el-form-item label="筹款原因" label-width="150px" prop="fundraiseReson">
-	      <el-input type="textarea" v-model="editProject.form.fundraiseReson" auto-complete="off"></el-input>
-	    </el-form-item>
-	    <el-form-item label="患者姓名" label-width="150px" prop="patientName">
-	      <el-input type="text" v-model="editProject.form.patientName" auto-complete="off"></el-input>
-	    </el-form-item>
-	    <el-form-item label="患者实际姓名" label-width="150px" prop="acturalPatientName">
+	    <el-form-item label="患者姓名(线上显示)" label-width="150px" prop="acturalPatientName">
 	      <el-input type="text" v-model="editProject.form.acturalPatientName" auto-complete="off"></el-input>
 	    </el-form-item>
-	    <el-form-item label="联系人姓名" label-width="150px" prop="linkmanName">
-	      <el-input type="text" v-model="editProject.form.linkmanName" auto-complete="off"></el-input>
+	    <el-form-item label="目标筹款金额(元)" label-width="150px" prop="fundraiseTargetAmount">
+	      <el-input type="text" v-model.number="editProject.form.fundraiseTargetAmount" auto-complete="off"></el-input>
 	    </el-form-item>
-	    <el-form-item label="联系人电话" label-width="150px" prop="linkmanPhone">
-	      <el-input type="text" v-model="editProject.form.linkmanPhone" auto-complete="off"></el-input>
+	    <el-form-item label="筹款金额(元)" label-width="150px" prop="fundraiseAcquiredAmount">
+	      <el-input type="text" v-model.number="editProject.form.fundraiseAcquiredAmount" auto-complete="off"></el-input>
 	    </el-form-item>
-	    <el-form-item label="申请人昵称" label-width="150px" prop="userNickname">
-	      <el-input type="text" v-model="editProject.form.userNickname" auto-complete="off"></el-input>
+	    <el-form-item label="累计打款款金额(元)" label-width="150px" prop="fundraiseRemitAmount">
+	      <el-input type="text" v-model.number="editProject.form.fundraiseRemitAmount" auto-complete="off"></el-input>
 	    </el-form-item>
-	    <el-form-item label="筹款开始时间" label-width="150px" >
+	    <el-form-item label="筹款持续时间(天数)" label-width="150px" prop="fundraiseProjectDuration">
+	      	
+	      <el-input type="text" v-model.number="editProject.form.fundraiseProjectDuration" auto-complete="off"></el-input>
+	    </el-form-item>
+	    <el-form-item label="筹款结束时间" label-width="150px" >
 	    	<div style="text-align:left;">
 			  	<el-date-picker
-			      v-model="editProject.form.fundraiseStartTime"
+			      v-model="editProject.form.fundraiseEndTime"
 			      type="datetime"
 			      format="yyyy-MM-dd HH:mm:ss"
 			      placeholder="选择日期时间"
@@ -96,23 +209,19 @@
 			    </el-date-picker>
 		    </div>
 	      <!-- <el-input type="text" v-model="editProject.form.fundraiseStartTime" auto-complete="off"></el-input> -->
-	    </el-form-item>
-	    <el-form-item label="筹款持续时间(天数)" label-width="150px" prop="fundraiseProjectDuration">
-	      	
-	      <el-input type="text" v-model="editProject.form.fundraiseProjectDuration" auto-complete="off"></el-input>
-	    </el-form-item>
 
+	    </el-form-item>
+	    <el-form-item label="项目简介" label-width="150px" prop="fundraiseProjectDesc">
+	      <el-input type="textarea" v-model="editProject.form.fundraiseProjectDesc" auto-complete="off"></el-input>
+	    </el-form-item>
+	    <el-form-item label="项目详情" label-width="150px" prop="detail">
+	      <el-input type="textarea" v-model="editProject.form.detail" auto-complete="off"></el-input>
+	    </el-form-item>
 	    <el-form-item label="分享标题" label-width="150px" prop="shareTitle">
 	      <el-input type="text" v-model="editProject.form.shareTitle" auto-complete="off"></el-input>
 	    </el-form-item>
-	    <el-form-item label="分享内容" label-width="150px" prop="shareContent">
+	    <el-form-item label="分享副标题" label-width="150px" prop="shareContent">
 	      <el-input type="textarea" v-model="editProject.form.shareContent" auto-complete="off"></el-input>
-	    </el-form-item>
-	    <el-form-item label="筹款项目描述" label-width="150px" prop="fundraiseProjectDesc">
-	      <el-input type="textarea" v-model="editProject.form.fundraiseProjectDesc" auto-complete="off"></el-input>
-	    </el-form-item>
-	    <el-form-item label="详情描述" label-width="150px" prop="detail">
-	      <el-input type="textarea" v-model="editProject.form.detail" auto-complete="off"></el-input>
 	    </el-form-item>
 	    <el-form-item label="封面图片地址" label-width="150px">
 			<ul class="img-list" style="padding:10px 0;">
@@ -156,7 +265,7 @@
 				  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
 				</el-upload>
 			</div>
-	    </el-form-item>  
+	    </el-form-item>
 	  </el-form>
 	  <div slot="footer" class="dialog-footer">
 	    <el-button @click="editProject.visible = false">取 消</el-button>
@@ -215,6 +324,19 @@ import api from '../../api/api'
  export default {
   	name:"projectDetail",
   	data(){
+
+  		var myNumber = (rule, value, callback) => {
+	        if (!value) {
+	          return callback(new Error('不能为空'));
+	        }
+	        setTimeout(() => {
+	          if (!Number.isInteger(value)) {
+	            callback(new Error('请输入数字'));
+	          } else {
+	          	callback();
+	          }
+	        }, 1000);
+	    };
   		return {
   			id:1,
   			uploadUrl:api.fund_image,
@@ -223,7 +345,7 @@ import api from '../../api/api'
   			status:{
   				"new":"申请中",
   				"reject":"审核不通过",
-  				"pass":"审核通过",
+  				"approved":"审核通过",
   				"view":"预览",
   				"process":"筹款中",
   				"finish":"筹款完成"
@@ -259,44 +381,50 @@ import api from '../../api/api'
   				upfileUrl:api.fund_image,
   				rules:{
   					fundraiseProjectTitle:[
-  						{ required: true, message: '请填写项目标题', trigger: 'change,blur' }
-  					],
-  					fundraiseApplyTargetAmount:[
-  						{ required: true, message: '请填写申请目标筹款金额', trigger: 'change,blur' }
-  					],
-  					fundraiseTargetAmount:[
-  						{ required: true, message: '请填写筹款金额', trigger: 'change,blur' }
-  					],
-  					fundraiseReson:[
-  						{ required: true, message: '请填写筹款原因', trigger: 'change,blur' }
-  					],
-  					patientName:[
-  						{ required: true, message: '请填写患者姓名', trigger: 'change,blur' }
-  					],
-  					linkmanName:[
-  						{ required: true, message: '请填写联系人姓名', trigger: 'change,blur' }
-  					],
-  					linkmanPhone:[
-  						{ required: true, message: '请填写联系人电话', trigger: 'change,blur' }
-  					],
-  					userNickname:[
-  						{ required: true, message: '请填写昵称', trigger: 'change,blur' }
-  					],
-  					fundraiseProjectDuration:[
-  						{ required: true, message: '请正确填写筹款持续时间(天数)', trigger: 'change,blur' }
-  					],
-  					shareTitle:[
-  						{ required: true, message: '请填写分享标题', trigger: 'change,blur' }
-  					],
-  					shareContent:[
-  						{ required: true, message: '请填写分享内容', trigger: 'change,blur' }
-  					],
-  					fundraiseProjectDesc:[
-  						{ required: true, message: '请填写筹款项目描述', trigger: 'change,blur' }
-  					],
-  					detail:[
-  						{ required: true, message: '请填写详情描述', trigger: 'change,blur' }
-  					]
+						{ required: true, message: '请填写项目标题', trigger: 'change,blur' }
+					],
+					acturalPatientName:[
+						{ required: true, message: '请填写患者姓名(线上显示)', trigger: 'change,blur' }
+					],
+					fundraiseTargetAmount:[
+						{validator:myNumber,trigger: 'change,blur'}
+						//{ required: true, message: '请填写目标筹款金额', trigger: 'change,blur' }
+					],
+					fundraiseAcquiredAmount:[
+						{validator:myNumber,trigger: 'change,blur'}
+						//{ required: true, message: '请填写筹款金额', trigger: 'change,blur' }
+					],
+					fundraiseRemitAmount:[
+						{validator:myNumber,trigger: 'change,blur'}
+						//{ required: true, message: '请填写累计打款款金额', trigger: 'change,blur' }
+					],
+					fundraiseProjectDuration:[
+						{validator:myNumber,trigger: 'change,blur'}
+						//{ required: true, message: '请正确填写筹款持续时间(天数)', trigger: 'change,blur' }
+					],
+					fundraiseEndTime:[
+						{ required: true, message: '请填写筹款结束时间', trigger: 'change,blur' }
+					],
+
+					fundraiseProjectDesc:[
+						{ required: true, message: '请填写项目简介', trigger: 'change,blur' }
+					],
+					
+					detail:[
+						{ required: true, message: '请填写项目详情', trigger: 'change,blur' }
+					],
+					shareTitle:[
+						{ required: true, message: '请填写分享副标题', trigger: 'change,blur' }
+					],
+					shareContent:[
+						{ required: true, message: '请填写分享内容', trigger: 'change,blur' }
+					],
+					fundraiseProjectDesc:[
+						{ required: true, message: '请填写筹款项目描述', trigger: 'change,blur' }
+					],
+					detail:[
+						{ required: true, message: '请填写详情描述', trigger: 'change,blur' }
+					]
   				},
   				form:{
   					"id": 1,
@@ -422,7 +550,6 @@ import api from '../../api/api'
 				status:"visible",
 				resourceUrl:url
 			});
-		
 	    },
 	    removeImg(idx){
 	    	this.imgList.splice(idx,1);
@@ -444,13 +571,17 @@ import api from '../../api/api'
     			this.getPayList();
     		}
     		if(type = "editProject"){
+    			//this.$refs.editProject.resetFields();
     			this.editProject.form = this.detail;
-    			this.editProject.form.fundraiseStartTime = this.editProject.form.fundraiseStartTime || (new Date()).format('yyyy-MM-dd hh:mm:ss');
+    			this.editProject.form.fundraiseEndTime = this.editProject.form.fundraiseEndTime || (new Date()).format('yyyy-MM-dd hh:mm:ss');
     			this.editProject.form.fundraiseProjectDuration = this.editProject.form.fundraiseProjectDuration || "10";
 	    		this.imgList = this.detail.fundraiseProjectResources;
 	    		this.imgkey = this.detail.fundraiseProjectImgurl;
+	    		this.editProject.form.acturalPatientName = !this.editProject.form.acturalPatientName?this.editProject.form.patientName:this.editProject.form.acturalPatientName;
 	    		this.editProject.form.fundraiseTargetAmount = this.editProject.form.fundraiseTargetAmount+""
+	    		this.editProject.form.fundraiseAcquiredAmount = this.editProject.form.fundraiseAcquiredAmount+""
 	    		this.editProject.form.fundraiseApplyTargetAmount = this.editProject.form.fundraiseApplyTargetAmount+""
+	    		this.editProject.form.fundraiseRemitAmount = this.editProject.form.fundraiseRemitAmount+""
 	    		this.editProject.form.fundraiseProjectDuration = this.editProject.form.fundraiseProjectDuration+""
     		}
     	},
@@ -589,6 +720,7 @@ import api from '../../api/api'
     					type:"post",
     					data:_this.getformData(this[_form].form),
     					success:(res) => {
+    						_this[_form].visible = false;
     						_this[cbName] && _this[cbName](res);
     						_this.$refs[_form].resetFields();
     						_this.getDetail()
@@ -599,7 +731,7 @@ import api from '../../api/api'
     					},
     					complete:(res) => {
     						_this[_form].disabled = false;
-    						_this[_form].visible = false;
+    						
     					}
     				})
     			}
@@ -615,6 +747,39 @@ import api from '../../api/api'
 <style  lang="less">
 	.projectDetail {
 		padding: 20px;
+		.box-card {
+			margin-bottom: 20px;
+		}
+		.options {
+			margin-bottom: 20px;
+		}
+	}
+	.object-list {
+		border:1px solid #ddd;
+		.el-col {
+			border-right:1px solid #ddd;
+			&:last-child {
+				border-right: 0;
+			}
+		}
+		p {
+			text-align: left;
+			position: relative;
+			display: flex;
+		}
+		.el-row {
+			border-bottom: 1px solid #eee;
+		}
+		.title {
+			font-weight: bold;
+			display: block;
+			white-space: nowrap;
+    		padding-left: 20px;
+		}
+		.con {
+			display: inline-block;
+			text-align: left;
+		}
 	}
 	.object-list li {
 		/*float: left;*/
@@ -660,9 +825,11 @@ import api from '../../api/api'
 		padding: 0;
 		.img-box {
 			width: 128px;
-			height: 128px;
-			background-size: contain;
-			position: relative;
+		    height: 128px;
+		    background-size: contain;
+		    position: relative;
+		    background-repeat: no-repeat;
+		    background-position: center;
 		}
 		.del-img {
 			position: absolute;
@@ -686,5 +853,14 @@ import api from '../../api/api'
 	}
 	.el-upload__btn-delete {
 		display: none !important;
+	}
+	.el-time-spinner {
+		display: flex !important;
+    	width: 100% !important;
+    	position: relative !important;
+    	overflow: hidden !important;
+    	.el-time-spinner__wrapper {
+    		width: 100% !important;
+    	}
 	}
 </style>

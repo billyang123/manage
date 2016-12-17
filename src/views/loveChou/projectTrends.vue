@@ -72,12 +72,12 @@
 	</div>
 	<el-dialog title="新增动态" v-model="addTrend.visible">
 	  <el-form :model="addTrend.form" :rules="addTrend.rules" ref="addTrend">
-	    <el-form-item label="发布人昵称" :label-width="addTrend.labelWidth" prop="userNickName">
+	    <!-- <el-form-item label="发布人昵称" :label-width="addTrend.labelWidth" prop="userNickName">
 	      <el-input type="text" v-model="addTrend.form.userNickName" auto-complete="off"></el-input>
 	    </el-form-item>
 	    <el-form-item label="发布人头像地址" :label-width="addTrend.labelWidth" prop="userHeadimgUrl">
 	      <el-input type="text" v-model="addTrend.form.userHeadimgUrl" auto-complete="off"></el-input>
-	    </el-form-item>
+	    </el-form-item> -->
 	    <el-form-item label="动态显示" :label-width="addTrend.labelWidth" prop="status">
 	    	<div style="text-align:left;">
 		    	<el-radio class="radio" v-model="addTrend.form.status" label="visible">显示</el-radio>
@@ -152,11 +152,12 @@
 		      </ul>
 		      <div class="uploadTarget">
 			      <el-upload
+			      		ref="listUpload"
 			      		:show-upload-list="showUploadList"
 		      			:before-upload="beforeUpload"
 				  		:action="uploadUrl"
 				  		:data="{platform:'fundraise'}"
-				  		:on-success="handleUpSuccess" ref="listUpload">
+				  		:on-success="handleUpSuccess" :default-file-list="defaultImgList">
 					  <el-button size="small" type="primary">点击上传</el-button>
 					  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
 					</el-upload>
@@ -175,6 +176,18 @@ import api from '../../api/api'
  export default {
   	name:"projectDetail",
   	data(){
+  		var myNumber = (rule, value, callback) => {
+	        if (!value) {
+	          return callback(new Error('不能为空'));
+	        }
+	        setTimeout(() => {
+	          if (!Number.isInteger(value)) {
+	            callback(new Error('请输入数字'));
+	          } else {
+	          	callback();
+	          }
+	        }, 1000);
+	    };
   		return {
   			id:1,
   			page:1,
@@ -187,6 +200,7 @@ import api from '../../api/api'
   			uploadKey:{platform:'fundraise'},
   			tableData:[],
   			showUploadList:false,
+  			defaultImgList:[],
   			addTrend:{
   				disabled:false,
   				visible:false,
@@ -246,11 +260,12 @@ import api from '../../api/api'
     	//上传图片
     	beforeUpload(res){
     		this.showUploadList = true;
-
+    		console.log(this.$refs)
     	},
 	    handleUpSuccess(res){
 	    	this.showUploadList = false;
-	  		this.$refs.listUpload.clearFiles();
+	    	this.defaultImgList = [];
+	  		this.$refs.listUpload && this.$refs.listUpload.clearFiles();
 	    	this.addImg(res.data)
 	    },
 	    addImg(url){
