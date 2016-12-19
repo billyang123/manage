@@ -99,7 +99,8 @@ import remitApplyList from './views/loveChou/remitApplyList.vue'
 //Vue.transition('showAll',{});
 
 let router = new VueRouter({
-	mode: 'history',
+    hashbang:true,
+    //mode: 'history',
   	base: __dirname,
     routes:[
 		{
