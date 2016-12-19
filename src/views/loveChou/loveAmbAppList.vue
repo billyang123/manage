@@ -27,6 +27,10 @@
         prop="volunteerPhone"
         label="申请人手机号">
       </el-table-column>
+      <el-table-column
+        prop="volunteerWechatAccount"
+        label="申请人微信号">
+      </el-table-column>
 	    <el-table-column
         inline-template
         prop="processeStatus"
