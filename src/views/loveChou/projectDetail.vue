@@ -7,7 +7,7 @@
 		      		返回列表
 	      	</el-button>
 	    </router-link>
-		
+
 
 		<el-button size="small" @click="showChangeHandle('editProject')" :plain="true" type="info">编辑</el-button>
 		<router-link :to="'/projectTrends/'+id+'?name='+detail.fundraiseProjectTitle+'&fundraiseUserInfoId='+detail.fundraiseUserInfoId+'&fundraiseProjectId='+detail.id">
@@ -79,7 +79,7 @@
 				</el-col>
 			</el-row>
 			<el-row :gutter="20">
-				
+
 				<el-col :span="9">
 					<p><span class="title">筹款开始时间：</span><span class="con">{{detail.fundraiseStartTime}}</span></p>
 				</el-col>
@@ -88,9 +88,9 @@
 				</el-col>
 				<el-col :span="9">
 					<p><span class="title">筹款结束时间：</span><span class="con">{{detail.fundraiseEndTime}}</span></p>
-				</el-col>	
+				</el-col>
 			</el-row>
-			
+
 			<el-row :gutter="20">
 				<el-col :span="24">
 					<p><span class="title">项目简介：</span><span class="con">{{detail.fundraiseProjectDesc}}</span></p>
@@ -150,7 +150,7 @@
 					<p><span class="title">操作时间：</span><span class="con">{{detail.operateTime}}</span></p>
 				</el-col>
 			</el-row>
-			
+
 			<el-row :gutter="20">
 				<el-col :span="6">
 					<p><span class="title">分享次数：</span><span class="con">{{detail.fundraiseShareCount}}</span></p>
@@ -187,12 +187,12 @@
 	    <el-form-item label="目标筹款金额(元)" label-width="150px" prop="fundraiseTargetAmount">
 	      <el-input type="text" v-model.number="editProject.form.fundraiseTargetAmount" auto-complete="off"></el-input>
 	    </el-form-item>
-	    
+
 	    <el-form-item label="筹款持续时间(天数)" label-width="150px" prop="fundraiseProjectDuration">
-	      	
+
 	      <el-input type="text" v-model.number="editProject.form.fundraiseProjectDuration" auto-complete="off"></el-input>
 	    </el-form-item>
-	    
+
 	      <!-- <el-input type="text" v-model="editProject.form.fundraiseStartTime" auto-complete="off"></el-input> -->
 
 	    </el-form-item>
@@ -375,7 +375,7 @@ import api from '../../api/api'
   				attain:"达到筹款目标",
   				stop:"强制关闭"
   			},
-  			
+
   			editProject:{
   				disabled:false,
   				visible:false,
@@ -411,7 +411,7 @@ import api from '../../api/api'
 					fundraiseProjectDesc:[
 						{ required: true, message: '请填写项目简介', trigger: 'change,blur' }
 					],
-					
+
 					detail:[
 						{ required: true, message: '请填写项目详情', trigger: 'change,blur' }
 					],
@@ -458,7 +458,7 @@ import api from '../../api/api'
 			        "finishReason": "attain",
 			        "weight": 1,
 			        "fundraiseStartTime": "2016-12-12 10:29:30",
-			        "fundraiseEndTime": "2016-12-12 10:29:30",
+			        "fundraiseEndTime": "",
 			        "fundraiseProjectImgurl": "",
 			        "operateTime": "2016-12-12 10:29:30",
 			        "shareTitle": "分享标题",
@@ -576,7 +576,7 @@ import api from '../../api/api'
     		if(type = "editProject"){
     			this.$refs.editProject && this.$refs.editProject.resetFields();
     			this.editProject.form = this.detail;
-    			this.editProject.form.fundraiseEndTime = this.editProject.form.fundraiseEndTime || (new Date()).format('yyyy-MM-dd HH:mm:ss');
+    			//this.editProject.form.fundraiseEndTime = this.editProject.form.fundraiseEndTime || (new Date()).format('yyyy-MM-dd HH:mm:ss');
     			this.editProject.form.fundraiseProjectDuration = this.editProject.form.fundraiseProjectDuration || 15;
 	    		this.imgList = this.detail.fundraiseProjectResources;
 	    		this.imgkey = this.detail.fundraiseProjectImgurl;
@@ -614,7 +614,7 @@ import api from '../../api/api'
 
 
             }).catch (() => {
-                
+
             });
     	},
     	getCommitList(){
@@ -629,12 +629,12 @@ import api from '../../api/api'
 					page:this.commit.page-1
 				},
 				success:(res) => {
-					
+
 					_this.commitList = res.body.data.content;
 					_this.commit.total = res.body.data.totalElements
 				},
 				complete:(res) => {
-					
+
 				}
 			})
     	},
@@ -647,11 +647,11 @@ import api from '../../api/api'
 					id:this.id
 				},
 				success:(res) => {
-					
+
 					_this.detail = res.body.data;
 				},
 				complete:(res) => {
-					
+
 				}
 			})
     	},
@@ -664,11 +664,11 @@ import api from '../../api/api'
 					id:this.id
 				},
 				success:(res) => {
-					
+
 					_this.detail = res.body.data;
 				},
 				complete:(res) => {
-					
+
 				}
 			})
     	},
@@ -681,11 +681,11 @@ import api from '../../api/api'
 					id:this.id
 				},
 				success:(res) => {
-					
+
 					_this.detail = res.body.data;
 				},
 				complete:(res) => {
-					
+
 				}
 			})
     	},
@@ -703,11 +703,11 @@ import api from '../../api/api'
     		console.log(result)
     		return result;
     	},
-    	
+
     	postMyEdit(_form,cbName){
     		var _this = this;
- 
-    		
+
+
     		if(_form == "editProject"){
     			this[_form].form.fundraiseProjectImgurl = this.imgkey;
     			this[_form].form.fundraiseProjectResources = this.imgList;
@@ -736,7 +736,7 @@ import api from '../../api/api'
     					},
     					complete:(res) => {
     						_this[_form].disabled = false;
-    						
+
     					}
     				})
     			}
