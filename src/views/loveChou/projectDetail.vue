@@ -195,7 +195,7 @@
 
 	      <!-- <el-input type="text" v-model="editProject.form.fundraiseStartTime" auto-complete="off"></el-input> -->
 
-	    </el-form-item>
+	    <!--</el-form-item>-->
 	    <el-form-item label="项目简介" label-width="150px" prop="fundraiseProjectDesc">
 	      <el-input type="textarea" v-model="editProject.form.fundraiseProjectDesc" auto-complete="off"></el-input>
 	    </el-form-item>
@@ -205,10 +205,15 @@
 			<!-- <vue-html5-editor :content="editProject.form.detail" :height="80"></vue-html5-editor> -->
 	      	<!-- <vue-html5-editor :content="editProject.form.detail" :height="80"></vue-html5-editor> -->
 	      	<!-- <el-input type="textarea" v-model="editProject.form.detail" auto-complete="off"></el-input> -->
+
+
 	      	<quill-editor ref="myTextEditor"
 	              v-model="editProject.form.detail"
 	              :config="editorOption">
 			</quill-editor>
+
+
+
 			<!-- <quill-editor ref="myTextEditor"
 	              v-model="editProject.form.detail"
 	              :config="editorOption"
@@ -322,6 +327,7 @@
 </template>
 <script>
 import api from '../../api/api'
+
  export default {
   	name:"projectDetail",
   	data(){
@@ -339,6 +345,7 @@ import api from '../../api/api'
 	        }, 1000);
 	    };
   		return {
+  		  editor: null,
   		  loggedEvent:"",
   			editorOption:{},
   			id:1,
@@ -567,7 +574,6 @@ import api from '../../api/api'
     		this.getCommitList();
     	},
     	showChangeHandle(type){
-    		this[type].visible = true;
     		if(type=="commit"){
     			this.getCommitList()
     		}
@@ -582,13 +588,14 @@ import api from '../../api/api'
 	    		this.imgList = this.detail.fundraiseProjectResources;
 	    		this.imgkey = this.detail.fundraiseProjectImgurl;
 	    		this.editProject.form.acturalPatientName = !this.editProject.form.acturalPatientName?this.editProject.form.patientName:this.editProject.form.acturalPatientName;
-
+	    		console.log(this.imgList)
 	    		//this.editProject.form.detail.replace(/\r\n/g,"<br/>")
 	    		//this.editProject.form.fundraiseTargetAmount = this.editProject.form.fundraiseTargetAmount
 	    		//this.editProject.form.fundraiseRemitAmount = this.editProject.form.fundraiseRemitAmount+""
 	    		//this.editProject.form.fundraiseProjectDuration = this.editProject.form.fundraiseProjectDuration+""
     			//console.log(this.editProject.form.detail.replace(/\r\n/g,"<br/>"))
     		}
+    		this[type].visible = true;
     	},
     	deleteCommit(id){
     		var _this = this;
@@ -653,7 +660,6 @@ import api from '../../api/api'
 					if(!res.body.data.shareTitle){
 					   _this.detail.shareTitle = '【17爱心筹】'
 					}
-					console.log(_this.detail.detail)
 
 				},
 				complete:(res) => {
@@ -706,7 +712,6 @@ import api from '../../api/api'
     			strArr.push(reso[i].resourceUrl)
     		}
     		result.fundraiseProjectResources = strArr.join(',');
-    		console.log(result)
     		return result;
     	},
 
@@ -735,6 +740,7 @@ import api from '../../api/api'
     						_this[cbName] && _this[cbName](res);
     						_this.$refs[_form].resetFields();
     						_this.getDetail()
+    						_this.imgList=[];
     						$Message({
 	                            type: 'success',
 	                            message: "保存成功！"
@@ -752,7 +758,13 @@ import api from '../../api/api'
     created(){
     	this.id = this.$route.params.id;
     	this.getDetail();
-    }
+    },
+    mounted () {
+    this.$dragging.$on('dragged', ({ value }) => {
+
+    })
+  },
+
 }
 </script>
 <style  lang="less">
@@ -889,5 +901,5 @@ import api from '../../api/api'
 	.ql-snow .ql-out-bottom, .ql-snow .ql-out-top {
 		visibility: inherit;
 	}
-  .ql-align-justify{text-indent: 2em}
+  //.ql-align-justify{text-indent: 2em}
 </style>
