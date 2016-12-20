@@ -901,5 +901,5 @@ import api from '../../api/api'
 	.ql-snow .ql-out-bottom, .ql-snow .ql-out-top {
 		visibility: inherit;
 	}
-  //.ql-align-justify{text-indent: 2em}
+  .ql-align-justify{text-indent: 2em}
 </style>

@@ -13,11 +13,11 @@
 	    :data="tableData"
 	    border
 	    style="width: 100%">
-	    
+
 	   <!--  <el-table-column
 	      prop="applyAmount"
 	      label="申请金额"
-	      width="120">	
+	      width="120">
 	    </el-table-column> -->
 	    <el-table-column
 	      prop="remitAmount"
@@ -263,7 +263,7 @@ import api from '../../api/api';
 					_this.total = res.body.data.totalElements
 				},
 				complete:(res) => {
-					
+
 				}
 			})
     	},
@@ -271,7 +271,7 @@ import api from '../../api/api';
     		var _this = this;
     		//console.log(this.$refs[_form] )
     		var data = {};
-    		
+
     		data ={
     			"id": this[_form].form.id,
 	            "fundraiseUserInfoId": this[_form].form.fundraiseUserInfoId,
@@ -296,10 +296,10 @@ import api from '../../api/api';
 	                            message: "保存成功！"
 	                        });
     						_this.getPayList();
+    						_this[_form].visible = false;
     					},
     					complete:(res) => {
     						_this[_form].disabled = false;
-    						_this[_form].visible = false;
     					}
     				})
     			}

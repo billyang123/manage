@@ -1,7 +1,6 @@
 <template>
  <div class="loveAmbList" style="padding:20px">
    <h2>爱心大使列表</h2>
-   <el-button type="primary" style="float:right;margin-bottom:10px;margin-right:10px" :disabled="exportBl" @click="handleExport">导出excel</el-button>
    <el-table
 	    :data="tableData"
 	    border
@@ -62,8 +61,8 @@ import api from '../../api/api'
           currentPageSize: 30,
           totalElement: 1,
           totalPages:1,
-  			},
-  			exportBl:false
+  			}
+
   		}
   	},
     methods: {
@@ -117,32 +116,6 @@ import api from '../../api/api'
                        self.getData();
                     }
                  },
-                  })
-            }).catch (() => {
-                $Message({
-                    type: 'info',
-                    message: '已取消'
-                });
-            });
-      },
-      //导出excel表
-      handleExport(){
-        var self = this;
-        $MsgBox.confirm('此操作将导出爱心大使列表excel, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-              self.exportBl = true;
-              self.ajax(self,{
-                  url:api.fundExportVolunteerApplyExcel,
-                  type:"get",
-                  success:function(response){
-                    let _data = response.body.data;
-                 },
-                 complete:function(){
-                  self.exportBl = false;
-                 }
                   })
             }).catch (() => {
                 $Message({
