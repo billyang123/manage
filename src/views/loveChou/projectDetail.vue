@@ -99,7 +99,7 @@
 			<el-row :gutter="20">
 				<el-col :span="24">
 					<p><span class="title">项目详情：</span></p>
-					<div class="con" style="padding:0 20px;" v-html="detail.detail">{{detail.detail}}</div>
+					<div class="con" style="padding:0 20px;" v-html="detail.detail"></div>
 				</el-col>
 			</el-row>
 			<el-row :gutter="20">
@@ -245,14 +245,14 @@
 	    <el-form-item label="图片列表" label-width="150px">
 			<!-- <el-input type="text" v-model="editProject.form.fundraiseProjectResources" auto-complete="off"></el-input> -->
 		    <ul class="img-list">
-		      	<li v-for="(item,index) in imgList">
-		      		<div class="img-box" :style="{backgroundImage:'url('+item.resourceUrl+'!160x160)'}">
-		      			<i class="del-img el-icon-circle-cross" @click="removeImg(index)"></i>
-		      		</div>
-					<div>
-				      	<el-radio class="radio" v-model="item.status" label="visible">显示</el-radio>
-				      	<el-radio class="radio" v-model="item.status" label="invisible">隐藏</el-radio>
-				    </div>
+		      	<li v-for="(item,index) in imgList" v-dragging="{ item: item, list: imgList, group: 'item' }" :key="item.resourceUrl">
+                <div class="img-box" :style="{backgroundImage:'url('+item.resourceUrl+'!160x160)'}">
+                  <i class="del-img el-icon-circle-cross" @click="removeImg(index)"></i>
+                </div>
+                <div>
+                  <el-radio class="radio" v-model="item.status" label="visible">显示</el-radio>
+                  <el-radio class="radio" v-model="item.status" label="invisible">隐藏</el-radio>
+                </div>
 		      	</li>
 		      </ul>
 		      <div class="uploadTarget">
@@ -339,6 +339,7 @@ import api from '../../api/api'
 	        }, 1000);
 	    };
   		return {
+  		  loggedEvent:"",
   			editorOption:{},
   			id:1,
   			uploadUrl:api.fund_image,
@@ -430,42 +431,42 @@ import api from '../../api/api'
   				},
   				form:{
   					"id": 1,
-			        "fundraiseUserInfoId": 1,
-			        "fundraiseApplyTargetAmount": 200,
-			        "fundraiseReson": "缺钱",
-			        "patientName": "japanese",
-			        "linkmanName": "meixi",
-			        "linkmanPhone": "12345678901",
-			        "userNickname": "小熊",
-			        "userHeadimgurl": "",
-			        "status": "view",
-			        "suggestion": "好感人",
-			        "createTime": "2016-12-11 21:04",
-			        "approveTime": "2016-12-11 21:04",
-			        "fundraiseProjectTitle": " need help",
-			        "fundraiseProjectDesc": " 筹款项目描述",
-			        "fundraiseProjectDuration": 60,
-			        "fundraiseHelpCount": 200,
-			        "fundraiseTargetAmount": 2000,
-			        "fundraiseAcquiredAmount": 200,
-			        "fundraiseRemitAmount": 200,
-			        "fundraiseShareCount": 10069,
-			        "fundraiseShareOpenCount": 10085,
-			        "fundraiseDonationClickCount": 111,
-			        "fundraiseCommentCount": 200,
-			        "fundraiseDonationCount": 200,
-			        "openCount": 200,
-			        "finishReason": "attain",
-			        "weight": 1,
-			        "fundraiseStartTime": "2016-12-12 10:29:30",
-			        "fundraiseEndTime": "",
-			        "fundraiseProjectImgurl": "",
-			        "operateTime": "2016-12-12 10:29:30",
-			        "shareTitle": "分享标题",
-			        "shareContent": "分享内容",
-			       "fundraiseImgKey":"",
-			        "detail": "明细",
-			        "fundraiseProjectResources":[]
+            "fundraiseUserInfoId": 1,
+            "fundraiseApplyTargetAmount": 200,
+            "fundraiseReson": "缺钱",
+            "patientName": "japanese",
+            "linkmanName": "meixi",
+            "linkmanPhone": "12345678901",
+            "userNickname": "小熊",
+            "userHeadimgurl": "",
+            "status": "view",
+            "suggestion": "好感人",
+            "createTime": "2016-12-11 21:04",
+            "approveTime": "2016-12-11 21:04",
+            "fundraiseProjectTitle": " need help",
+            "fundraiseProjectDesc": " 筹款项目描述",
+            "fundraiseProjectDuration": 60,
+            "fundraiseHelpCount": 200,
+            "fundraiseTargetAmount": 2000,
+            "fundraiseAcquiredAmount": 200,
+            "fundraiseRemitAmount": 200,
+            "fundraiseShareCount": 10069,
+            "fundraiseShareOpenCount": 10085,
+            "fundraiseDonationClickCount": 111,
+            "fundraiseCommentCount": 200,
+            "fundraiseDonationCount": 200,
+            "openCount": 200,
+            "finishReason": "attain",
+            "weight": 1,
+            "fundraiseStartTime": "2016-12-12 10:29:30",
+            "fundraiseEndTime": "",
+            "fundraiseProjectImgurl": "",
+            "operateTime": "2016-12-12 10:29:30",
+            "shareTitle": "分享标题",
+            "shareContent": "分享内容",
+           "fundraiseImgKey":"",
+            "detail": "明细",
+            "fundraiseProjectResources":[]
   				}
   			},
   			detail:{
@@ -649,6 +650,11 @@ import api from '../../api/api'
 				success:(res) => {
 
 					_this.detail = res.body.data;
+					if(!res.body.data.shareTitle){
+					   _this.detail.shareTitle = '【17爱心筹】'
+					}
+					console.log(_this.detail.detail)
+
 				},
 				complete:(res) => {
 
@@ -883,4 +889,5 @@ import api from '../../api/api'
 	.ql-snow .ql-out-bottom, .ql-snow .ql-out-top {
 		visibility: inherit;
 	}
+  .ql-align-justify{text-indent: 2em}
 </style>

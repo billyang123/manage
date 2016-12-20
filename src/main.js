@@ -24,12 +24,14 @@ import {
 }
 from 'element-ui'
 import VueQuillEditor from 'vue-quill-editor'
+import VueDND from 'awe-dnd'
 
 Vue.use(VueResource)
 Vue.use(VueRouter)
 Vue.use(VueCookie)
 //Vue.use(Vuex)
 Vue.use(VueQuillEditor)
+Vue.use(VueDND)
 
 Vue.component(Button.name, Button)
 Vue.component(Checkbox.name, Checkbox)
