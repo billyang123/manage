@@ -70,6 +70,7 @@ var api = {
   fundApproveVolunteer:'/manage/fundraise/approveVolunteer',
   fundGetVolunteerList:'/manage/fundraise/getVolunteerList',
   fundCancleVolunteer:'/manage/fundraise/cancleVolunteer',
+  fundGetFundRemitTotalList:'/manage/fundraise/getFundRemitTotalList',
   fund_getFundraiseProjectList:'/manage/fundraise/getFundraiseProjectList',//回去项目列表
   fund_maintainProject:'/manage/fundraise/maintainProject',//修改项目基本信息
   fund_publishPreview:'/manage/fundraise/publishPreview',//上线预览
