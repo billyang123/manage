@@ -581,13 +581,12 @@ import api from '../../api/api'
     		if(type=="doPayMoney"){
     			this.getPayList();
     		}
-    		if(type = "editProject"){
+    		if(type == "editProject"){
     			this.$refs.editProject && this.$refs.editProject.resetFields();
     			//this.editProject.form = this.detail;
     			for(let item in this.detail){
     			    this.editProject.form[item] = this.detail[item]
     			}
-    			console.log(this.editProject.form.acturalPatientName)
 
     			//this.editProject.form.fundraiseEndTime = this.editProject.form.fundraiseEndTime || (new Date()).format('yyyy-MM-dd HH:mm:ss');
     			this.editProject.form.fundraiseProjectDuration = this.editProject.form.fundraiseProjectDuration || 15;
