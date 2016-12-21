@@ -287,7 +287,10 @@ import api from '../../api/api'
     		this[type].visible = true;
     		//this.fileList = [];
     		if(type=="editTrend"){
-    			this[type].form = row;
+    			//this[type].form = row;
+    			for(let item in row){
+    			this[type].form[item] = row[item]
+    			}
 
     			this.imgList = row.fundraisePatientStateResource;
     		}

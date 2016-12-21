@@ -179,7 +179,7 @@
 	<el-dialog title="编辑项目" v-model="editProject.visible" size="large">
 	  <el-form :model="editProject.form" :rules="editProject.rules" ref="editProject">
 	    <el-form-item label="项目名称" label-width="150px" prop="fundraiseProjectTitle">
-	      <el-input type="text" v-model="editProject.form.fundraiseProjectTitle" auto-complete="off"></el-input>
+	      <el-input type="text" v-model="editProject.form.fundraiseProjectTitle"></el-input>
 	    </el-form-item>
 	    <el-form-item label="患者姓名(线上显示)" label-width="150px" prop="acturalPatientName">
 	      <el-input type="text" v-model="editProject.form.acturalPatientName" auto-complete="off"></el-input>
@@ -442,6 +442,7 @@ import api from '../../api/api'
             "fundraiseApplyTargetAmount": 200,
             "fundraiseReson": "缺钱",
             "patientName": "japanese",
+            "acturalPatientName":"",
             "linkmanName": "meixi",
             "linkmanPhone": "12345678901",
             "userNickname": "小熊",
@@ -582,13 +583,17 @@ import api from '../../api/api'
     		}
     		if(type = "editProject"){
     			this.$refs.editProject && this.$refs.editProject.resetFields();
-    			this.editProject.form = this.detail;
+    			//this.editProject.form = this.detail;
+    			for(let item in this.detail){
+    			    this.editProject.form[item] = this.detail[item]
+    			}
+    			console.log(this.editProject.form.acturalPatientName)
+
     			//this.editProject.form.fundraiseEndTime = this.editProject.form.fundraiseEndTime || (new Date()).format('yyyy-MM-dd HH:mm:ss');
     			this.editProject.form.fundraiseProjectDuration = this.editProject.form.fundraiseProjectDuration || 15;
 	    		this.imgList = this.detail.fundraiseProjectResources;
 	    		this.imgkey = this.detail.fundraiseProjectImgurl;
 	    		this.editProject.form.acturalPatientName = !this.editProject.form.acturalPatientName?this.editProject.form.patientName:this.editProject.form.acturalPatientName;
-	    		console.log(this.imgList)
 	    		//this.editProject.form.detail.replace(/\r\n/g,"<br/>")
 	    		//this.editProject.form.fundraiseTargetAmount = this.editProject.form.fundraiseTargetAmount
 	    		//this.editProject.form.fundraiseRemitAmount = this.editProject.form.fundraiseRemitAmount+""
@@ -902,4 +907,5 @@ import api from '../../api/api'
 		visibility: inherit;
 	}
   .ql-align-justify{text-indent: 2em}
+  .el-col-24 div.con p{text-indent: 2em}
 </style>

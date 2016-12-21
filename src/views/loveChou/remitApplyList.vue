@@ -235,7 +235,10 @@ import api from '../../api/api';
     	showChangeHandle(type,row){
     		this[type].visible = true;
     		if(type == "editPayRecordList"){
-    			this[type].form = row;
+    			//this[type].form = row;
+    			for(let item in row){
+    			  this[type].form[item] = row[item]
+    			}
     			this[type].form.remitTime = this[type].form.remitTime || (new Date()).format('yyyy-MM-dd HH:mm:ss');
     			//this.editPayRecordList.form.remitAmount = this.editPayRecordList.form.remitAmount+"";
     		}
