@@ -1,7 +1,7 @@
 <template>
  <div class="loveAmbList" style="padding:20px">
    <h2>爱心大使列表</h2>
-	  <el-table
+   <el-table
 	    :data="tableData"
 	    border
 	    style="width: 100%">
@@ -62,6 +62,7 @@ import api from '../../api/api'
           totalElement: 1,
           totalPages:1,
   			}
+
   		}
   	},
     methods: {

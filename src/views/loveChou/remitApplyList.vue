@@ -13,11 +13,11 @@
 	    :data="tableData"
 	    border
 	    style="width: 100%">
-	    
+
 	   <!--  <el-table-column
 	      prop="applyAmount"
 	      label="申请金额"
-	      width="120">	
+	      width="120">
 	    </el-table-column> -->
 	    <el-table-column
 	      prop="remitAmount"
@@ -235,7 +235,10 @@ import api from '../../api/api';
     	showChangeHandle(type,row){
     		this[type].visible = true;
     		if(type == "editPayRecordList"){
-    			this[type].form = row;
+    			//this[type].form = row;
+    			for(let item in row){
+    			  this[type].form[item] = row[item]
+    			}
     			this[type].form.remitTime = this[type].form.remitTime || (new Date()).format('yyyy-MM-dd HH:mm:ss');
     			//this.editPayRecordList.form.remitAmount = this.editPayRecordList.form.remitAmount+"";
     		}
@@ -263,7 +266,7 @@ import api from '../../api/api';
 					_this.total = res.body.data.totalElements
 				},
 				complete:(res) => {
-					
+
 				}
 			})
     	},
@@ -271,7 +274,7 @@ import api from '../../api/api';
     		var _this = this;
     		//console.log(this.$refs[_form] )
     		var data = {};
-    		
+
     		data ={
     			"id": this[_form].form.id,
 	            "fundraiseUserInfoId": this[_form].form.fundraiseUserInfoId,
@@ -296,10 +299,10 @@ import api from '../../api/api';
 	                            message: "保存成功！"
 	                        });
     						_this.getPayList();
+    						_this[_form].visible = false;
     					},
     					complete:(res) => {
     						_this[_form].disabled = false;
-    						_this[_form].visible = false;
     					}
     				})
     			}

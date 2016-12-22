@@ -5,7 +5,7 @@
 	    :data="tableData"
 	    border
 	    style="width: 100%">
-	    
+
 	    <el-table-column
 	      prop="fundraiseProjectTitle"
 	      label="项目标题"
@@ -30,7 +30,6 @@
 			<span>{{status[row.status]}}</span>
 	    </el-table-column>
 	    <el-table-column
-	    	 fixed="right"
 	    	inline-template
 	      label="操作" width="400">
 	      <div>
@@ -59,7 +58,7 @@
 		      :total="total">
 		  </el-pagination>
 	  </div>
-	  
+
 	<el-dialog :title="'强制关闭'+forceClose.name" v-model="forceClose.visible">
 	  	<el-form :model="forceClose.form" ref="forceClose">
 	  		<el-form-item label="理由" label-width="50px" prop="finishReason">
@@ -98,7 +97,7 @@ import api from '../../api/api'
   					content:""
   				}
   			],
-  			
+
   			onlineTxt:{
   				on:"在线预览",
   				off:"取消预览",
@@ -225,11 +224,11 @@ import api from '../../api/api'
 	                    });
 					},
 					complete:(res) => {
-						
+
 					}
 				})
             }).catch (() => {
-                
+
             });
     // 		$MsgBox.confirm(txt, '提示', {
     //             confirmButtonText: '确定',
@@ -251,12 +250,12 @@ import api from '../../api/api'
     //                     });
 				// 	},
 				// 	complete:(res) => {
-						
+
 				// 	}
 				// })
 
     //         }).catch (() => {
-                
+
     //         });
             // this[type].status = !this[type].status;
     	},
@@ -274,7 +273,7 @@ import api from '../../api/api'
 					_this.total = res.body.data.totalElements
 				},
 				complete:(res) => {
-					
+
 				}
 			})
     	},

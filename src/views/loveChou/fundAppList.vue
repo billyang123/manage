@@ -105,14 +105,14 @@ import api from '../../api/api'
 
       //分页
       handleSizeChange(val) {
-            this.currentPageSize = val;
-            this.currentPage = 1;
-            this.getApplicationList();
-        },
-        handleCurrentChange(val) {
-            this.currentPage = val;
-            this.getApplicationList();
-        },
+          this.currentPageSize = val;
+          this.currentPage = 1;
+          this.getApplicationList();
+      },
+      handleCurrentChange(val) {
+          this.currentPage = val;
+          this.getApplicationList();
+      },
 
       //获取筹款申请列表
       getApplicationList(){

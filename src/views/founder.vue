@@ -88,7 +88,7 @@
                 </el-form>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="dialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="handleSure(UPUrl)">确 定</el-button>
+                    <el-button type="primary" @click="handleSure(UPUrl)" :disabled="btnBl">确 定</el-button>
                 </span>
             </el-dialog>
         </div>
@@ -113,7 +113,6 @@ default {
         //确认
         handleSure(sureUrl) {
             var self = this;
-
             var formData = {
                 type: this.formDialog.type,
                 duration: this.formDialog.duration,
@@ -132,6 +131,7 @@ default {
 
             this.$refs.formDialog.validate((valid) => {
                 if(valid){
+                self.btnBl = true;
                   self.ajax(this,{
                     url:sureUrl,
                     type:"post",
@@ -143,6 +143,9 @@ default {
                             type: 'success',
                             message: '添加或修改成功!'
                         });
+                    },
+                    complete:function(){
+                      self.btnBl = false;
                     }
                   })
                 }else{
@@ -342,6 +345,7 @@ default {
             dialogtitle: '',
             UPUrl: '',
             founderBl: false,
+            btnBl:false,
             _color: '#F7BA2A',
             formDialog: {
                 id: '',

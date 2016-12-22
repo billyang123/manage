@@ -13,7 +13,7 @@
 	    :data="tableData"
 	    border
 	    style="width: 100%">
-	    
+
 	    <el-table-column
 	      prop="userHeadimgUrl"
 	      label="发布人头像"
@@ -21,7 +21,7 @@
 	      width="120">
 	      <span>
 	      	<img :src="row.userHeadimgUrl" alt="" style="width:50px;height:50px;border-radius:100%;">
-	      </span>	
+	      </span>
 	    </el-table-column>
 	    <el-table-column
 	      prop="userNickName"
@@ -136,7 +136,7 @@
 		    </el-form-item>
 		    <el-form-item label="动态图片" :label-width="editTrend.labelWidth">
 		      <ul class="img-list">
-		      	<li v-for="(item,index) in imgList">
+		      	<li v-for="(item,index) in imgList" v-dragging="{ item: item, list: imgList, group: 'item' }" :key="item.resourceUrl">
 		      		<div class="img-box" :style="{backgroundImage:'url('+item.resourceUrl+'!160x160)'}">
 		      			<i class="del-img el-icon-circle-cross" @click="removeImg(index)"></i>
 		      		</div>
@@ -144,9 +144,9 @@
 						<el-radio-group v-model="item.status">
 							<el-radio class="radio" label="visible">显示</el-radio>
 				      		<el-radio class="radio" label="invisible">隐藏</el-radio>
-						
+
 						</el-radio-group>
-				      	
+
 				    </div>
 		      	</li>
 		      </ul>
@@ -267,7 +267,7 @@ import api from '../../api/api'
 				status:"visible",
 				resourceUrl:url
 			});
-		
+
 	    },
 	    removeImg(idx){
 	    	this.imgList.splice(idx,1)
@@ -282,12 +282,15 @@ import api from '../../api/api'
     		this.getTrendList();
     	},
     	showChangeHandle(type,row){
-    		//this.fileList = 
+    		//this.fileList =
     		this.curType = type;
     		this[type].visible = true;
     		//this.fileList = [];
     		if(type=="editTrend"){
-    			this[type].form = row;
+    			//this[type].form = row;
+    			for(let item in row){
+    			this[type].form[item] = row[item]
+    			}
 
     			this.imgList = row.fundraisePatientStateResource;
     		}
@@ -313,7 +316,7 @@ import api from '../../api/api'
 					_this.total = res.body.data.totalElements;
 				},
 				complete:(res) => {
-					
+
 				}
 			})
     	},
@@ -324,7 +327,7 @@ import api from '../../api/api'
   //       	return;
   //       	var image = new Image();
 		// 	var reader = new FileReader();
-			
+
 		// 	reader.onload = (e) => {
 		// 		// _this.image = e.target.result;
 
@@ -355,7 +358,7 @@ import api from '../../api/api'
 
 
             }).catch (() => {
-                
+
             });
     	},
     	getformData(data){
@@ -375,9 +378,9 @@ import api from '../../api/api'
     	},
     	postMyEdit(_form,cbName){
     		var _this = this;
-    		
+
     		this[_form].form.fundraisePatientStateResource = this.imgList;
-    		
+
     		// if(_form == "editProject"){
 
     		// 	this[_form].form.fundraisePatientStateResource = this.imgList;

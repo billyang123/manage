@@ -1,6 +1,9 @@
 <template>
  <div class="volunteerApplyList" style="padding:20px">
    <h2>爱心大使申请列表</h2>
+
+   <a href="manage/fundraise/exportVolunteerApplyExcel" class="applyExcel" target="_blank">导出excel</a>
+
    <!--<div class="volunteerApplyListSearch">
      <el-form :inline="true" :model="formInline" class="demo-form-inline">
        <el-form-item>
@@ -26,6 +29,10 @@
       <el-table-column
         prop="volunteerPhone"
         label="申请人手机号">
+      </el-table-column>
+      <el-table-column
+        prop="volunteerWechatAccount"
+        label="申请人微信号">
       </el-table-column>
 	    <el-table-column
         inline-template
@@ -85,6 +92,7 @@ import api from '../../api/api'
   				yes:false,
   				no:false
   			},
+  			exportBl:false,
   			dialogFormVisible:false,
   			statusForm:{
   				textarea:""
@@ -116,6 +124,21 @@ import api from '../../api/api'
       onSearch() {
         var self = this;
         console.log(self.formInline.region);
+      },
+      //导出excel表
+      handleExport(){
+        var self = this;
+        self.exportBl = true;
+              self.ajax(self,{
+                  url:api.fundExportVolunteerApplyExcel,
+                  type:"get",
+                  success:function(response){
+                    let _data = response.body.data;
+                 },
+                 complete:function(){
+                  self.exportBl = false;
+                 }
+                  })
       },
       //处理
       handleProcessing(id){
@@ -173,4 +196,13 @@ import api from '../../api/api'
 </script>
 <style>
 	.volunteerApplyList .cell {text-align:center}
+	.volunteerApplyList .applyExcel{
+	  float:right;margin-bottom:10px;margin-right:10px;width:88px;height:36px;
+	  color: rgb(255, 255, 255);
+    background-color: rgb(32, 160, 255);
+    border-color: rgb(32, 160, 255);
+    border-radius:4px;
+    text-decoration:initial;
+    line-height:36px;
+	}
 </style>
