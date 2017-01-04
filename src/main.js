@@ -97,7 +97,7 @@ import projectTrends from './views/loveChou/projectTrends.vue'
 import remitApplyList from './views/loveChou/remitApplyList.vue'
 // import autocomplete from './components/autocomplete.vue'
 // Vue.component(autocomplete.name, autocomplete)
-
+import test from './views/test.vue'
 //Vue.transition('showAll',{});
 
 let router = new VueRouter({
@@ -202,7 +202,11 @@ let router = new VueRouter({
 		{
 			path: '/login',
 			component: login
-		}
+		},
+    {
+      path:'/test',
+      component:test
+    }
 	]
 });
 // const store = new Vuex.Store({
