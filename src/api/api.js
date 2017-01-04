@@ -60,6 +60,25 @@ var api = {
   getFounderReplayCheck:'/manage/founder/approveCommentReply',
   getFounderCommentsLook:'/manage/founder/fclistByInteractionId',
   getFounderDataLook:'/manage/founder/findInteractionData',
+  //合伙人
+  //问题管理
+  getPartnerQuestion:'/manage/partner/questionList',
+  getPartnerQuestionAdd:'/manage/partner/addQuestion',
+  getPartnerQuestionUpdata:'/manage/partner/updateQuestion',
+  getPartnerQuestionDel:'/manage/partner/deleteQuestion',
+  //数据统计
+  getPartnerdData:'/manage/partner/getPartnerDataList',
+  //奖励分析
+  getPartnerdRewardData:'/manage/partner/getPartnerAwardList',
+  getPartnerdRewardUpdate:'/manage/partner/updatePartnerAward',
+  //合伙人管理
+  getPartnerd:'/manage/partner/getPartnerListByDateAndAccount',
+  getPartnerdStatus:'/manage/partner/setPartnerStatus',
+  getPartnerdInvite:'/manage/partner/getInviteList',
+  getPartnerdUserInfo:'/manage/partner/getFamilyMemberByUserInfoId',
+  //参数设置
+  getPartnerdSettingData:'/manage/partner/getPartnerSettingList',
+  getPartnerdSetting:'/manage/partner/updatePartnerSetting',
 
   fundApplicationList:'/manage/fundraise/applicationlist',
   fundApplicationhandle:'/manage/fundraise/applicationhandle',

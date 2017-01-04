@@ -312,8 +312,6 @@ default {
 
               }
             })
-
-
         },
         handleSizeChange(val) {
             this.currentPageSize = val;

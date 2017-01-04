@@ -172,11 +172,11 @@ import api from '../../api/api';
 		            "status": "new"
   				},
   				rules:{
-		    		remitAmount:[
-		    			//{ type: 'number', message: '请输入数字', trigger: 'change,blur' }
-		    			{validator:myNumber,trigger: 'change,blur'}
-		    		]
-		    	}
+            remitAmount:[
+              //{ type: 'number', message: '请输入数字', trigger: 'change,blur' }
+              {validator:myNumber,trigger: 'change,blur'}
+            ]
+          }
   			},
   			editPayRecordList:{
   				disabled:false,
