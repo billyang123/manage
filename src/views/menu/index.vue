@@ -40,14 +40,19 @@
       </el-table-column>
     </el-table>
     <el-dialog title="菜单设置" v-model="eDFVisible">
+    	<el-form label-width="50px" class="menuform text-left">
+	  		<el-form-item label="标题">
+			    <el-input v-model="title"></el-input>
+			</el-form-item>
+		</el-form>
       <div class="menu-seting clearfix">
 	    <div class="menu-preview">
 	    	<div class="menu-title">17互助</div>
 	    	<div class="menu-box">
-
+				
 	    		<div class="menu-item" v-for="(menu,index) in currentMenu" :class="(index+'' == menuIndex)?'current':''">
 	    			<a href="javascript:void(0);" class="pre_menu_link" @click="setCurrent(index)">
-	    				<i class="icon_menu_dot"></i>
+	    				<i class="el-icon-menu" v-if="menu.sub_button && menu.sub_button.length>0"></i>
 	    				<span>{{menu.name}}</span>
 	    			</a>
 	    			<ul class="sub_pre_menu_box" v-if="index+'' == tabIndex">
@@ -75,13 +80,13 @@
 		    <span style="line-height: 36px;">{{menuForm.name}}</span>
 		    <el-button style="float: right;" type="danger" @click="delMenu">删除菜单</el-button>
 		  </div>
-		  	<div class="text-left" v-if="menuForm.sub_button">已添加子菜单，仅可设置菜单名称。</div>
+		  <div class="text-left" v-if="menuForm.sub_button">已添加子菜单，仅可设置菜单名称。</div>
 		  	<el-form :model="menuForm" label-width="120px" class="menuform text-left">
 			  <el-form-item label="菜单名称">
-			    <el-input v-model="menuForm.name"></el-input>
+			  	<el-input v-model="menuForm.name"></el-input>
 			    <div class="text-left">字数不超过4个汉字或8个字母</div>
 			  </el-form-item>
-			  <div v-if="!menuForm.sub_button || menuForm.sub_button.length==0">
+			  	<div v-if="!menuForm.sub_button || menuForm.sub_button.length==0">
 				  <el-form-item label="菜单内容">
 				    <el-radio-group v-model="menuForm.type">
 				      <el-radio label="click">触发关键字</el-radio>
@@ -120,6 +125,7 @@ export default {
   			menuIndex:"",
   			curTabMenu:{},
   			menuId:"",
+  			title:"",
   			menuForm:{
   				name:"",
   				type:"click"
@@ -130,6 +136,7 @@ export default {
     	handleAdd(){
     		this.eDFVisible = true;
     		this.dtype = "add";
+    		this.currentMenu = [];
     	},
     	delMenu(){
     		
@@ -163,7 +170,7 @@ export default {
     			this.curTabMenu = this.currentMenu[index].sub_button[curIndex]
     		}
     		this.menuIndex = _menuIndex;
-    		this.menuForm = this.curTabMenu
+    		this.menuForm = this.curTabMenu;
     	},
     	addMenuBox(){
     		this.currentMenu.push({
@@ -171,7 +178,6 @@ export default {
     			sub_button:[],
     			type:"view"
     		})
-    		console.log()
     	},
     	addSubMenuBox(m){
     		if(!this.currentMenu[m].sub_button){
@@ -195,6 +201,7 @@ export default {
     			this.currentMenu = content.button;
     		}
     		this.eDFVisible = true;
+    		this.title = this.curMenu.title
     	},
     	submitForm(){
     		var _this = this;
@@ -205,6 +212,7 @@ export default {
     		};
     		var formData = {
                 account:"17HUZHU",
+                title:this.curMenu.title,
                 content:JSON.stringify(_data)
             }
     		//return console.log(_data);
@@ -407,6 +415,9 @@ export default {
 	.add-btn {
 		margin-bottom: 20px;
 		text-align: right;
+	}
+	.el-icon-menu {
+		font-size: 12px;
 	}
 	.pre_menu_link {
 		display: block;
