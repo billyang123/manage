@@ -53,9 +53,9 @@ export default {
   },
   mounted(){
   		var _this = this;
-     // if(!this.checkLogin()){
-     //   return this.$router.push("/login");
-     // }
+     if(!this.checkLogin()){
+       return this.$router.push("/login");
+     }
     var handler = function (e) {
 		_this.handler()
   	}
