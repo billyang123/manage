@@ -119,14 +119,24 @@ import partnerData from './views/partnerData.vue'
 import partnerReward from './views/partnerReward.vue'
 import partner from './views/partner.vue'
 import partnerParameter from './views/partnerParameter.vue'
+
 //账户退出
 import accountQuit from './views/accountQuit.vue'
 import accountQuitRefund from './views/accountQuitRefund.vue'
 import accountQuitAudit from './views/accountQuitAudit.vue'
+
+//公众号菜单设置
+import wxMenu from './views/menu/index.vue'
+import wxReplay from './views/wxReply/index.vue'
+import wxFollow from './views/wxReply/follow.vue'
+
 // import autocomplete from './components/autocomplete.vue'
 // Vue.component(autocomplete.name, autocomplete)
-
+import test from './views/test.vue'
 //Vue.transition('showAll',{});
+
+// register directives
+// Vue.directive('echarts', require('./directives/echarts'));
 
 let router = new VueRouter({
   hashbang: true,
@@ -264,14 +274,30 @@ let router = new VueRouter({
         {
           path: 'accountQuitAudit',
           component: accountQuitAudit
+        },
+        {
+          path: 'wxmenu',
+          component: wxMenu
+        },
+        {
+          path: 'wxreplay',
+          component: wxReplay
+        },
+        {
+          path: 'wxfollow',
+          component: wxFollow
         }
       ]
-    },
+		},
+		{
+			path: '/login',
+			component: login
+		},
     {
-      path: '/login',
-      component: login
+      path:'/test',
+      component:test
     }
-  ]
+	]
 });
 // const store = new Vuex.Store({
 //   state: {
