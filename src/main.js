@@ -119,7 +119,10 @@ import partnerData from './views/partnerData.vue'
 import partnerReward from './views/partnerReward.vue'
 import partner from './views/partner.vue'
 import partnerParameter from './views/partnerParameter.vue'
-
+//账户退出
+import accountQuit from './views/accountQuit.vue'
+import accountQuitRefund from './views/accountQuitRefund.vue'
+import accountQuitAudit from './views/accountQuitAudit.vue'
 // import autocomplete from './components/autocomplete.vue'
 // Vue.component(autocomplete.name, autocomplete)
 
@@ -246,6 +249,21 @@ let router = new VueRouter({
         {
           path: 'partnerParameter',
           component: partnerParameter
+        },
+        //账户社群管理
+        {
+          path: 'accountQuit',
+          component: accountQuit
+        },
+        //账户退出打款管理
+        {
+          path: 'accountQuitRefund',
+          component: accountQuitRefund
+        },
+        //账户退出审核管理
+        {
+          path: 'accountQuitAudit',
+          component: accountQuitAudit
         }
       ]
     },

@@ -79,6 +79,24 @@ var api = {
   //参数设置
   getPartnerdSettingData:'/manage/partner/getPartnerSettingList',
   getPartnerdSetting:'/manage/partner/updatePartnerSetting',
+  //用户退出
+  //账户社群关系
+  getAccountQuit:'/manage/project_account_quit/accountQuitList',
+  //账户账单
+  getAccountBill:'/manage/project_account_quit/accountBillList',
+  //账户退出详情
+  getAccountQuitInfo:'/manage/project_account_quit/accountQuitInfo',
+  //申请退出计划
+  AccountQuitApply:'/manage/project_account_quit/quitAccountApply',
+  //账户审核记录
+  getAccountQuitList:'/manage/project_account_quit/quitAccountApplyListByPhone',
+
+  //待审核记录
+  getAccountQuitAllList:'/manage/project_account_quit/quitAccountApplyList',
+  //人工审核
+  AccountQuitAudit:'/manage/project_account_quit/auditQuitAccount',
+  //人工退款
+  AccountQuitRefund:'/manage/project_account_quit/refund',
 
   fundApplicationList:'/manage/fundraise/applicationlist',
   fundApplicationhandle:'/manage/fundraise/applicationhandle',
