@@ -205,6 +205,7 @@ export default {
     			this.currentMenu = content.button;
     		}
     		this.eDFVisible = true;
+    		
     		this.title = this.curMenu.title
     	},
     	submitForm(){
