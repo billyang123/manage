@@ -106,7 +106,6 @@
 </template>
 <script>
 import api from '../api/api'
-import api_test from '../api/api_test'
 export default {
   	name:"adminUsers",
   	created(){

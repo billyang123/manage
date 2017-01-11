@@ -60,6 +60,25 @@ var api = {
   getFounderReplayCheck:'/manage/founder/approveCommentReply',
   getFounderCommentsLook:'/manage/founder/fclistByInteractionId',
   getFounderDataLook:'/manage/founder/findInteractionData',
+  //合伙人
+  //问题管理
+  getPartnerQuestion:'/manage/partner/questionList',
+  getPartnerQuestionAdd:'/manage/partner/addQuestion',
+  getPartnerQuestionUpdata:'/manage/partner/updateQuestion',
+  getPartnerQuestionDel:'/manage/partner/deleteQuestion',
+  //数据统计
+  getPartnerdData:'/manage/partner/getPartnerDataList',
+  //奖励分析
+  getPartnerdRewardData:'/manage/partner/getPartnerAwardList',
+  getPartnerdRewardUpdate:'/manage/partner/updatePartnerAward',
+  //合伙人管理
+  getPartnerd:'/manage/partner/getPartnerListByDateAndAccount',
+  getPartnerdStatus:'/manage/partner/setPartnerStatus',
+  getPartnerdInvite:'/manage/partner/getInviteList',
+  getPartnerdUserInfo:'/manage/partner/getFamilyMemberByUserInfoId',
+  //参数设置
+  getPartnerdSettingData:'/manage/partner/getPartnerSettingList',
+  getPartnerdSetting:'/manage/partner/updatePartnerSetting',
 
   fundApplicationList:'/manage/fundraise/applicationlist',
   fundApplicationhandle:'/manage/fundraise/applicationhandle',
@@ -90,7 +109,21 @@ var api = {
 
   fund_getFunDonationList:'/manage/fundraise/getFunDonationList',//获取评论列表。参数里面的id是筹款项目的id
   fund_deleteMessage:"/manage/fundraise/deleteMessage",//删除评论"
-  fund_image:"/uploadoss/image"//上传图片
+  fund_image:"/uploadoss/image",//上传图片
+
+
+  //微信公众号 菜单设置
+  wx_menulist:"/manage/baseconfig/menulist",
+  wx_menuadd:"/manage/baseconfig/menuadd",
+  wx_menuupdate:"/manage/baseconfig/menuupdate",
+  wx_menudelete:"/manage/baseconfig/menudelete",
+  wx_menupublish:"/manage/baseconfig/menupublish",
+  wx_menupreview:"/manage/baseconfig/menupreview",
+  //关键词自动回复
+  wx_msglist :"/manage/baseconfig/msglist",
+  wx_msgdelete :"/manage/baseconfig/msgdelete",
+  wx_msgupdate :"/manage/baseconfig/msgupdate",
+  wx_msgadd :"/manage/baseconfig/msgadd",
 };
 for(var index in api){
 	api[index] = Prefix+api[index]

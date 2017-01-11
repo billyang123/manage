@@ -6,13 +6,31 @@ import VueCookie from 'vue-cookie';
 import App from './App'
 
 import {
-	Button,
-	Menu,Submenu,MenuItem,MenuItemGroup,
-	Form,Input,Select,Checkbox,Radio,Switch,DatePicker,TimePicker,FormItem,Option,Col,Row,CheckboxGroup,RadioGroup,
+  Button,
+  Menu,
+  Submenu,
+  MenuItem,
+  MenuItemGroup,
+  Form,
+  Input,
+  Select,
+  Checkbox,
+  Radio,
+  Switch,
+  DatePicker,
+  TimePicker,
+  FormItem,
+  Option,
+  Col,
+  Row,
+  CheckboxGroup,
+  RadioGroup,
   Dialog,
-  Table,TableColumn,
+  Table,
+  TableColumn,
   Pagination,
-  MessageBox,Message,
+  MessageBox,
+  Message,
   Autocomplete,
   Card,
   Loading,
@@ -22,7 +40,7 @@ import {
   Tree,
   Upload
 }
-from 'element-ui'
+  from 'element-ui'
 import VueQuillEditor from 'vue-quill-editor'
 import VueDND from 'awe-dnd'
 
@@ -95,19 +113,33 @@ import certloveAmb from './views/loveChou/certloveAmb.vue'
 import projectDetail from './views/loveChou/projectDetail.vue'
 import projectTrends from './views/loveChou/projectTrends.vue'
 import remitApplyList from './views/loveChou/remitApplyList.vue'
+//合伙人
+import partnerQuestion from './views/partnerQuestion.vue'
+import partnerData from './views/partnerData.vue'
+import partnerReward from './views/partnerReward.vue'
+import partner from './views/partner.vue'
+import partnerParameter from './views/partnerParameter.vue'
+
+//公众号菜单设置
+import wxMenu from './views/menu/index.vue'
+import wxReplay from './views/wxReply/index.vue'
+import wxFollow from './views/wxReply/follow.vue'
 // import autocomplete from './components/autocomplete.vue'
 // Vue.component(autocomplete.name, autocomplete)
 import test from './views/test.vue'
 //Vue.transition('showAll',{});
 
+// register directives
+// Vue.directive('echarts', require('./directives/echarts'));
+
 let router = new VueRouter({
-    hashbang:true,
-    //mode: 'history',
-  	base: __dirname,
-    routes:[
-		{
-			path: '/',
-			component: index,
+  hashbang: true,
+  //mode: 'history',
+  base: __dirname,
+  routes: [
+    {
+      path: '/',
+      component: index,
       children: [
         {
           path: '',
@@ -124,79 +156,117 @@ let router = new VueRouter({
           component: roleAdmin
         },
         {
-          path:'resourceAdmin',
-          component:resourceAdmin
+          path: 'resourceAdmin',
+          component: resourceAdmin
         },
         {
-          path:'founder',
-          component:founder
+          path: 'founder',
+          component: founder
         },
         {
-          path:'founderMessage',
-          component:founderMessage
+          path: 'founderMessage',
+          component: founderMessage
         },
         {
-          path:'founderComments',
-          component:founderComments
+          path: 'founderComments',
+          component: founderComments
         },
         {
-          path:'founderReplay',
-          component:founderReplay
+          path: 'founderReplay',
+          component: founderReplay
         },
         {
-          path:'founderData',
-          component:founderData
+          path: 'founderData',
+          component: founderData
         },
         //筹款申请列表
         {
-          path:'fundAppList',
-          component:fundAppList
+          path: 'fundAppList',
+          component: fundAppList
         },
         //筹款项目维护
         {
-          path:'fundProject',
-          component:fundProject
+          path: 'fundProject',
+          component: fundProject
         },
-         //申请款项列表
+        //申请款项列表
         {
-           path:'aFundList',
-           component:aFundList
+          path: 'aFundList',
+          component: aFundList
         },
         //项目详情
         {
-          path:'projectDetail/:id',
-          component:projectDetail
+          path: 'projectDetail/:id',
+          component: projectDetail
         },
         //动态维护
         {
-          path:'projectTrends/:id',
-          component:projectTrends
+          path: 'projectTrends/:id',
+          component: projectTrends
         },
         //打款纪录
         {
-          path:'remitApplyList/:id',
-          component:remitApplyList
+          path: 'remitApplyList/:id',
+          component: remitApplyList
         },
         //打款项目数据
         {
-          path:'fundShowData',
-          component:fundShowData
+          path: 'fundShowData',
+          component: fundShowData
         },
         //爱心大使申请列表
         {
-          path:'loveAmbAppList',
-          component:loveAmbAppList
+          path: 'loveAmbAppList',
+          component: loveAmbAppList
         },
         //爱心大使列表
         {
-          path:'loveAmbList',
-          component:loveAmbList
+          path: 'loveAmbList',
+          component: loveAmbList
         },
         //认证爱心大使
         {
-          path:'certloveAmb',
-          component:certloveAmb
+          path: 'certloveAmb',
+          component: certloveAmb
+        },
+        //合伙人问题管理
+        {
+          path: 'partnerQuestion',
+          component: partnerQuestion
+        },
+        //合伙人数据统计
+        {
+          path: 'partnerData',
+          component: partnerData
+        },
+        //合伙人奖励分析
+        {
+          path: 'partnerReward',
+          component: partnerReward
+        },
+        //合伙人管理
+        {
+          path: 'partner',
+          component: partner
+        },
+        //合伙人参数设置
+        {
+          path: 'partnerParameter',
+          component: partnerParameter
+        },
+        {
+          path: 'wxmenu',
+          component: wxMenu
+        },
+        {
+          path: 'wxreplay',
+          component: wxReplay
+        },
+        {
+          path: 'wxfollow',
+          component: wxFollow
         }
+
       ]
 		},
 		{
@@ -227,79 +297,81 @@ let router = new VueRouter({
 //     window.scrollTo(0,0)
 // })
 window.router = router;
-Date.prototype.format=function(fmt) {
-    var o = {
-    "M+" : this.getMonth()+1, //月份
-    "d+" : this.getDate(), //日
-    "h+" : this.getHours()%12 == 0 ? 12 : this.getHours()%12, //小时
-    "H+" : this.getHours(), //小时
-    "m+" : this.getMinutes(), //分
-    "s+" : this.getSeconds(), //秒
-    "q+" : Math.floor((this.getMonth()+3)/3), //季度
-    "S" : this.getMilliseconds() //毫秒
-    };
-    var week = {
-    "0" : "/u65e5",
-    "1" : "/u4e00",
-    "2" : "/u4e8c",
-    "3" : "/u4e09",
-    "4" : "/u56db",
-    "5" : "/u4e94",
-    "6" : "/u516d"
-    };
-    if(/(y+)/.test(fmt)){
-        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+Date.prototype.format = function (fmt) {
+  var o = {
+    "M+": this.getMonth() + 1, //月份
+    "d+": this.getDate(), //日
+    "h+": this.getHours() % 12 == 0 ? 12 : this.getHours() % 12, //小时
+    "H+": this.getHours(), //小时
+    "m+": this.getMinutes(), //分
+    "s+": this.getSeconds(), //秒
+    "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+    "S": this.getMilliseconds() //毫秒
+  };
+  var week = {
+    "0": "/u65e5",
+    "1": "/u4e00",
+    "2": "/u4e8c",
+    "3": "/u4e09",
+    "4": "/u56db",
+    "5": "/u4e94",
+    "6": "/u516d"
+  };
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  }
+  if (/(E+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? "/u661f/u671f" : "/u5468") : "") + week[this.getDay() + ""]);
+  }
+  for (var k in o) {
+    if (new RegExp("(" + k + ")").test(fmt)) {
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     }
-    if(/(E+)/.test(fmt)){
-        fmt=fmt.replace(RegExp.$1, ((RegExp.$1.length>1) ? (RegExp.$1.length>2 ? "/u661f/u671f" : "/u5468") : "")+week[this.getDay()+""]);
-    }
-    for(var k in o){
-        if(new RegExp("("+ k +")").test(fmt)){
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
-        }
-    }
-    return fmt;
+  }
+  return fmt;
 }
-Vue.prototype.ajax = function(_this,options){
-
+Vue.prototype.ajax = function (_this, options) {
   var _callback = (response) => {
     let status = response.body.status;
-    if(status == 0){
+    if (status == 0) {
 
-        options.success && options.success(response)
-    }else{
-        if(status == -2){
-          $MsgBox.alert(response.body.msg,"提示",{
-            confirmButtonText: '确定',
-            callback: action => {
+      options.success && options.success(response)
+    } else {
+      if (status == -2) {
+        $MsgBox.alert(response.body.msg, "提示", {
+          confirmButtonText: '确定',
+          callback: action => {
 
-              _this.$router.push("/login");
-            }
-          })
-        }else{
-          $MsgBox.alert(response.body.msg)
-        }
-        options.error && options.error(response)
+            _this.$router.push("/login");
+          }
+        })
+      } else {
+        $MsgBox.alert(response.body.msg)
+      }
+      options.error && options.error(response)
     }
     options.complete && options.complete(response)
   }
   var _err = (response) => {
     // error callback
   }
-  if(options.type=="post"){
-   _this.$http.post(options.url, options.data,{emulateJSON: true,headers:{"Content-Type":"application/x-www-form-urlencoded"}}).then(_callback,_err);
+  if (options.type == "post") {
+    _this.$http.post(options.url, options.data, {
+      emulateJSON: true,
+      headers: {"Content-Type": "application/x-www-form-urlencoded"}
+    }).then(_callback, _err);
   }
-  if(options.type=="get"){
+  if (options.type == "get") {
     //console.log(options.type,options.url)
     let arr = [];
     let _url = options.url;
     for (var index in options.data) {
-      arr.push(index+"="+options.data[index]);
+      arr.push(index + "=" + options.data[index]);
     }
-    if(arr.length > 0){
-      _url+= "?"+arr.join("&");
+    if (arr.length > 0) {
+      _url += "?" + arr.join("&");
     }
-    _this.$http.get(_url).then(_callback,_err);
+    _this.$http.get(_url).then(_callback, _err);
   }
 }
 const app = new Vue({
