@@ -23,8 +23,9 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/api': {
-          //target: 'http://test.manage.chinamuxie.com',
-          target: 'http://192.168.0.119:81',
+          target: 'http://test.manage.chinamuxie.com',
+          //target: 'http://192.168.0.119:81',
+          //target: 'http://120.27.144.150:10086',
           changeOrigin: true,
           pathRewrite: {
               '^/api': '/'

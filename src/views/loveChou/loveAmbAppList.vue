@@ -21,6 +21,7 @@
 	  <el-table
 	    :data="tableData"
 	    border
+      height="700"
 	    style="width: 100%">
 	    <el-table-column
 	      prop="volunteerName"

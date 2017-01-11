@@ -52,7 +52,7 @@ export default {
     }
   },
   mounted(){
-  		var _this = this;
+      var _this = this;
      if(!this.checkLogin()){
        return this.$router.push("/login");
      }

@@ -120,10 +120,16 @@ import partnerReward from './views/partnerReward.vue'
 import partner from './views/partner.vue'
 import partnerParameter from './views/partnerParameter.vue'
 
+//账户退出
+import accountQuit from './views/accountQuit.vue'
+import accountQuitRefund from './views/accountQuitRefund.vue'
+import accountQuitAudit from './views/accountQuitAudit.vue'
+
 //公众号菜单设置
 import wxMenu from './views/menu/index.vue'
 import wxReplay from './views/wxReply/index.vue'
 import wxFollow from './views/wxReply/follow.vue'
+
 // import autocomplete from './components/autocomplete.vue'
 // Vue.component(autocomplete.name, autocomplete)
 import test from './views/test.vue'
@@ -254,6 +260,21 @@ let router = new VueRouter({
           path: 'partnerParameter',
           component: partnerParameter
         },
+        //账户社群管理
+        {
+          path: 'accountQuit',
+          component: accountQuit
+        },
+        //账户退出打款管理
+        {
+          path: 'accountQuitRefund',
+          component: accountQuitRefund
+        },
+        //账户退出审核管理
+        {
+          path: 'accountQuitAudit',
+          component: accountQuitAudit
+        },
         {
           path: 'wxmenu',
           component: wxMenu
@@ -266,7 +287,6 @@ let router = new VueRouter({
           path: 'wxfollow',
           component: wxFollow
         }
-
       ]
 		},
 		{

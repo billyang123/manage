@@ -5,7 +5,7 @@
                :disabled="btnBl">保 存
     </el-button>
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
-    <el-table :data="tableData" border style="width: 100%">
+    <el-table :data="tableData" border height="700" style="width: 100%">
       <el-table-column prop="paramDesc" label="参数名"></el-table-column>
       <el-table-column inline-template label="参数值" prop="paramValue">
         <span>

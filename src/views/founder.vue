@@ -2,7 +2,7 @@
     <div class="founder" style="padding:20px">
         <h2>话题管理</h2>
         <el-button type="primary" style="float:right;margin-bottom:10px;margin-right:10px" @click="handleAdd">添加话题</el-button>
-        <el-table :data="tableData" border style="width: 100%">
+        <el-table :data="tableData" border height="700" style="width: 100%">
             <el-table-column prop="createTime" label="创建日期" width="170">
             </el-table-column>
             <el-table-column label="类型" width="80" inline-template>

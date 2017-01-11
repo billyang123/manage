@@ -9,10 +9,10 @@
                     placeholder="选择结束日期"></el-date-picker>
     <el-date-picker v-model="startDate" style="float:right;margin-bottom:10px;margin-right:10px" type="date"
                     placeholder="选择开始日期"></el-date-picker>
-    <el-input placeholder="请输入合伙人账号" style="float:right;margin-bottom:10px;margin-right:10px"
+    <el-input placeholder="请输入合伙人账号" style="float:right;margin-bottom:10px;margin-right:10px; width: 193px;"
               v-model="partnerName"></el-input>
 
-    <el-table :data="tableData" border style="width: 100%">
+    <el-table :data="tableData" border height="700" style="width: 100%">
       <el-table-column prop="userPhone" label="合伙人账号">
       </el-table-column>
       <el-table-column inline-template label="奖励类型">
