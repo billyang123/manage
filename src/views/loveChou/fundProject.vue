@@ -1,7 +1,7 @@
 <template>
   <div class="fundAppList">
     <h2>项目列表</h2>
-    <el-table :data="tableData" border style="width: 100%">
+    <el-table :data="tableData" border height="700" style="width: 100%">
       <el-table-column prop="fundraiseProjectTitle" label="项目标题" width="180"></el-table-column>
       <el-table-column prop="userNickname" label="申请人昵称" width="150"></el-table-column>
       <el-table-column prop="fundraiseProjectDesc" label="项目描述"></el-table-column>

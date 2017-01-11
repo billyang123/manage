@@ -10,7 +10,7 @@
     <el-date-picker v-model="startDate" style="float:right;margin-bottom:10px;margin-right:10px" type="date"
                     placeholder="选择开始日期"></el-date-picker>
 
-    <el-table :data="tableData" border style="width: 100%">
+    <el-table :data="tableData" border height="700" style="width: 100%">
       <el-table-column :label="founderData.partnerNewNumberCount+''">
         <el-table-column prop="partnerNewNumber" label="合伙人报名数量"></el-table-column>
       </el-table-column>

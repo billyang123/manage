@@ -1,7 +1,7 @@
 <template>
     <div class="founderData" style="padding:20px;">
         <h2>话题数据汇总</h2>
-        <el-table :data="tableData" border style="width: 100%">
+        <el-table :data="tableData" border height="700" style="width: 100%">
           <el-table-column label="总数">
             <el-table-column label="创始人头像" width="120" inline-template>
               <span><img :src="row.founderHeadImg" style="width:80px; height:80px;border-radius:100%"></span>

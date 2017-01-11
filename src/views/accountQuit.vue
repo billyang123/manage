@@ -12,7 +12,7 @@
       <el-button type="primary" style="margin-right:10px" @click="getQuitList()">查看退出记录</el-button>
     </div>
     <div v-if="IsShow">
-      <el-table :data="tableData" border style="width: 100%">
+      <el-table :data="tableData" border height="700" style="width: 100%">
         <el-table-column prop="insuredName" label="姓名"></el-table-column>
         <el-table-column inline-template label="关系或身份证"><span>{{row.relationshipCode | relationshipCodes(row.insuredIdNumber)}}</span>
         </el-table-column>

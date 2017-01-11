@@ -12,7 +12,7 @@
     <el-input placeholder="请输入合伙人账号" style="float:right;margin-bottom:10px;margin-right:10px"
               v-model="partnerName"></el-input>
 
-    <el-table :data="tableData" border style="width: 100%">
+    <el-table :data="tableData" border height="700" style="width: 100%">
       <el-table-column type="index" width="100" label="序号"></el-table-column>
       <el-table-column prop="userPhone" label="合伙人账号"></el-table-column>
       <el-table-column prop="inviteNumber" label="邀请成功账户数"></el-table-column>

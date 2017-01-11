@@ -1,7 +1,7 @@
 <template>
   <div class="founderData" style="padding:20px;">
     <h2>账户退出审核管理</h2>
-    <el-table :data="tableData" border style="width: 100%">
+    <el-table :data="tableData" border height="700" style="width: 100%">
       <el-table-column prop="userPhone" label="所属账号"></el-table-column>
       <el-table-column prop="insuredName" label="姓名"></el-table-column>
       <el-table-column inline-template label="关系或身份证"><span>{{row.relationshipCode | relationshipCodes(row.insuredIdNumber)}}</span>

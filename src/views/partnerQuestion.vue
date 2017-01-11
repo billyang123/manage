@@ -3,7 +3,7 @@
     <h2>问题管理</h2>
     <el-button type="primary" style="float:right;margin-bottom:10px;margin-right:10px" @click="handleAdd">新增问题
     </el-button>
-    <el-table :data="tableData" border style="width: 100%">
+    <el-table :data="tableData" border height="700" style="width: 100%">
       <el-table-column type="index" width="100" label="序号"></el-table-column>
       <el-table-column prop="question" label="问题内容"></el-table-column>
       <el-table-column inline-template :context="_self" fixed="right" label="操作">
