@@ -5,8 +5,6 @@
       <el-table-column prop="fundraiseProjectTitle" label="项目标题" width="180"></el-table-column>
       <el-table-column prop="userNickname" label="申请人昵称" width="150"></el-table-column>
       <el-table-column prop="fundraiseProjectDesc" label="项目描述"></el-table-column>
-      <el-table-column inline-template label="项目地址"><span v-if="row.status=='finish' || row.status=='process'">https://www.17aixinchou.com/sponsor-info.html?key={{row.fundraiseUrlKey}}</span>
-      </el-table-column>
       <el-table-column inline-template prop="status" label="状态" width="200"><span>{{status[row.status]}}</span>
       </el-table-column>
       <el-table-column inline-template label="操作" width="400">
@@ -28,6 +26,11 @@
           <router-link :to="'/projectDetail/'+row.id">
             <el-button size="small">查看详情</el-button>
           </router-link>
+          <span v-if="row.status=='finish' || row.status=='process'">
+          <a target="_blank" :href="'https://www.17aixinchou.com/sponsor-info.html?key='+row.fundraiseUrlKey">
+            <el-button size="small">查看项目</el-button>
+          </a>
+          </span>
         </div>
       </el-table-column>
     </el-table>

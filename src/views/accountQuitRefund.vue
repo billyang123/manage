@@ -16,7 +16,7 @@
         <span>
           <el-button @click="getMoneyData(row.id)" :plain="true" type="info">查看账单详情</el-button>
           <el-button @click="getQuitReason(row.id)" type="info">查看退出详情</el-button>
-          <el-button @click="quitRefund(row.id)" type="danger">打款</el-button>
+          <el-button @click="quitRefund(row.id)" type="danger">已退款</el-button>
         </span>
       </el-table-column>
     </el-table>
