@@ -33,7 +33,7 @@ export default {
       this.loadMenu();
       var curPath = this.$router;
       this.defaultActive = curPath.history.current.path;
-      //this.$refs.subnav.openActiveItemMenus();
+      // this.$refs.subnav.openActiveItemMenus && this.$refs.subnav.openActiveItemMenus();
       //console.log(curPath.history.current.path)
     }
 }
