@@ -81,10 +81,11 @@
 		    <el-button style="float: right;" type="danger" @click="delMenu">删除菜单</el-button>
 		  </div>
 		  <div class="text-left" v-if="menuForm.sub_button">已添加子菜单，仅可设置菜单名称。</div>
-		  	<el-form :model="menuForm" label-width="120px" class="menuform text-left" :rules="rules" ref="menuForms">
+		  	<el-form :model="menuForm" label-width="120px" class="menuform text-left" :rules="menuForm.sub_button?rules:rules2" ref="menuForms">
 			  <el-form-item label="菜单名称" prop="name">
 			  	<el-input v-model="menuForm.name"></el-input>
-			    <div class="text-left">字数不超过4个汉字或8个字母</div>
+			    <div class="text-left" v-if="menuForm.sub_button">字数不超过4个汉字或8个字母</div>
+			    <div class="text-left" v-else="menuForm.sub_button">字数不超过8个汉字或16个字母</div>
 			  </el-form-item>
 			  	<div v-if="!menuForm.sub_button || menuForm.sub_button.length==0">
 				  <el-form-item label="菜单内容">
@@ -103,7 +104,7 @@
 			</el-form>
 		</el-card>
 	</div>
-	<div><el-button type="danger" @click="submitForm('wxReplyeditForm')">保存设置</el-button></div>
+	<div><el-button type="danger" @click="submitForm('wxReplyeditForm')" v-if="currentMenu&&currentMenu.length>0">保存设置</el-button></div>
     </el-dialog>
  </div>
 </template>
@@ -120,7 +121,19 @@ export default {
 	        }
 	        setTimeout(() => {
 	          if (!/^[a-zA-Z]{1,8}$/.test((str + '').replace(/[\u4e00-\u9fa5]/g, 'aa'))) {
-	            callback(new Error('字数不超过4个汉字或8个字母'));
+	            callback(new Error('字数超过上限'));
+	          } else {
+	          	callback();
+	          }
+	        }, 1000);
+		}
+		var subIsLegal = (rule, str, callback) => {
+  			if (!str) {
+	          return callback(new Error('请输入菜单名称'));
+	        }
+	        setTimeout(() => {
+	          if (!/^[a-zA-Z]{1,16}$/.test((str + '').replace(/[\u4e00-\u9fa5]/g, 'aa'))) {
+	            callback(new Error('字数超过上限'));
 	          } else {
 	          	callback();
 	          }
@@ -144,12 +157,16 @@ export default {
   				title:""
   			},
   			rules:{
-  				title:[
-  					{ required: true, message: '请输入标题', trigger: 'blur' }
-  				],
   				name:[
   					{
   						validator:isLegal
+  					}
+  				]
+  			},
+  			rules2:{
+  				name:[
+  					{
+  						validator:subIsLegal
   					}
   				]
   			}
@@ -258,7 +275,17 @@ export default {
     			url = api.wx_menuupdate;
     			formData.menuId = this.curMenu.id
     		}
-
+    		if(!this.$refs.menuForms){
+    			return this.ajax(this,{
+	                url:url,
+	                type:"post",
+	                data:formData,
+	                success:function(data){
+	                  	_this.getList();
+	                  	_this.eDFVisible = false;
+	                }
+	            })
+    		}
     		this.$refs.menuForms.validate((valid) => {
     			if(valid){
     				_this.ajax(_this,{
