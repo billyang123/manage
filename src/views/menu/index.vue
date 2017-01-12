@@ -7,7 +7,7 @@
  	<el-table
       border
       :data="tableData"
-      style="width: 100%;text-align:center;" row-style="{textAlign:'center'}">
+      style="width: 100%;text-align:center;">
       <el-table-column
         prop="title"
         label="标题">
@@ -114,6 +114,18 @@ export default {
   	name:"wxMenu-index",
 
   	data(){
+  		var isLegal = (rule, str, callback) => {
+  			if (!str) {
+	          return callback(new Error('请输入菜单名称'));
+	        }
+	        setTimeout(() => {
+	          if (!/^[a-zA-Z]{1,8}$/.test((str + '').replace(/[\u4e00-\u9fa5]/g, 'aa'))) {
+	            callback(new Error('字数不超过4个汉字或8个字母'));
+	          } else {
+	          	callback();
+	          }
+	        }, 1000);
+		}
   		return {
 
   			eDFVisible:false,
@@ -128,15 +140,17 @@ export default {
   			title:"",
   			menuForm:{
   				name:"",
-  				type:"click"
+  				type:"click",
+  				title:""
   			},
   			rules:{
   				title:[
   					{ required: true, message: '请输入标题', trigger: 'blur' }
   				],
   				name:[
-  					{ required: true, message: '请输入菜单名称', trigger: 'blur' },
-  					{ min: 4, max: 8, message: '长度在 4 到 8 个字符', trigger: 'blur' }
+  					{
+  						validator:isLegal
+  					}
   				]
   			}
   		}
@@ -147,6 +161,7 @@ export default {
     		this.dtype = "add";
     		this.currentMenu = [];
     		this.title = "";
+
     		this.tabIndex = "";
   			this.menuIndex = "";
   			this.curTabMenu = {};
@@ -232,6 +247,7 @@ export default {
     		var _data = {
     			button:this.currentMenu
     		};
+    		if(this.title == "") this.title = "默认标题";
     		var formData = {
                 account:"17HUZHU",
                 title:this.title,
@@ -242,6 +258,7 @@ export default {
     			url = api.wx_menuupdate;
     			formData.menuId = this.curMenu.id
     		}
+
     		this.$refs.menuForms.validate((valid) => {
     			if(valid){
     				_this.ajax(_this,{
