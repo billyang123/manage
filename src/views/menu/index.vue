@@ -7,7 +7,7 @@
  	<el-table
       border
       :data="tableData"
-      style="width: 100%">
+      style="width: 100%;text-align:center;" row-style="{textAlign:'center'}">
       <el-table-column
         prop="title"
         label="标题">
@@ -81,8 +81,8 @@
 		    <el-button style="float: right;" type="danger" @click="delMenu">删除菜单</el-button>
 		  </div>
 		  <div class="text-left" v-if="menuForm.sub_button">已添加子菜单，仅可设置菜单名称。</div>
-		  	<el-form :model="menuForm" label-width="120px" class="menuform text-left">
-			  <el-form-item label="菜单名称">
+		  	<el-form :model="menuForm" label-width="120px" class="menuform text-left" :rules="rules" ref="menuForms">
+			  <el-form-item label="菜单名称" prop="name">
 			  	<el-input v-model="menuForm.name"></el-input>
 			    <div class="text-left">字数不超过4个汉字或8个字母</div>
 			  </el-form-item>
@@ -129,6 +129,15 @@ export default {
   			menuForm:{
   				name:"",
   				type:"click"
+  			},
+  			rules:{
+  				title:[
+  					{ required: true, message: '请输入标题', trigger: 'blur' }
+  				],
+  				name:[
+  					{ required: true, message: '请输入菜单名称', trigger: 'blur' },
+  					{ min: 4, max: 8, message: '长度在 4 到 8 个字符', trigger: 'blur' }
+  				]
   			}
   		}
   	},
@@ -137,9 +146,13 @@ export default {
     		this.eDFVisible = true;
     		this.dtype = "add";
     		this.currentMenu = [];
+    		this.title = "";
+    		this.tabIndex = "";
+  			this.menuIndex = "";
+  			this.curTabMenu = {};
+  			this.menuId = "";	
     	},
     	delMenu(){
-    		
     		var _this = this;
     		var arr = this.menuIndex.split(":");
     		$MsgBox.confirm("此操作将删除该菜单, 是否继续?", '提示', {
@@ -149,8 +162,13 @@ export default {
             }).then(() => {
                 if(arr.length==1){
                 	_this.currentMenu.splice(arr[0]*1,1)
+
+                	
                 }else{
-                	_this.currentMenu[arr[0]*1].sub_button.splice(arr[1]*1,1)
+                	_this.currentMenu[arr[0]*1].sub_button.splice(arr[1]*1,1);
+                	if(_this.currentMenu[arr[0]*1].sub_button.length==0){
+                		_this.currentMenu[arr[0]*1].type = "view";
+                	}
                 }
                 _this.tabIndex = "";
                 _this.menuIndex = "";
@@ -205,13 +223,12 @@ export default {
     			this.currentMenu = content.button;
     		}
     		this.eDFVisible = true;
-    		
+
     		this.title = this.curMenu.title
     	},
     	submitForm(){
     		var _this = this;
     		var url = api.wx_menuadd;
-
     		var _data = {
     			button:this.currentMenu
     		};
@@ -225,15 +242,19 @@ export default {
     			url = api.wx_menuupdate;
     			formData.menuId = this.curMenu.id
     		}
-    		this.ajax(this,{
-                url:url,
-                type:"post",
-                data:formData,
-                success:function(data){
-                  	_this.getList();
-                  	_this.eDFVisible = false;
-                }
-            })
+    		this.$refs.menuForms.validate((valid) => {
+    			if(valid){
+    				_this.ajax(_this,{
+		                url:url,
+		                type:"post",
+		                data:formData,
+		                success:function(data){
+		                  	_this.getList();
+		                  	_this.eDFVisible = false;
+		                }
+		            })
+    			}
+    		})
     	},
     	handleDel(row){
     		var id = row.id;
@@ -329,7 +350,6 @@ export default {
   					account:"17HUZHU"
   				},
   				success:(res) => {
-  					console.log(res)
   					_this.tableData = res.body.data;
   				},
   				complete:(res) => {
@@ -463,5 +483,10 @@ export default {
 			text-decoration: none;
 			color: #222;
 		}
+	}
+</style>
+<style>
+	.el-table th{
+		text-align: center;
 	}
 </style>

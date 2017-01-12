@@ -3,7 +3,7 @@
     <h2>账户退出管理</h2>
     <el-button type="primary" style="float:right;margin-bottom:10px;margin-right:10px" @click="getUserData">查询
     </el-button>
-    <el-input placeholder="请输入用户账号" style="float:right;margin-bottom:10px;margin-right:10px; width: 193px;"
+    <el-input placeholder="请输入用户账号" style="float:right;margin-bottom:10px;margin-right:10px"
               v-model="partnerName"></el-input>
     <div class="community-head" v-if="IsShow">
       <span class="text"><em>当前账号：</em>{{detail.userPhone}}</span>
