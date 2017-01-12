@@ -9,11 +9,6 @@
       :data="tableData"
       style="width: 100%">
       <el-table-column
-        prop="id"
-        width="80"
-        label="序号">
-      </el-table-column>
-      <el-table-column
         prop="title"
         label="规则名称">
       </el-table-column>
@@ -146,7 +141,7 @@ export default {
             });
     	},
     	handleEdit(row){
-    	
+
     		this.dVisible.wxReplyeditForm = true;
     		this.editFromData = {
     			msgId:row.id,

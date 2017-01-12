@@ -188,8 +188,12 @@ export default {
     			name:"菜单名称",
     			type:"view"
     		})
+    		this.currentMenu[m] = {
+    			name:this.currentMenu[m].name
+    		}
     		console.log(this.currentMenu[m],"sub_button",curArr)
     		this.$set(this.currentMenu[m],"sub_button",curArr)
+
     	},
     	handleEdit(row){
     		this.dtype = "edit";
@@ -201,6 +205,7 @@ export default {
     			this.currentMenu = content.button;
     		}
     		this.eDFVisible = true;
+    		
     		this.title = this.curMenu.title
     	},
     	submitForm(){
@@ -212,7 +217,7 @@ export default {
     		};
     		var formData = {
                 account:"17HUZHU",
-                title:this.curMenu.title,
+                title:this.title,
                 content:JSON.stringify(_data)
             }
     		//return console.log(_data);
@@ -260,35 +265,60 @@ export default {
     	},
     	handlePushOnline(row){
     		let _this = this;
-    		this.ajax(this,{
-  				url:api.wx_menupublish,
-  				type:"post",
-  				data:{
-  					menuId:row.id
-  				},
-  				success:(res) => {
-  					_this.getList()
-  				},
-  				complete:(res) => {
+    		$MsgBox.confirm("此操作将发布上线该菜单, 是否继续?", '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+            	_this.ajax(_this,{
+	  				url:api.wx_menupublish,
+	  				type:"post",
+	  				data:{
+	  					menuId:row.id
+	  				},
+	  				success:(res) => {
+	  					_this.getList();
+	  					$Message({
+                            type: 'success',
+                            message: "发布上线该菜单成功！"
+                        });
+	  				},
+	  				complete:(res) => {
 
-  				}
-  			})
+	  				}
+	  			})
+            }).catch (() => {
+
+            });
+    		
     	},
     	handlePushPreview(row){
     		let _this = this;
-    		this.ajax(this,{
-  				url:api.wx_menupreview,
-  				type:"post",
-  				data:{
-  					menuId:row.id
-  				},
-  				success:(res) => {
-  					_this.getList()
-  				},
-  				complete:(res) => {
+    		$MsgBox.confirm("此操将作发布预览该菜单, 是否继续?", '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+            	_this.ajax(_this,{
+	  				url:api.wx_menupreview,
+	  				type:"post",
+	  				data:{
+	  					menuId:row.id
+	  				},
+	  				success:(res) => {
+	  					_this.getList()
+	  					$Message({
+                            type: 'success',
+                            message: "发布预览该菜单成功！"
+                        });
+	  				},
+	  				complete:(res) => {
 
-  				}
-  			})
+	  				}
+	  			})
+            }).catch (() => {
+
+            });
     	},
     	getList(){
         	let _this = this;
