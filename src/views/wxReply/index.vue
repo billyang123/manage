@@ -9,6 +9,10 @@
       :data="tableData"
       style="width: 100%">
       <el-table-column
+        label="序号" inline-template width="80">
+        <span>{{$index+1}}</span>
+      </el-table-column>
+      <el-table-column
         prop="title"
         label="规则名称">
       </el-table-column>
