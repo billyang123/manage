@@ -45,7 +45,7 @@
 		    <el-input v-model="fromData.keyword"></el-input>
 		  </el-form-item>
 		  <el-form-item label="回复内容" prop="content">
-		  	<el-input v-model="fromData.content" type="textarea"></el-input>
+		  	<el-input v-model="fromData.content" type="textarea" :rows="6"></el-input>
 		    <!-- <quill-editor ref="myTextEditor"
 	              v-model="fromData.content"
 	              :config="editorOption">
@@ -65,7 +65,7 @@
 		    <el-input v-model="editFromData.keyword"></el-input>
 		  </el-form-item>
 		  <el-form-item label="回复内容" prop="content">
-		  	<el-input v-model="editFromData.content" type="textarea"></el-input>
+		  	<el-input v-model="editFromData.content" type="textarea" :rows="6"></el-input>
 		  	<!-- <quill-editor ref="myTextEditor"
 	              v-model="editFromData.content"
 	              :config="editorOption">

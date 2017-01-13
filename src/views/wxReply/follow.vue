@@ -27,7 +27,7 @@
     <el-dialog title="编辑关注自动回复" v-model="dVisible">
       	<el-form :model="editFromData" label-width="120px" ref="wxReplyeditForm" :rules="rules">
 		  <el-form-item label="回复内容" prop="content">
-		  	<el-input v-model="editFromData.content" type="textarea"></el-input>
+		  	<el-input v-model="editFromData.content" :rows="6" type="textarea"></el-input>
 		  	<!-- <quill-editor ref="myTextEditor"
 	              v-model="editFromData.content"
 	              :config="editorOption">
