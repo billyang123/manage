@@ -31,8 +31,8 @@
         width="300"
         label="操作">
         <div>
-  	      <el-button type="success" size="small" @click="handleEdit(row)">编辑</el-button>
-          <el-button type="danger" size="small" @click="handleDel(row)">删除</el-button>
+  	      <el-button type="success" @click="handleEdit(row)">编辑</el-button>
+          <el-button type="danger" @click="handleDel(row)">删除</el-button>
         </div>
       </el-table-column>
     </el-table>

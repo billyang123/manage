@@ -36,7 +36,7 @@
         width="300"
         label="操作">
         <div>
-  	      <el-button type="success" @click="handleEdit(row)">编辑</el-button>
+  	      <el-button  @click="handleEdit(row)">编辑</el-button>
           <el-button type="danger" @click="handleDel(row)">删除</el-button>
           <el-button type="warning" @click="handlePushPreview(row)" v-if="row.status == 'new' || row.status == 'online' || row.status == 'offline' ">发布预览</el-button>
           <el-button type="warning" @click="handlePushOnline(row)" v-if="row.status == 'preview'">发布上线</el-button>
@@ -55,17 +55,17 @@
 	    	<div class="menu-box">
 				
 	    		<div class="menu-item" v-for="(menu,index) in currentMenu" :class="(index+'' == menuIndex)?'current':''">
-	    			<a href="javascript:void(0);" class="pre_menu_link" @click="setCurrent(index)">
+	    			<a href="javascript:void(0);" class="pre_menu_link" @click="handleCheckCurrent(index)">
 	    				<i class="el-icon-menu" v-if="menu.sub_button && menu.sub_button.length>0"></i>
 	    				<span>{{menu.name}}</span>
 	    			</a>
 	    			<ul class="sub_pre_menu_box" v-if="index+'' == tabIndex">
 	    				<li v-for="(submenu,idx) in menu.sub_button" :class="(index+':'+idx+'' == menuIndex)?'current':''">
-		    				<a href="javascript:void(0);" class="pre_menu_link" @click="setCurrent(index,idx)">
+		    				<a href="javascript:void(0);" class="pre_menu_link" @click="handleCheckCurrent(index,idx)">
 		    					<span>{{submenu.name}}</span>
 		    				</a>
 	    				</li>
-	    				<li class="addMenuBox" @click="addSubMenuBox(index)" v-if="!menu.sub_button || (menu.sub_button && menu.sub_button.length < 5)">
+	    				<li class="addMenuBox" @click="handleCheckAddSub(index)" v-if="!menu.sub_button || (menu.sub_button && menu.sub_button.length < 5)">
 	    					<a href="javascript:void(0);" class="pre_menu_link">
 	    						<span>＋</span>
 	    					</a>
@@ -73,7 +73,7 @@
 	    			</ul>
 	    		</div>
 	    		<div class="menu-item" v-if="currentMenu && currentMenu.length < 3">
-	    			<a href="javascript:void(0);" class="pre_menu_link" @click="addMenuBox()">
+	    			<a href="javascript:void(0);" class="pre_menu_link" @click="handleCheckAdd()">
 	    				<span>＋</span>
 	    			</a>
 	    		</div>
@@ -106,9 +106,9 @@
 					</el-form-item>
 					
 				</div>
-				<el-form-item>
-				  	<el-button type="danger" @click="saveSetting">保存设置</el-button>
-				</el-form-item>
+				<!-- <el-form-item>
+				  	<el-button type="danger" @click="handleSetting">保存设置</el-button>
+				</el-form-item> -->
 			</el-form>
 		</el-card>
 	</div>
@@ -128,7 +128,7 @@ export default {
 	          return callback(new Error('请输入菜单名称'));
 	        }
 			if (!/^[a-zA-Z0-9]{1,8}$/.test((str + '').replace(/[\u4e00-\u9fa5]/g, 'aa'))) {
-				callback(new Error('字数超过上限1'));
+				callback(new Error('字数超过上限'));
 			} else {
 				callback();
 			}
@@ -138,7 +138,7 @@ export default {
 	          return callback(new Error('请输入菜单名称'));
 	        }
 			if (!/^[a-zA-Z0-9]{1,16}$/.test((str + '').replace(/[\u4e00-\u9fa5]/g, 'aa'))) {
-				callback(new Error('字数超过上限2'));
+				callback(new Error('字数超过上限'));
 			} else {
 				callback();
 			}
@@ -172,6 +172,7 @@ export default {
   			error:{},
   			errorIndex:[],
   			hasErr:false,
+
   			rules:{
   				name:[
   					{
@@ -208,7 +209,8 @@ export default {
     methods: {
     	radioChange(e){
     		
-    		this.$refs.menuForms.resetFields();
+    		//this.$refs.menuForms.resetFields();
+    		var _name = this.menuForm.name;
     		if(e == "view"){
     			delete this.menuForm.key;
     			this.$set(this.menuForm,"url","")
@@ -216,6 +218,8 @@ export default {
     			delete this.menuForm.url;
     			this.$set(this.menuForm,"key","")
     		}
+    		this.$refs.menuForms.resetFields();
+    		this.menuForm.name = _name
     	},
     	handleAdd(){
     		this.eDFVisible = true;
@@ -246,6 +250,7 @@ export default {
                 		_this.currentMenu[arr[0]*1].type = "view";
                 		_this.currentMenu[arr[0]*1].url = "";
                 		delete _this.currentMenu[arr[0]*1].sub_button;
+                		_this.setCurrent(arr[0]*1)
                 	}
                 }
                 _this.tabIndex = "";
@@ -254,9 +259,46 @@ export default {
 
             });
     	},
+    	handleSetting(){
+    		var _this = this;
+    		this.formValite(function(){
+    			_this.saveSetting();
+    			//_this.addSubMenuBox(m)
+    		});
+    	},
+    	handleCheckAddSub(m){
+    		var _this = this;
+    		if(this.menuIndex == ""||(this.menuIndex.length==1&&this.menuIndex*1==m)) {
+    			return _this.addSubMenuBox(m)
+    		}
+    		this.formValite(function(){
+    			_this.saveSetting();
+    			_this.addSubMenuBox(m)
+    		});
+    	},
+    	handleCheckAdd(){
+    		var _this = this;
+    		if(this.menuIndex == "") {
+    			return _this.addMenuBox()
+    		}
+    		this.formValite(function(){
+    			_this.saveSetting();
+    			_this.addMenuBox()
+    		});
+    	},
+    	handleCheckCurrent(index,curIndex){
+    		var _this = this;
+    		if(this.menuIndex == "") {
+    			return _this.setCurrent(index,curIndex)
+    		}
+    		this.formValite(function(){
+    			_this.saveSetting();
+    			_this.setCurrent(index,curIndex)
+    		});
+    	},
     	setCurrent(index,curIndex){
     		var _this = this;
-    		this.formValite()
+    		//this.formValite()
     		var _menuIndex = "";
     		if(index || index==0){
     			_menuIndex += index;
@@ -288,10 +330,10 @@ export default {
     		this.$refs.menuForms && this.$refs.menuForms.validate((valid) => {
     			if(valid){
     				callback && callback()
-    				_this.error[_this.menuIndex] = false;
+    				_this.error[_this.menuIndex] = true;
     				
     			}else{
-    				_this.error[_this.menuIndex] = true;
+    				_this.error[_this.menuIndex] = false;
     				_this.errorIndex = _this.menuIndex;
     				//_this.error[_this.menuIndex] = false;
     			}
@@ -305,7 +347,7 @@ export default {
     		return result;
     	},
     	addMenuBox(){
-    		this.formValite()
+    		//this.formValite()
     		var arr = this.currentMenu;
     		arr.push({
     			name:"菜单名称",
@@ -321,7 +363,7 @@ export default {
     		// this.$refs.menuForms.resetFields();
     	},
     	addSubMenuBox(m){
-    		this.formValite()
+    		//this.formValite()
     		if(!this.currentMenu[m].sub_button){
     			this.$set(this.currentMenu[m],"sub_button",[])
     		}
@@ -354,33 +396,49 @@ export default {
     		this.eDFVisible = true;
 
     		this.title = this.curMenu.title
+    		if(this.currentMenu.length>0){
+    			this.setCurrent(0);
+    		}else{
+    			this.menuIndex = "";
+    		}
     	},
     	saveSetting(){
+    		var _this = this;
+    		// this.formValite(function(){
 
-    		if(this.sub_index||this.sub_index===0){
-    			this.$set(this.currentMenu[this.t_index].sub_button,this.sub_index,this.setmyData(this.menuForm))
+    		// 	if(_this.sub_index||_this.sub_index===0){
+	    	// 		_this.$set(_this.currentMenu[_this.t_index].sub_button,_this.sub_index,_this.setmyData(_this.menuForm))
+	    	// 		//this.currentMenu[this.t_index].sub_button[this.sub_index] = this.setmyData(this.menuForm);
+	    	// 	}else{
+	    	// 		_this.$set(_this.currentMenu,_this.t_index,_this.setmyData(_this.menuForm))
+	    	// 		//this.currentMenu[this.t_index] = this.setmyData(this.menuForm)
+	    	// 	}
+	    	// 	// $Message({
+      //  //              type: 'success',
+      //  //              message: "保存设置成功！"
+      //  //          });
+    		// })
+    		if(_this.sub_index||_this.sub_index===0){
+    			_this.$set(_this.currentMenu[_this.t_index].sub_button,_this.sub_index,_this.setmyData(_this.menuForm))
     			//this.currentMenu[this.t_index].sub_button[this.sub_index] = this.setmyData(this.menuForm);
     		}else{
-    			this.$set(this.currentMenu,this.t_index,this.setmyData(this.menuForm))
+    			_this.$set(_this.currentMenu,_this.t_index,_this.setmyData(_this.menuForm))
     			//this.currentMenu[this.t_index] = this.setmyData(this.menuForm)
     		}
     		console.log(this.currentMenu,this.t_index,this.sub_index)
     	},
     	submitForm(){
     		
-    		if(this.disabled) return;
-    		this.disabled = true;
+    		
     		var _this = this;
 
     		var url = api.wx_menuadd;
-    		var _data = {
-    			button:this.currentMenu
-    		};
+    		
     		if(this.title == "") this.title = "默认标题";
     		var formData = {
                 account:"17HUZHU",
                 title:this.title,
-                content:JSON.stringify(_data)
+                content:""
             }
     		//return console.log(_data);
     		if(this.dtype == "edit"){
@@ -402,27 +460,31 @@ export default {
 					}
 	            })
     		}
-    		this.$refs.menuForms.validate((valid) => {
-    			if(valid){
-    				// if(_this.error[_this.errorIndex]){
-		    		// 	var arri = _this.errorIndex.split(":")
-		    		// 	_this.setCurrent(arri[0],arri[1]);
-		    		// 	return _this.formValite();
-		    		// }
-    				_this.ajax(_this,{
-		                url:url,
-		                type:"post",
-		                data:formData,
-		                success:function(data){
-		                  	_this.getList();
-		                  	_this.eDFVisible = false;
-		                  	_this.error = [];
-		                },
-		                complete:(res) => {
-		                	_this.disabled = false;
-						}
-		            })
-    			}
+    		this.saveSetting();
+    		var _data = {
+    			button:this.currentMenu
+    		};
+    		formData.content = JSON.stringify(_data);
+    		this.formValite(function(){
+    			if(_this.disabled) return;
+    			_this.disabled = true;
+    			_this.ajax(_this,{
+	                url:url,
+	                type:"post",
+	                data:formData,
+	                success:function(data){
+	                  	_this.getList();
+	                  	_this.eDFVisible = false;
+	                  	_this.error = [];
+	                  	$Message({
+                            type: 'success',
+                            message: "提交保存成功！"
+                        });
+	                },
+	                complete:(res) => {
+	                	_this.disabled = false;
+					}
+	            })
     		})
     	},
     	handleDel(row){
@@ -651,6 +713,7 @@ export default {
 		&:hover {
 			text-decoration: none;
 			color: #222;
+			background-color: #eee;
 		}
 	}
 </style>

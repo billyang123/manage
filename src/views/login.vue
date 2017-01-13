@@ -1,8 +1,13 @@
 <template>
-	<div class="login-main">
+	<div class="login-main" :style="{height:wh+'px'}">
+		<div class="login-title">
+			<img src="https://s1.yiqihuzhu.com/www/assets/pc/images/logo.png" alt="17互助后台管理">
+			<span>后台管理</span>
+			<!-- <h2>后台管理</h2> -->
+		</div>
 		<div class="login-content">
 			<h2 class="title">登录</h2>
-			<el-form ref="form" :model="form" label-width="120px" :rules="rules" >
+			<el-form ref="form" :model="form" label-width="90px" :rules="rules" >
 			  <el-form-item label="登录邮箱" prop="username">
 			    <el-input v-model="form.username" auto-complete="on"></el-input>
 			  </el-form-item>
@@ -26,6 +31,7 @@ export default {
   name: 'login',
   data() {
 	  return {
+	  	wh:window.innerHeight,
 	  	codeTxt:'发送验证码',
 	  	time:60,
 	  	interval:null,
@@ -138,6 +144,13 @@ export default {
 }
 </script>
 <style>
+	#app,html,body {
+		height: 100%;
+	}
+	.login-title {
+		padding: 50px;
+		color: #fff;
+	}
 	.title {
 		text-align: center;
 	}
@@ -145,9 +158,12 @@ export default {
 		padding: 1px;
 		width: 100%;
 		height: 100%;
+		background-image: url(http://7xv0yi.com2.z0.glb.clouddn.com/bj_zhuce.jpg);
+		background-size: cover;
+		background-repeat: repeat-y;
 	}
 	.checkcode .el-input {
-		width: 200px;
+		width: 290px;
 		float: left;
 	}
 	.checkcode .el-button {
@@ -161,8 +177,9 @@ export default {
 	}
 	.login-content {
 		width: 500px;
-		margin: 100px auto;
-		padding: 20px;
+		margin: 20px auto;
+		padding: 20px 30px 20px 20px;
 		background-color: #EFF2F7;
+		background-color: rgba(255, 255, 255, 0.76);
 	}
 </style>
